@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createRef} from 'react';
 import './../Scatter/scatter.scss';
 import * as d3 from "d3";
 import {scaleLinear, scaleBand} from 'd3-scale';
@@ -63,7 +63,7 @@ const getData = () => {
 ];
 }
 
-const { rowKeys, columnKeys, valueExtent } = dataTransform(getData()).summary()
+const { rowKeys, columnKeys } = dataTransform(getData()).summary()
 
 const margins = { top: 50, right: 15, bottom: 100, left: 60 }
 const svgDimensions = { width: 800, height: 500 }
@@ -102,14 +102,50 @@ class Scatter extends React.Component {
 
   componentDidMount() {
     console.log(getData())
-    this.generateCircles(this.state.data)
+    // this.generateCircles(this.state.data)
+  }
+
+  componentWillUpdate() {
+    // this.generateCircles(this.state.data)
   }
 
   generateCircles(data) {
+    console.log('d length ', data.length)
     for (var j = 0; j < data.length; j++) {
+      console.log()
 
-      console.log(data)
-      let g = this.refs.svg.append("g")
+      //
+      // let circles = d3.selectAll('g').selectAll("circle")
+
+      // let circles = d3.select(this.chartArea).selectAll('circle').data(data[j]['values']);
+      //
+      // circles.enter().append('circle')
+      //     .attr("r", function(d) { return rScale(d['value']) })
+      //     .attr('fill', 'rgb(98, 77, 211, 0.7)')
+      //     .transition().duration(500)
+      //     .attr('cx', (d) => xScale(d['key']))
+      //     // .attr('cy', (d, i) => (svgDimensions.height - margins.bottom - rowHeight*(j+1) - margins.top))
+      //     .attr('cy', ((svgDimensions.height - margins.bottom - rowHeight*1.4) - (j*rowHeight)))
+
+      // console.log(data)
+      // if(d3.select(this.svg.current).select('.brain-canvas').empty()) {
+      //   console.log('doesnt')
+      // }
+      // else {
+      //   console.log('yesss')
+      //   this.svg.current.append('g')
+      //   .selectAll("dot")
+      //   .data(data[j]['values'])
+      //   .enter()
+      //   .append("circle")
+      //   .attr("cx", function(d, i) { return (xScale(d['key']) - margins.left)})
+      //   .attr("cy", (svgDimensions.height - margins.bottom - rowHeight*8))
+      //   .attr("r", function(d) { return rScale(d['value']) })
+      //   .style("fill", 'rgb(98, 77, 211, 0.7)');
+      // }
+      //
+
+      let g = this.svg.append("g");
 
       let circles = d3.selectAll('g').selectAll("circle")
         .data(data[j]['values'])
@@ -132,14 +168,13 @@ class Scatter extends React.Component {
   render() {
 
     const data = this.state.data
+    const svg = d3.select(this.refs.svg);
 
     console.log('max ', maxValue)
     console.log('keys', Object.keys(data).sort())
 
     console.log("column keys", columnKeys)
     console.log("row keys", rowKeys)
-
-
 
     // this.yAxis = d3.axisLeft()
     // 			.scale(this.yScale);
@@ -150,7 +185,7 @@ class Scatter extends React.Component {
 
     return(
       <div className="scatterContainer">
-        <svg width={svgDimensions.width} height={svgDimensions.height} ref="svg">
+        <svg width={svgDimensions.width} height={svgDimensions.height} ref={(node) => { this.svg = node; }}>
           <Axes
            scales={{ xScale, yScale }}
            margins={margins}
@@ -158,18 +193,20 @@ class Scatter extends React.Component {
            ticksX={7}
            ticksY={4}
          />
-
-        {/* <Circles
+         <g ref={(node) => { this.chartArea = node; }} />
+        {/* <g className="circles"></g> */}
+        {data.map((d, i) => <Circles
           scales={{ xScale, yScale, rScale }}
           margins={margins}
-          data={data}
+          data={d}
+          index={i}
           rowKeys={rowKeys}
           columnKeys={columnKeys}
           maxValue={maxValue}
           rowHeight={rowHeight}
           svg={this.svg}
           svgDimensions={svgDimensions}
-        /> */}
+        />)}
       </svg>
       </div>
     )

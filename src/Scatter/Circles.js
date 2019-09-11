@@ -8,21 +8,32 @@ export default class Circles extends Component {
     console.log(props)
   }
 
+  // renderCircle = (d) => {
+  //   return (
+  //     <circle
+  //      cx={this.props.xScale(d['key'])}
+  //      cy={this.props.yScale(d['value'])}
+  //      r={2}
+  //      key={Math.random() * 1}
+  //     />
+  //   )
+  // }
+
   render() {
-    const { scales, margins, data, svgDimensions, rowHeight } = this.props
+    const { scales, margins, data, svgDimensions, rowHeight, index } = this.props
     const { xScale, yScale, rScale } = scales
     const { height } = svgDimensions
 
-    console.log(this.props)
+    console.log("data ", this.props.data)
 
     const circles = (
 
-     data.map((d, i) =>
+     data.values.map((val, j) =>
      <circle
-       key={i}
-       cx={xScale(d['key']) - margins.left}
-       cy={height - margins.bottom - rowHeight*8}
-       r={rScale(d['value'])}
+       key={'key-' + val['key'] + val['key']}
+       cx={xScale(val['key'])}
+       cy={(height - margins.bottom - rowHeight*1.4) - (index*rowHeight*1.4)}
+       r={rScale(val['value'])}
        fill='rgb(98, 77, 211, 0.7)'
      />
      )
@@ -30,6 +41,7 @@ export default class Circles extends Component {
 
     return (
       <g>{circles}</g>
+      // <g>{this.props.data.map(d => this.renderCircle(d))}</g>
     )
   }
 }
