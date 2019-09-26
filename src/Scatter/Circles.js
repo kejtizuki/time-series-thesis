@@ -34,7 +34,7 @@ export default class Circles extends Component {
        cx={xScale(val['key'])}
        cy={(height - margins.bottom - rowHeight*1.4) - (index*rowHeight*1.4)}
        r={rScale(val['value'])}
-       fill='rgb(98, 77, 211, 0.7)'
+       fill='rgb(65, 44, 201, 0.7)'
      />
      )
    )

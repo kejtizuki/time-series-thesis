@@ -5,7 +5,7 @@ import {scaleLinear, scaleBand} from 'd3-scale';
 import Axes from './Axes'
 import { select as d3Select } from 'd3-selection'
 // import data from './../data/data'
-// import data from './../data/itching.csv';
+import data from './../data/itching.csv';
 import Circles from './Circles'
 import moment from 'moment'
 
@@ -162,33 +162,91 @@ const getData = () => {
   }];
 }
 
-class Scatter extends React.Component {
+class ScatterMY extends React.Component {
 
   constructor() {
     super();
     this.xScale = scaleBand()
     this.yScale = scaleLinear()
     this.state = {
-      data: getData()
+      // data: getData()
       // howManyInDay: howManyInDay
     }
   }
 
+  // generateCircles(data) {
+  //   console.log('d length ', data.length)
+  //   for (var j = 0; j < data.length; j++) {
+  //     console.log()
+  //
+  //     //
+  //     // let circles = d3.selectAll('g').selectAll("circle")
+  //
+  //     // let circles = d3.select(this.chartArea).selectAll('circle').data(data[j]['values']);
+  //     //
+  //     // circles.enter().append('circle')
+  //     //     .attr("r", function(d) { return rScale(d['value']) })
+  //     //     .attr('fill', 'rgb(98, 77, 211, 0.7)')
+  //     //     .transition().duration(500)
+  //     //     .attr('cx', (d) => xScale(d['key']))
+  //     //     // .attr('cy', (d, i) => (svgDimensions.height - margins.bottom - rowHeight*(j+1) - margins.top))
+  //     //     .attr('cy', ((svgDimensions.height - margins.bottom - rowHeight*1.4) - (j*rowHeight)))
+  //
+  //     // console.log(data)
+  //     // if(d3.select(this.svg.current).select('.brain-canvas').empty()) {
+  //     //   console.log('doesnt')
+  //     // }
+  //     // else {
+  //     //   console.log('yesss')
+  //     //   this.svg.current.append('g')
+  //     //   .selectAll("dot")
+  //     //   .data(data[j]['values'])
+  //     //   .enter()
+  //     //   .append("circle")
+  //     //   .attr("cx", function(d, i) { return (xScale(d['key']) - margins.left)})
+  //     //   .attr("cy", (svgDimensions.height - margins.bottom - rowHeight*8))
+  //     //   .attr("r", function(d) { return rScale(d['value']) })
+  //     //   .style("fill", 'rgb(98, 77, 211, 0.7)');
+  //     // }
+  //     //
+  //
+  //     let g = this.svg.append("g");
+  //
+  //     let circles = d3.selectAll('g').selectAll("circle")
+  //       .data(data[j]['values'])
+  //       .enter()
+  //       .append("circle");
+  //
+  //     let rDomain = [0, d3.max(data[j]['values'], function(d) { return d['value']; })];
+  //     let rScale = this.rScale
+  //       .domain(rDomain)
+  //       .range([minRadius, maxRadius]);
+  //
+  //     circles
+  //       .attr("cx", function(d, i) { return (xScale(d['key']) - margins.left)})
+  //       .attr("cy", (svgDimensions.height - margins.bottom - rowHeight*8))
+  //       .attr("r", function(d) { return rScale(d['value']) })
+  //       .style("fill", 'rgb(98, 77, 211, 0.7)');
+  //     }
+  //   }
+
+
   componentDidMount() {
-    // d3.csv(data).then(data => {
-    //   // data = howManyInDay(parseData(data))
-    //   // console.log("how many in day ", howManyInDay(parseData(data)))
-    //   // console.log("how many in month ", howManyInMonth(parseData(data)))
-    //   console.log("how many weekday in month ", howManyWeekDayMonth(parseData(data), howManyInDay(parseData(data))))
-    //   //Change data to how mnay weekday in month change structure
-    //   this.setState({
-    //     data:  howManyInMonth(parseData(data)),
-    //     howManyInDay: howManyInDay(parseData(data))
-    //   })
-    //
-    // }).catch(function(err) {
-    //     throw err;
-    // })
+    d3.csv(data).then(data => {
+      console.log('csv', data)
+      // data = howManyInDay(parseData(data))
+      // console.log("how many in day ", howManyInDay(parseData(data)))
+      // console.log("how many in month ", howManyInMonth(parseData(data)))
+      console.log("how many weekday in month ", howManyWeekDayMonth(parseData(data), howManyInDay(parseData(data))))
+      //Change data to how mnay weekday in month change structure
+      this.setState({
+        data:  howManyInMonth(parseData(data)),
+        howManyInDay: howManyInDay(parseData(data))
+      })
+
+    }).catch(function(err) {
+        throw err;
+    })
 
   }
 
@@ -199,27 +257,27 @@ class Scatter extends React.Component {
 
   render() {
 
-    const data = this.state.data
+    // const data = this.state.data
 
-    const maxValue = d3.max(Object.values(data))
-    console.log('max ', maxValue)
-    console.log('keys', Object.keys(data).sort())
-
-    const xScale = this.xScale
-      .padding(0.5)
-      .domain(Object.keys(data).sort())
-      .range([margins.left, svgDimensions.width - margins.right])
-
-     // scaleLinear type
-    const yScale = this.yScale
-      .domain([0, maxValue])
-      .range([svgDimensions.height - margins.bottom, margins.top])
+    // const maxValue = d3.max(Object.values(data))
+    // console.log('max ', maxValue)
+    // console.log('keys', Object.keys(data).sort())
+    //
+    // const xScale = this.xScale
+    //   .padding(0.5)
+    //   .domain(Object.keys(data).sort())
+    //   .range([margins.left, svgDimensions.width - margins.right])
+    //
+    //  // scaleLinear type
+    // const yScale = this.yScale
+    //   .domain([0, maxValue])
+    //   .range([svgDimensions.height - margins.bottom, margins.top])
 
 
     return(
       // <p>ssaasa</p>
       <div className="scatterContainer">
-        <svg width={svgDimensions.width} height={svgDimensions.height} ref="svg">
+        {/* <svg width={svgDimensions.width} height={svgDimensions.height} ref="svg">
           <Axes
            scales={{ xScale, yScale }}
            margins={margins}
@@ -235,10 +293,10 @@ class Scatter extends React.Component {
           maxValue={maxValue}
           svgDimensions={svgDimensions}
         />
-      </svg>
+      </svg> */}
       </div>
     )
   }
 }
 
-export default Scatter;
+export default ScatterMY;
