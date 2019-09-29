@@ -33,6 +33,48 @@ export const getDayInsights = data => {
   return groupBy(newData);
 };
 
+export const getDayHoursArr = (data, timeStamp) => {
+  let thisDayHours = data[timeStamp]
+  return groupByHoursArr(thisDayHours)
+}
+
+export const getDayHours = (data, timeStamp) => {
+  let thisDayHours = data[timeStamp]
+  return groupByHours(thisDayHours)
+}
+
+const groupByHours = arr => {
+  let groupedByObj = {}
+  for (let i=1; i< 25; i++) {
+    groupedByObj[i] = 0;
+  }
+  arr.filter(a => {
+  const hour = parseInt(a.split(':')[0])
+  if (Object.keys(groupedByObj).includes(hour.toString())) {
+      groupedByObj[hour]++;
+  } else {
+      groupedByObj[hour] = 1;
+  }
+});
+return groupedByObj;
+}
+
+const groupByHoursArr = arr => {
+  let groupedByObj = {}
+  let arrayOfHours = []
+  for (let i=1; i< 25; i++) {
+    arrayOfHours.push({key: i, value: 0});
+  }
+  arr.filter(a => {
+    const hour = parseInt(a.split(':')[0])
+    if (arrayOfHours.some(e => e.key === hour)) {
+      arrayOfHours[hour].value++
+    }
+});
+console.log('ARRAY ', arrayOfHours)
+return arrayOfHours;
+}
+
 const groupBy = arr => arr.reduce(function (r, a) {
   r[a.date] = r[a.date] || [];
   r[a.date].push(a.time);
