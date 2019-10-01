@@ -1,4 +1,14 @@
-text {
+.radialContainer, text {
   font-family: 'IBM Plex Sans';
   background-color: white;
+}
+
+.center {
+  text-align: center;
+  margin: 0 auto;
+}
+
+h3 {
+  font-weight: 500;
+  margin-bottom: 0;
 }

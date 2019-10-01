@@ -1,4 +1,5 @@
 import moment from 'moment';
+import * as d3 from "d3";
 
 export const extractDate = timeStamp => moment(`${timeStamp.split('T')[0]}`, 'YYYYMMDDxxx').format('YYYY-MM-DD').split('T')[0];
 
@@ -40,7 +41,18 @@ export const getDayHoursArr = (data, timeStamp) => {
 
 export const getDayHours = (data, timeStamp) => {
   let thisDayHours = data[timeStamp]
+  console.log("get timestamp now", timeStamp)
   return groupByHours(thisDayHours)
+}
+
+export const dayMean = obj => {
+  let sum, mean
+  let tmpSumArr = []
+  obj.map(hour => {
+    console.log('vals, ', hour.value)
+    tmpSumArr.push(hour.value)
+  })
+  return d3.mean(tmpSumArr)
 }
 
 const groupByHours = arr => {
@@ -48,6 +60,7 @@ const groupByHours = arr => {
   for (let i=1; i< 25; i++) {
     groupedByObj[i] = 0;
   }
+  console.log('ggg', arr)
   arr.filter(a => {
   const hour = parseInt(a.split(':')[0])
   if (Object.keys(groupedByObj).includes(hour.toString())) {
@@ -62,11 +75,12 @@ return groupedByObj;
 const groupByHoursArr = arr => {
   let groupedByObj = {}
   let arrayOfHours = []
-  for (let i=1; i< 25; i++) {
-    arrayOfHours.push({key: i, value: 0});
+  for (let i=0; i< 24; i++) {
+    arrayOfHours.push({key: i, value: 0, class: 0});
   }
   arr.filter(a => {
     const hour = parseInt(a.split(':')[0])
+    console.log('h: ', hour)
     if (arrayOfHours.some(e => e.key === hour)) {
       arrayOfHours[hour].value++
     }
