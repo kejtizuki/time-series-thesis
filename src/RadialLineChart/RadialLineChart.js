@@ -4,23 +4,24 @@ import {scaleLinear, scaleBand, scaleTime, scaleRadial, schemeCategory20c } from
 import { select as d3Select } from 'd3-selection'
 import moment from 'moment'
 
-import data from './../data/itching.csv';
+import data from './../data/symptoms.csv';
 import *  as dataParser from './dataParser';
 import './radialLineChart.scss'
+
 
 const margin = {top: 20, right: 10, bottom: 20, left: 10};
 
 const width = 600 - margin.left - margin.right,
   height = 600 - margin.top - margin.bottom;
 
-const svg = d3.select("body").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+// const svg = d3.select(this.refs.svgElem).append("svg")
+//   .attr("width", width + margin.left + margin.right)
+//   .attr("height", height + margin.top + margin.bottom)
+//   .append("g")
+//   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-const g = svg.append("g")
-  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+// const g = d3.select(this.refs.svgElem).append("g")
+//   .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 const innerRadius = 100,
     outerRadius = Math.min(width, height) / 2 - 6;
@@ -57,51 +58,53 @@ const line = d3.lineRadial()
     		.angle(function(d) { return x(d.key); })
     		.radius(function(d) { return y(d.value); })
         .curve(d3.curveLinearClosed)
-        // .curve(d3.curveBasis)
-
+        // .curve(d3.curveBasisClosed)
 
 class RadialLineChart extends React.Component {
 
 constructor() {
   super()
   this.state = {
-    dayHours: []
+    // dayHours: [],
+    currentDay: '2016-09-06'
   }
 }
 
-componentDidMount() {
-  console.log('state ', this.state)
-  this.setState({
-    currentDay: '2017-05-19'
-  })
-  d3.csv(data).then(data => {
 
+componentDidMount() {
+
+  const g = d3.select(this.refs.svgElem).append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  d3.csv(data).then(data => {
     // console.log('csv', data)
     // console.log("how many in day ", dataParser.howManyInDay(dataParser.parseData(data)))
     // console.log("how many in month ", dataParser.howManyInMonth(dataParser.parseData(data)))
     // console.log("how many weekday in month ", dataParser.howManyWeekDayMonth(dataParser.parseData(data), dataParser.howManyInDay(dataParser.parseData(data))))
     // console.log('day insights', dataParser.getDayInsights(data))
     // console.log('day hours', dataParser.getDayHours(dataParser.getDayInsights(data), this.state.currentDay))
-    console.log('day hours ARR', dataParser.getDayHoursArr(dataParser.getDayInsights(data), this.state.currentDay))
+    // console.log('day hours ARR', dataParser.getDayHoursArr(dataParser.getDayInsights(data), this.state.currentDay))
 
     // console.log('obj vals', Object.values(dataParser.getDayInsights(data)))
 
 
-   this.setState = ({
-     dayHours: dataParser.getDayInsights(data)
-   })
+   // this.setState = ({
+   //   dayHours: dataParser.getDayInsights(data)
+   // })
 
    data = dataParser.getDayHoursArr(dataParser.getDayInsights(data), this.state.currentDay)
+
+   // console.log('inside draw ', state)
 
    const mean = dataParser.dayMean(data)
 
         x.domain(d3.extent(data, function(d) { return d.key; }));
-  		  y.domain(d3.extent(data, function(d) { return d.value; }));
+        y.domain(d3.extent(data, function(d) { return d.value; }));
 
         // var layers = stack(nest.entries(data));
 
         var linePlot = g.append("path")
-        	.datum(data)
+          .datum(data)
           .attr("fill", "url(#gradientRainbow)")
           .attr("stroke", "#213946")
           .attr("stroke-width", 2)
@@ -109,22 +112,22 @@ componentDidMount() {
           .attr("d", line);
 
         var numColors = 10;
-    		var colorScale = d3.scaleLinear()
-    		   .domain([0,(numColors-1)/2,numColors-1])
-    		   .range(["#F5D801", "#74D877", "#2A4858"])
-    		   .interpolate(d3.interpolateHcl);
+        var colorScale = d3.scaleLinear()
+           .domain([0,(numColors-1)/2,numColors-1])
+           .range(["#F5D801", "#74D877", "#2A4858"])
+           .interpolate(d3.interpolateHcl);
 
-       svg.append("defs").append("radialGradient")
-   			.attr("id", "gradientRainbow")
-   			.attr("gradientUnits", "userSpaceOnUse")
-   			.attr("cx", "0%")
-   			.attr("cy", "0%")
-   			.attr("r", "45%")
-   			.selectAll("stop")
-   			.data(d3.range(numColors))
-   			.enter().append("stop")
-   			.attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
-   			.attr("stop-color", function(d) { return colorScale(d); });
+       d3.select(this.refs.svgElem).append("defs").append("radialGradient")
+        .attr("id", "gradientRainbow")
+        .attr("gradientUnits", "userSpaceOnUse")
+        .attr("cx", "0%")
+        .attr("cy", "0%")
+        .attr("r", "45%")
+        .selectAll("stop")
+        .data(d3.range(numColors))
+        .enter().append("stop")
+        .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
+        .attr("stop-color", function(d) { return colorScale(d); });
 
         var yAxis = g.append("g")
             .attr("text-anchor", "middle");
@@ -137,20 +140,20 @@ componentDidMount() {
         yTick.append("circle")
             .attr("fill", "none")
             .attr("stroke", "#D8D8D8")
-        		.attr("opacity", 0.5)
+            .attr("opacity", 0.5)
             .attr("r", function(d) {return y(d)});
 
         //add avg
         yAxis.append("circle")
-        		.attr("fill", "none")
+            .attr("fill", "none")
             .attr("stroke", "#2A41E5")
             .attr("stroke-width", 3)
             .attr("r", function() { return y(mean) });
 
         yAxis.append("circle")
-        		.attr("fill", "white")
+            .attr("fill", "white")
             .attr("stroke", "black")
-        		.attr("opacity", 1)
+            .attr("opacity", 1)
         //     .attr("r", function() { return 400 });
             .attr("r", function() { return y(y.domain()[0])});
 
@@ -165,12 +168,12 @@ componentDidMount() {
           .attr("y", function(d) { return -y(d); })
           .attr("dy", "0.35em")
           .text(function(d, i) {
-            if (d === 0 || i%2 !== 0 ) {
-              return ""
-            }
-            else {
+            // if (d === 0 || i%2 !== 0 ) {
+            //   return ""
+            // }
+            // else {
               return d
-            }
+            // }
           });
 
 
@@ -194,11 +197,10 @@ componentDidMount() {
           var angle = x(d.key);
           return ((angle < Math.PI / 2) || (angle > (Math.PI * 3 / 2))) ? "rotate(90)translate(0,22)" : "rotate(-90)translate(0, -15)"; })
           .text(function(d) {
-            console.log('d here', d)
             return d;
           })
-        	.style("font-size", 10)
-        	.attr("opacity", 0.6)
+          .style("font-size", 10)
+          .attr("opacity", 0.6)
 
         var lineLength = linePlot.node().getTotalLength();
 
@@ -210,11 +212,9 @@ componentDidMount() {
             .ease(d3.easeLinear)
             .attr("stroke-dashoffset", 0);
 
-
   }).catch(function(err) {
       throw err;
   })
-
 }
 
   render() {
@@ -222,8 +222,11 @@ componentDidMount() {
 
 
     return(
-      <div className="radialContainer">
-        <h3>{this.state.currentDay}</h3>
+      <div className="radialContainer center">
+
+        <svg width={600} height={600}
+            ref="svgElem">
+        </svg>
         {/* <select>
           {this.state.dayHours.map(day =>
             <option key={day} value={day}>{day}</option>

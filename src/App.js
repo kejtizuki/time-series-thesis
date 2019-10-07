@@ -4,13 +4,20 @@ import Scatter from './Scatter/Scatter'
 import ScatterMY from './ScatterMY/ScatterMY'
 import RadialLineChart from './RadialLineChart/RadialLineChart'
 import RadialLineChartLib from './RadialLineChart/RadialLineChartLib'
-// import './App.scss';
+import Menu from './Menu/Menu'
+import './App.scss';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       {/* <Scatter /> */}
-      <RadialLineChart />
+      <div className="menuContainer">
+        <Menu />
+      </div>
+      <div className="chartContainer">
+        <h3></h3>
+        <RadialLineChart />
+      </div>
       {/* <RadialLineChartLib /> */}
       {/* <ScatterMY /> */}
     </div>

@@ -30,7 +30,6 @@ const parseTime = (timeStamp, offset) => {
 export const getDayInsights = data => {
   let newData = data.map(item => ({ date: parseDate(item[data.columns[0]]), time: parseTime(item[data.columns[0]], item[data.columns[1]]) }));
   newData.unshift({ date: parseDate(data.columns[0]), time: parseTime(data.columns[0], data.columns[1]) });
-  console.log(groupBy(newData))
   return groupBy(newData);
 };
 
@@ -41,7 +40,6 @@ export const getDayHoursArr = (data, timeStamp) => {
 
 export const getDayHours = (data, timeStamp) => {
   let thisDayHours = data[timeStamp]
-  console.log("get timestamp now", timeStamp)
   return groupByHours(thisDayHours)
 }
 
@@ -49,7 +47,6 @@ export const dayMean = obj => {
   let sum, mean
   let tmpSumArr = []
   obj.map(hour => {
-    console.log('vals, ', hour.value)
     tmpSumArr.push(hour.value)
   })
   return d3.mean(tmpSumArr)
@@ -60,7 +57,6 @@ const groupByHours = arr => {
   for (let i=1; i< 25; i++) {
     groupedByObj[i] = 0;
   }
-  console.log('ggg', arr)
   arr.filter(a => {
   const hour = parseInt(a.split(':')[0])
   if (Object.keys(groupedByObj).includes(hour.toString())) {
@@ -80,12 +76,10 @@ const groupByHoursArr = arr => {
   }
   arr.filter(a => {
     const hour = parseInt(a.split(':')[0])
-    console.log('h: ', hour)
     if (arrayOfHours.some(e => e.key === hour)) {
       arrayOfHours[hour].value++
     }
 });
-console.log('ARRAY ', arrayOfHours)
 return arrayOfHours;
 }
 
@@ -119,6 +113,5 @@ export const parseData = (data) => {
   //add at the beginning of array
   newData.unshift({ timestamp: extractDate(data.columns[0]) });
   const dataArr = newData.map(item => item.timestamp);
-  // console.log("new ", dataArr)
   return dataArr
 };
