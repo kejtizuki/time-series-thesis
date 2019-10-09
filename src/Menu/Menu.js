@@ -16,7 +16,7 @@ class Menu extends Component {
 
   render() {
     return (
-      <div className="menu">Chart options test esrt</div>
+      <div className="menu">Chart options</div>
     )
   }
 }

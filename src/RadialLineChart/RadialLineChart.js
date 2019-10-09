@@ -4,7 +4,7 @@ import {scaleLinear, scaleBand, scaleTime, scaleRadial, schemeCategory20c } from
 import { select as d3Select } from 'd3-selection'
 import moment from 'moment'
 
-import data from './../data/symptoms.csv';
+import data from './../data/itching.csv';
 import *  as dataParser from './dataParser';
 import './radialLineChart.scss'
 
@@ -57,8 +57,8 @@ const y = scaleRadial()
 const line = d3.lineRadial()
     		.angle(function(d) { return x(d.key); })
     		.radius(function(d) { return y(d.value); })
-        .curve(d3.curveLinearClosed)
-        // .curve(d3.curveBasisClosed)
+        // .curve(d3.curveLinearClosed)
+        .curve(d3.curveBasisClosed)
 
 class RadialLineChart extends React.Component {
 
@@ -66,7 +66,7 @@ constructor() {
   super()
   this.state = {
     // dayHours: [],
-    currentDay: '2016-09-06'
+    currentDay: '2017-05-05'
   }
 }
 
