@@ -4,7 +4,7 @@ import {scaleLinear, scaleBand, scaleTime, scaleRadial, schemeCategory20c } from
 import { select as d3Select } from 'd3-selection'
 import moment from 'moment'
 
-import data from './../data/symptoms.csv';
+import data from './../data/itching.csv';
 import *  as dataParser from './dataParser';
 import './radialLineChart.scss'
 
@@ -66,7 +66,7 @@ constructor() {
   super()
   this.state = {
     // dayHours: [],
-    currentDay: '2016-09-06'
+    currentDay: '2017-05-05'
   }
 }
 
