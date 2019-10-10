@@ -39,12 +39,14 @@ class RadialLineChart extends React.Component {
   }
 
   componentWillReceiveProps() {
-      d3.select(this.refs.svgElem).remove();
+    //d3.select(this.refs.svgElem).remove();
 
     const g = d3.select(this.refs.svgElem).append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     const data = this.props.dataDayHours;
+
+    console.log('data ', data)
 
     const mean = dataParser.dayMean(data)
 
