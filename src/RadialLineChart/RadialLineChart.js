@@ -57,8 +57,8 @@ const y = scaleRadial()
 const line = d3.lineRadial()
     		.angle(function(d) { return x(d.key); })
     		.radius(function(d) { return y(d.value); })
-        .curve(d3.curveLinearClosed)
-        // .curve(d3.curveBasisClosed)
+        // .curve(d3.curveLinearClosed)
+        .curve(d3.curveBasisClosed)
 
 class RadialLineChart extends React.Component {
 
@@ -168,12 +168,12 @@ componentDidMount() {
           .attr("y", function(d) { return -y(d); })
           .attr("dy", "0.35em")
           .text(function(d, i) {
-            // if (d === 0 || i%2 !== 0 ) {
-            //   return ""
-            // }
-            // else {
+            if (d === 0) {
+              return ""
+            }
+            else {
               return d
-            // }
+            }
           });
 
 
