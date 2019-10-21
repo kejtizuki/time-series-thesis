@@ -27,11 +27,6 @@ const x = scaleLinear()
 const y = scaleRadial()
     .range([innerRadius, outerRadius]);
 
-const line = d3.lineRadial()
-    		.angle(function(d) { return x(d.key); })
-    		.radius(function(d) { return y(d.value); })
-        // .curve(d3.curveLinearClosed)
-        .curve(d3.curveBasisClosed)
 
 class RadialLineChart extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -51,10 +46,17 @@ class RadialLineChart extends React.Component {
  }
 
  componentDidUpdate() {
+   console.log('update')
    this.renderRadial();
  }
 
   renderRadial = () => {
+
+    const line = d3.lineRadial()
+  		.angle(function(d) { return x(d.key); })
+  		.radius(function(d) { return y(d.value); })
+      // .curve(d3.curveLinearClosed)
+      .curve(this.props.lineType)
 
     const data = this.props.dataDayHours;
 
@@ -69,6 +71,13 @@ class RadialLineChart extends React.Component {
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
     .classed('radial', true);
 
+    const exit = gSelect.exit().classed('radial', false);
+    exit
+    .attr('opacity', 0.8)
+    .transition()
+    .attr('opacity', 0)
+    .remove();
+
     console.log('data ', data)
 
     const mean = dataParser.dayMean(data)
@@ -76,7 +85,7 @@ class RadialLineChart extends React.Component {
     x.domain(d3.extent(data, function(d) { return d.key; }));
     y.domain(d3.extent(data, function(d) { return d.value; }));
 
-    var linePlot = gEnter.append("path")
+    var linePlot = gSelect.append("path")
       .datum(data)
       .attr("fill", "url(#gradientRainbow)")
       .attr("stroke", "#213946")
@@ -90,24 +99,24 @@ class RadialLineChart extends React.Component {
       .range(["#F5D801", "#74D877", "#2A4858"])
       .interpolate(d3.interpolateHcl);
 
-    var gradient = d3.select(this.refs.svgElem).append("defs").append("radialGradient")
-      .attr("id", "gradientRainbow")
-      .attr("gradientUnits", "userSpaceOnUse")
-      .attr("cx", "0%")
-      .attr("cy", "0%")
-      .attr("r", "45%")
-      .selectAll("stop")
-      .data(d3.range(numColors))
-      .enter().append("stop")
-      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
-      .attr("stop-color", function(d) { return colorScale(d); });
+    // var gradient = gSelect.append("defs").append("radialGradient")
+    //   .attr("id", "gradientRainbow")
+    //   .attr("gradientUnits", "userSpaceOnUse")
+    //   .attr("cx", "0%")
+    //   .attr("cy", "0%")
+    //   .attr("r", "45%")
+    //   .selectAll("stop")
+    //   .data(d3.range(numColors))
+    //   .enter().append("stop")
+    //   .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
+    //   .attr("stop-color", function(d) { return colorScale(d); });
 
-    var yAxis = gEnter.append("g")
+    var yAxis = gSelect.append("g")
     .attr("text-anchor", "middle");
 
     var yTick = yAxis
-    // .selectAll("radial")
-     .selectAll("g")
+    .selectAll(".radial")
+    // .selectAll("g")
     .data(y.ticks(5))
     .enter().append("g");
 
@@ -143,11 +152,11 @@ class RadialLineChart extends React.Component {
       });
 
 
-      var xAxis = gEnter.append("g");
+      var xAxis = gSelect.append("g");
 
       var xTick = xAxis
-        .selectAll("g")
-        // .selectAll("radial")
+        // .selectAll("g")
+        .selectAll("radial")
         .data(x.ticks(12))
         .enter().append("g")
         .attr("text-anchor", "middle")
@@ -185,7 +194,6 @@ class RadialLineChart extends React.Component {
       // yTick.exit().remove();
       // gradient.exit().remove();
 
-      linePlot.exit().remove();
   }
 
   render() {

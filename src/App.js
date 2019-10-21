@@ -16,7 +16,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentDay: '2017-05-06'
+      currentDay: '2017-05-06',
+      lineType: d3.curveBasisClosed
     };
   }
 
@@ -53,14 +54,27 @@ class App extends React.Component {
     });
   }
 
+  setLineType(lineType) {
+    console.log('set line type ', lineType)
+    this.setState({
+      lineType
+    });
+  }
+
   render() {
     return (
       <div className="app">
         <div className="menuContainer">
-          { this.state.dayInsights && <Menu dayInsights={this.state.dayInsights} setDate={date => this.setDate(date)}/> }
+          { this.state.dayInsights && <Menu
+            dayInsights={this.state.dayInsights}
+            setDate={date => this.setDate(date)}
+            setLineType={lineType => this.setLineType(lineType)}/> }
         </div>
         <div className="chartContainer">
-          { this.state.dataDayHours && <RadialLineChart currentDay={this.state.currentDay} dataDayHours={this.state.dataDayHours} dayInsights={this.state.dayInsights}/>}
+          { this.state.dataDayHours && <RadialLineChart currentDay={this.state.currentDay}
+            dataDayHours={this.state.dataDayHours}
+            dayInsights={this.state.dayInsights}
+            lineType={this.state.lineType}/>}
         </div>
       </div>
     );
