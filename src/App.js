@@ -16,8 +16,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentDay: '2017-05-06',
-      lineType: d3.curveBasisClosed
+      currentDay: '2017-02-25',
+      lineType: d3.curveLinearClosed
     };
   }
 

@@ -22,7 +22,8 @@ const formatHour = d3.timeFormat("%I %p")
 const fullCircle = 2 * Math.PI;
 
 const x = scaleLinear()
-    .range([0, fullCircle]);
+    .range([0 + Math.PI, fullCircle + Math.PI]);
+    // .range([0, fullCircle]);
 
 const y = scaleRadial()
     .range([innerRadius, outerRadius]);
@@ -42,7 +43,8 @@ class RadialLineChart extends React.Component {
   // }
 
   componentDidMount() {
-   this.renderRadial();
+   console.log('props', this.props)
+   // this.renderRadial();
  }
 
  componentDidUpdate() {
@@ -63,6 +65,13 @@ class RadialLineChart extends React.Component {
     const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
 
+    gSelect.exit()
+    .classed('radial', false)
+    .attr('opacity', 0.8)
+    .transition()
+    .attr('opacity', 0)
+    .remove();
+
     // current.interrupt();
 
     var gEnter = gSelect.enter().append("g")
@@ -71,12 +80,12 @@ class RadialLineChart extends React.Component {
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
     .classed('radial', true);
 
-    const exit = gSelect.exit().classed('radial', false);
-    exit
-    .attr('opacity', 0.8)
-    .transition()
-    .attr('opacity', 0)
-    .remove();
+    // const exit = gSelect.exit().classed('radial', false);
+    // exit
+    // .attr('opacity', 0.8)
+    // .transition()
+    // .attr('opacity', 0)
+    // .remove();
 
     console.log('data ', data)
 
@@ -85,7 +94,8 @@ class RadialLineChart extends React.Component {
     x.domain(d3.extent(data, function(d) { return d.key; }));
     y.domain(d3.extent(data, function(d) { return d.value; }));
 
-    var linePlot = gSelect.append("path")
+    // var linePlot = gSelect.append("path")
+    var linePlot = d3.selectAll('.radial').append("path")
       .datum(data)
       .attr("fill", "url(#gradientRainbow)")
       .attr("stroke", "#213946")
@@ -99,19 +109,19 @@ class RadialLineChart extends React.Component {
       .range(["#F5D801", "#74D877", "#2A4858"])
       .interpolate(d3.interpolateHcl);
 
-    // var gradient = gSelect.append("defs").append("radialGradient")
-    //   .attr("id", "gradientRainbow")
-    //   .attr("gradientUnits", "userSpaceOnUse")
-    //   .attr("cx", "0%")
-    //   .attr("cy", "0%")
-    //   .attr("r", "45%")
-    //   .selectAll("stop")
-    //   .data(d3.range(numColors))
-    //   .enter().append("stop")
-    //   .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
-    //   .attr("stop-color", function(d) { return colorScale(d); });
+    var gradient = d3.selectAll('.radial').append("defs").append("radialGradient")
+      .attr("id", "gradientRainbow")
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("cx", "0%")
+      .attr("cy", "0%")
+      .attr("r", "45%")
+      .selectAll("stop")
+      .data(d3.range(numColors))
+      .enter().append("stop")
+      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
+      .attr("stop-color", function(d) { return colorScale(d); });
 
-    var yAxis = gSelect.append("g")
+    var yAxis = d3.selectAll('.radial').append("g")
     .attr("text-anchor", "middle");
 
     var yTick = yAxis
@@ -152,12 +162,12 @@ class RadialLineChart extends React.Component {
       });
 
 
-      var xAxis = gSelect.append("g");
+      var xAxis = svg.selectAll('.radial').append("g");
 
       var xTick = xAxis
         // .selectAll("g")
-        .selectAll("radial")
-        .data(x.ticks(12))
+        .selectAll(".radial")
+        .data(x.ticks(23))
         .enter().append("g")
         .attr("text-anchor", "middle")
         .attr("transform", function(d) {
@@ -166,7 +176,7 @@ class RadialLineChart extends React.Component {
 
       xTick.append("line")
         .attr("x2", -5)
-        .attr("stroke", "#000");
+        .attr("stroke", "#595D5C");
 
       xTick.append("text")
         .attr("transform", function(d) {
@@ -175,8 +185,9 @@ class RadialLineChart extends React.Component {
             .text(function(d) {
             return d;
       })
-        .style("font-size", 10)
-        .attr("opacity", 0.6)
+      .style("font-size", 10)
+      .attr("color", "#595D5C")
+      .attr("opacity", 1)
 
       // var lineLength = linePlot.node().getTotalLength();
 

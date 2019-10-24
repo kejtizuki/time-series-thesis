@@ -21,10 +21,10 @@ class Menu extends Component {
   }
 
   onLineChange(e) {
-    if (e.value === 'curveBasisClosed') {
+    if (e.value === 'Basis') {
       this.props.setLineType(d3.curveBasisClosed);
     }
-    if (e.value === 'curveLinearClosed') {
+    if (e.value === 'Linear') {
       this.props.setLineType(d3.curveLinearClosed);
     }
 
@@ -34,7 +34,7 @@ class Menu extends Component {
   render() {
 
     const defaultOption = Object.keys(this.props.dayInsights)[0];
-    const lines = ['curveBasisClosed', 'curveLinearClosed']
+    const lines = ['Linear', 'Basis']
 
     return (
       <div className="menu">Day

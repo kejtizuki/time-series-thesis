@@ -49,6 +49,8 @@ export const dayMean = obj => {
   obj.map(hour => {
     tmpSumArr.push(hour.value)
   })
+
+  console.log('tmpSumArr', tmpSumArr)
   return d3.mean(tmpSumArr)
 }
 
