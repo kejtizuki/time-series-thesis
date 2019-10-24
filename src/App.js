@@ -48,16 +48,19 @@ class App extends React.Component {
   setDate(date) {
     const currentDay = date;
     const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(this.state.data), date);
-    this.setState({
+    this.setState(prevState => ({
+      ...prevState.lineType,
+      ...prevState.str,
       currentDay,
       dataDayHours
-    });
+  }));
   }
 
-  setLineType(lineType) {
-    console.log('set line type ', lineType)
+  setLineType(lineType, str) {
+    console.log('set line type ', str)
     this.setState({
-      lineType
+      lineType,
+      str
     });
   }
 
@@ -65,10 +68,16 @@ class App extends React.Component {
     return (
       <div className="app">
         <div className="menuContainer">
-          { this.state.dayInsights && <Menu
-            dayInsights={this.state.dayInsights}
-            setDate={date => this.setDate(date)}
-            setLineType={lineType => this.setLineType(lineType)}/> }
+          {
+            this.state.dayInsights &&
+            <Menu
+              dayInsights={this.state.dayInsights}
+              setDate={date => this.setDate(date)}
+              setLineType={(lineType, str) => this.setLineType(lineType, str)}
+              firstValue={this.state.currentDay}
+              secondValue={this.state.str}
+            />
+        }
         </div>
         <div className="chartContainer">
           { this.state.dataDayHours && <RadialLineChart currentDay={this.state.currentDay}

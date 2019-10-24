@@ -22,37 +22,29 @@ const formatHour = d3.timeFormat("%I %p")
 const fullCircle = 2 * Math.PI;
 
 const x = scaleLinear()
-    .range([0 + Math.PI, fullCircle + Math.PI]);
-    // .range([0, fullCircle]);
+    // .range([0 + Math.PI, fullCircle + Math.PI]);
+    .range([0, fullCircle]);
 
 const y = scaleRadial()
     .range([innerRadius, outerRadius]);
 
 
 class RadialLineChart extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.currentDay !== this.props.currentDay;
-  }
-
-  // componentWillUpdate(nextProps, nextState) {
-  //   d3.select(this.refs.svgElem).exit().remove();
-  // }
-  //
-  // componentWillReceiveProps() {
-  //   this.renderRadial()
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return nextProps.currentDay !== this.props.currentDay;
   // }
 
-  componentDidMount() {
-   console.log('props', this.props)
-   // this.renderRadial();
- }
+  // componentWillReceiveProps()
 
- componentDidUpdate() {
-   console.log('update')
-   this.renderRadial();
+ componentDidUpdate(prevProps) {
+   if (prevProps !== this.props) {
+     d3.select("svg").selectAll("*").remove();
+     this.renderRadial();
+   }
  }
 
   renderRadial = () => {
+    // d3.select("svg").remove();
 
     const line = d3.lineRadial()
   		.angle(function(d) { return x(d.key); })
@@ -80,12 +72,12 @@ class RadialLineChart extends React.Component {
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
     .classed('radial', true);
 
-    // const exit = gSelect.exit().classed('radial', false);
-    // exit
-    // .attr('opacity', 0.8)
-    // .transition()
-    // .attr('opacity', 0)
-    // .remove();
+    const exit = gSelect.exit().classed('radial', false);
+    exit
+    .attr('opacity', 0.8)
+    .transition()
+    .attr('opacity', 0)
+    .remove();
 
     console.log('data ', data)
 
@@ -188,9 +180,9 @@ class RadialLineChart extends React.Component {
       .style("font-size", 10)
       .attr("color", "#595D5C")
       .attr("opacity", 1)
-
+      //
       // var lineLength = linePlot.node().getTotalLength();
-
+      //
       // linePlot
       //   .attr("stroke-dasharray", lineLength + " " + lineLength)
       //   .attr("stroke-dashoffset", -lineLength)
@@ -200,10 +192,10 @@ class RadialLineChart extends React.Component {
       //   .attr("stroke-dashoffset", 0);
 
 
-      // linePlot.exit().remove()
-      // xTick.exit().remove();
-      // yTick.exit().remove();
-      // gradient.exit().remove();
+      linePlot.exit().remove()
+      xTick.exit().remove();
+      yTick.exit().remove();
+      gradient.exit().remove();
 
   }
 

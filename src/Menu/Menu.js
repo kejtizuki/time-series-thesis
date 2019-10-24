@@ -22,10 +22,10 @@ class Menu extends Component {
 
   onLineChange(e) {
     if (e.value === 'Basis') {
-      this.props.setLineType(d3.curveBasisClosed);
+      this.props.setLineType(d3.curveBasisClosed, 'Basis');
     }
     if (e.value === 'Linear') {
-      this.props.setLineType(d3.curveLinearClosed);
+      this.props.setLineType(d3.curveLinearClosed, 'Linear');
     }
 
   }
@@ -34,14 +34,16 @@ class Menu extends Component {
   render() {
 
     const defaultOption = Object.keys(this.props.dayInsights)[0];
-    const lines = ['Linear', 'Basis']
+    const lines = ['Linear', 'Basis'];
+    const firstValue = this.props.firstValue || defaultOption;
+    const secondValue = this.props.secondValue || lines[0];
 
     return (
       <div className="menu">Day
-        <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={defaultOption} placeholder="Select an option" />
+        <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />
         <br />
         Line type
-        <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={lines[0]} placeholder="Select an option" />
+        <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={secondValue} placeholder="Select an option" />
       </div>
     )
   }
