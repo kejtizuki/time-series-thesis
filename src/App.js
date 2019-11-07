@@ -4,6 +4,7 @@ import Scatter from './Scatter/Scatter'
 import ScatterMY from './ScatterMY/ScatterMY'
 import RadialLineChart from './RadialLineChart/RadialLineChart'
 import RadialLineChartLib from './RadialLineChart/RadialLineChartLib'
+import BarChart from './BarChart/BarChart'
 import Menu from './Menu/Menu'
 import * as d3 from "d3";
 
@@ -17,7 +18,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       currentDay: '2017-02-25',
-      lineType: d3.curveLinearClosed
+      lineType: d3.curveLinearClosed,
+      chartType: 'Radial'
     };
   }
 
@@ -50,18 +52,30 @@ class App extends React.Component {
     const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(this.state.data), date);
     this.setState(prevState => ({
       ...prevState.lineType,
-      ...prevState.str,
+      ...prevState.lineTypeStr,
       currentDay,
       dataDayHours
   }));
   }
 
-  setLineType(lineType, str) {
-    console.log('set line type ', str)
+  setLineType(lineType, lineTypeStr) {
+    console.log('set line type ', lineTypeStr)
     this.setState({
       lineType,
-      str
+      lineTypeStr
     });
+  }
+
+  setChartType(chartType) {
+
+    console.log('set chart type ', chartType)
+    this.setState(prevState => ({
+      ...prevState.lineType,
+      ...prevState.lineTypeStr,
+      ...prevState.currentDay,
+      ...prevState.dataDayHours,
+      chartType
+    }))
   }
 
   render() {
@@ -73,17 +87,26 @@ class App extends React.Component {
             <Menu
               dayInsights={this.state.dayInsights}
               setDate={date => this.setDate(date)}
-              setLineType={(lineType, str) => this.setLineType(lineType, str)}
+              setLineType={(lineType, lineTypeStr) => this.setLineType(lineType, lineTypeStr)}
               firstValue={this.state.currentDay}
-              secondValue={this.state.str}
+              secondValue={this.state.lineTypeStr}
+              chartType={this.state.chartType}
+              setChartType={chartType => this.setChartType(chartType)}
             />
         }
         </div>
         <div className="chartContainer">
-          { this.state.dataDayHours && <RadialLineChart currentDay={this.state.currentDay}
+          { this.state.dataDayHours && this.state.chartType === 'Radial' && <RadialLineChart currentDay={this.state.currentDay}
             dataDayHours={this.state.dataDayHours}
             dayInsights={this.state.dayInsights}
-            lineType={this.state.lineType}/>}
+            lineType={this.state.lineType}/>
+          }
+          {
+            this.state.dataDayHours && this.state.chartType === 'BarChart' && <BarChart currentDay={this.state.currentDay}
+              dataDayHours={this.state.dataDayHours}
+              dayInsights={this.state.dayInsights}
+              lineType={this.state.lineType}/>
+          }
         </div>
       </div>
     );

@@ -11,8 +11,8 @@ import './radialLineChart.scss'
 
 const margin = {top: 20, right: 10, bottom: 20, left: 10};
 
-const width = 600 - margin.left - margin.right,
-  height = 600 - margin.top - margin.bottom;
+const width = 650 - margin.left - margin.right,
+  height = 650 - margin.top - margin.bottom;
 
 const innerRadius = 100,
     outerRadius = Math.min(width, height) / 2 - 6;
@@ -30,11 +30,6 @@ const y = scaleRadial()
 
 
 class RadialLineChart extends React.Component {
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return nextProps.currentDay !== this.props.currentDay;
-  // }
-
-  // componentWillReceiveProps()
 
  componentDidUpdate(prevProps) {
    if (prevProps !== this.props) {
@@ -44,12 +39,10 @@ class RadialLineChart extends React.Component {
  }
 
   renderRadial = () => {
-    // d3.select("svg").remove();
 
     const line = d3.lineRadial()
   		.angle(function(d) { return x(d.key); })
   		.radius(function(d) { return y(d.value); })
-      // .curve(d3.curveLinearClosed)
       .curve(this.props.lineType)
 
     const data = this.props.dataDayHours;
@@ -159,7 +152,7 @@ class RadialLineChart extends React.Component {
       var xTick = xAxis
         // .selectAll("g")
         .selectAll(".radial")
-        .data(x.ticks(23))
+        .data(x.ticks(24))
         .enter().append("g")
         .attr("text-anchor", "middle")
         .attr("transform", function(d) {
@@ -191,19 +184,13 @@ class RadialLineChart extends React.Component {
       //   .ease(d3.easeLinear)
       //   .attr("stroke-dashoffset", 0);
 
-
-      linePlot.exit().remove()
-      xTick.exit().remove();
-      yTick.exit().remove();
-      gradient.exit().remove();
-
   }
 
   render() {
     return(
       <div className="radialContainer center">
 
-        <svg width={600} height={600}
+        <svg width={650} height={650}
             ref="svgElem">
         </svg>
 
