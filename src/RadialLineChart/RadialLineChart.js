@@ -38,6 +38,10 @@ class RadialLineChart extends React.Component {
    }
  }
 
+ componentDidMount() {
+   this.renderRadial()
+ }
+
   renderRadial = () => {
 
     const line = d3.lineRadial()

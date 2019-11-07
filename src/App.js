@@ -18,7 +18,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       currentDay: '2017-02-25',
-      lineType: d3.curveLinearClosed,
+      lineType: d3.curveCardinalClosed,
       chartType: 'Radial'
     };
   }

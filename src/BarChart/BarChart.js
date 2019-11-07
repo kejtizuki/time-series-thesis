@@ -11,7 +11,7 @@ import './barChart.scss'
 
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 800 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    height = 400 - margin.top - margin.bottom;
 
 // set the ranges
 // var x = scaleBand()
@@ -29,6 +29,10 @@ class BarChart extends React.Component {
      this.renderBarChart();
    }
  }
+
+ componentDidMount() {
+    this.renderBarChart();
+  }
 
  renderBarChart() {
 
@@ -54,25 +58,45 @@ class BarChart extends React.Component {
 
   const defs = svg.append('defs');
 
-  const bgGradient = defs
-    .append('linearGradient')
-    .attr('id', 'bg-gradient')
-    .attr('gradientTransform', 'rotate(90)');
+  var numColors = 10;
+  var colorScale = d3.scaleLinear()
+    .domain([0,(numColors-1)/2,numColors-1])
+    .range(['#2A4858', "#74D877", "#F5D801"])
+    .interpolate(d3.interpolateHcl);
 
-    // "#F5D801", "#74D877", "#2A4858"
+  const bgGradient = defs.append("linearGradient")
+    .attr("id", "bg-gradient")
+    // .attr('gradientTransform', 'rotate(90)')
+    .attr("x1", "0%")
+    .attr("y1", "0%")
+    .attr("x2", "0%")
+    .attr("y2", "100%")
+    .attr("gradientUnits", "userSpaceOnUse")
+    .selectAll("stop")
+    .data(d3.range(numColors))
+    .enter().append("stop")
+    .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 10) + "%"; })
+    .attr("stop-color", function(d) { return colorScale(d); });
 
-  bgGradient
-    .append('stop')
-    .attr('stop-color', '#2A4858')
-    .attr('offset', '0%');
-  bgGradient
-    .append('stop')
-    .attr('stop-color', '#74D877')
-    .attr('offset', '50%');
-  bgGradient
-    .append('stop')
-    .attr('stop-color', '#F5D801')
-    .attr('offset', '100%');
+  // const bgGradient = defs
+  //   .append('linearGradient')
+  //   .attr('id', 'bg-gradient')
+  //   .attr('gradientTransform', 'rotate(90)');
+  //
+  //   // "#F5D801", "#74D877", "#2A4858"
+  //
+  // bgGradient
+  //   .append('stop')
+  //   .attr('stop-color', '#2A4858')
+  //   .attr('offset', '0%');
+  // bgGradient
+  //   .append('stop')
+  //   .attr('stop-color', '#74D877')
+  //   .attr('offset', '50%');
+  // bgGradient
+  //   .append('stop')
+  //   .attr('stop-color', '#F5D801')
+  //   .attr('offset', '100%');
 
   defs
     .append('clipPath')
@@ -110,7 +134,7 @@ class BarChart extends React.Component {
   ax.selectAll('text')
     .style("text-anchor", "start")
     .style("alignment-baseline", "middle")
-    .attr("transform", `translate(${x.bandwidth() / 2}, 10) rotate(90)`)
+    .attr("transform", `translate(-3, 10)`)
 
   graphArea
     .append('g')
@@ -155,7 +179,7 @@ class BarChart extends React.Component {
     return(
       <div className="radialContainer center">
 
-      <svg width={800} height={300}
+      <svg width={800} height={400}
           ref="svgElemBar">
       </svg>
 

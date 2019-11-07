@@ -59,7 +59,7 @@ class Menu extends Component {
   render() {
 
     const defaultOption = Object.keys(this.props.dayInsights)[0];
-    const lines = ['Linear', 'Basis', 'Bundle', 'Cardinal', 'Catmull', 'Natural'];
+    const lines = ['Cardinal', 'Linear', 'Basis', 'Bundle', 'Catmull', 'Natural'];
     const firstValue = this.props.firstValue || defaultOption;
     const secondValue = this.props.secondValue || lines[0];
 
@@ -79,8 +79,13 @@ class Menu extends Component {
         Day
         <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />
         <br />
-        Line type
+        {
+        this.props.chartType === 'Radial' && (
+        <div>
+        <p>Line type</p>
         <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={secondValue} placeholder="Select an option" />
+        </div>
+        )}
       </div>
     )
   }
