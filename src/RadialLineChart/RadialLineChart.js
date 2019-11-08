@@ -21,10 +21,6 @@ const formatHour = d3.timeFormat("%I %p")
 
 const fullCircle = 2 * Math.PI;
 
-const x = scaleLinear()
-    // .range([0 + Math.PI, fullCircle + Math.PI]);
-    .range([0, fullCircle]);
-
 const y = scaleRadial()
     .range([innerRadius, outerRadius]);
 
@@ -44,12 +40,24 @@ class RadialLineChart extends React.Component {
 
   renderRadial = () => {
 
+    const x = scaleLinear()
+
+    if (this.props.clockConfig === 'Midnight Up') {
+      x.range([0, fullCircle]);
+    }
+    else {
+      x.range([0 + Math.PI, fullCircle + Math.PI]);
+    }
+
+
     const line = d3.lineRadial()
   		.angle(function(d) { return x(d.key); })
   		.radius(function(d) { return y(d.value); })
       .curve(this.props.lineType)
 
     const data = this.props.dataDayHours;
+
+    console.log('LINE ', this.props.clockConfig)
 
     const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);

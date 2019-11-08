@@ -4,12 +4,12 @@ import 'react-dropdown/style.css';
 import * as d3 from "d3";
 import * as d3Axis from 'd3-axis'
 import { select as d3Select } from 'd3-selection'
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 
 import './menu.scss'
 
+
 class Menu extends Component {
+
 
   constructor() {
     super();
@@ -51,6 +51,15 @@ class Menu extends Component {
     }
   }
 
+  onClockConfigChange(e) {
+    if (e.value === 'Midnight Up') {
+      this.props.setClockConfig('Midnight Up');
+    }
+    if (e.value === 'Midnight Down') {
+      this.props.setClockConfig('Midnight Down');
+    }
+  }
+
   onButtonClick(event) {
     console.log(event.target.name)
     this.props.setChartType(event.target.name)
@@ -60,8 +69,10 @@ class Menu extends Component {
 
     const defaultOption = Object.keys(this.props.dayInsights)[0];
     const lines = ['Cardinal', 'Linear', 'Basis', 'Bundle', 'Catmull', 'Natural'];
+    const clockConfig = ['Midnight Up', 'Midnight Down']
     const firstValue = this.props.firstValue || defaultOption;
     const secondValue = this.props.secondValue || lines[0];
+    const configValue = this.props.configValue || clockConfig[0];
 
     return (
       <div className="menu">
@@ -78,13 +89,21 @@ class Menu extends Component {
         </div>
         Day
         <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />
-        <br />
+
         {
-        this.props.chartType === 'Radial' && (
-        <div>
-        <p>Line type</p>
-        <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={secondValue} placeholder="Select an option" />
-        </div>
+          this.props.chartType === 'Radial' && (
+          <div>
+          <p>Line type</p>
+          <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={secondValue} placeholder="Select an option" />
+          <p>Clock configuration</p>
+          <Dropdown options={clockConfig} onChange={(e) => this.onClockConfigChange(e)} value={configValue} placeholder="Select an option" />
+          </div>
+        )}
+        {
+          this.props.chartType === 'BarChart' && (
+            <div>
+
+            </div>
         )}
       </div>
     )

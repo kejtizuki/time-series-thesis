@@ -19,7 +19,8 @@ class App extends React.Component {
     this.state = {
       currentDay: '2017-02-25',
       lineType: d3.curveCardinalClosed,
-      chartType: 'Radial'
+      chartType: 'Radial',
+      clockConfig: 'Midnight Up'
     };
   }
 
@@ -53,6 +54,7 @@ class App extends React.Component {
     this.setState(prevState => ({
       ...prevState.lineType,
       ...prevState.lineTypeStr,
+      ...prevState.clockConfig,
       currentDay,
       dataDayHours
   }));
@@ -60,10 +62,18 @@ class App extends React.Component {
 
   setLineType(lineType, lineTypeStr) {
     console.log('set line type ', lineTypeStr)
-    this.setState({
+    this.setState(prevState => ({
+      ...prevState.clockConfig,
       lineType,
       lineTypeStr
-    });
+    }));
+  }
+
+  setClockConfig(clockConfig) {
+    console.log('set clock config type ', clockConfig)
+    this.setState({
+      clockConfig
+    })
   }
 
   setChartType(chartType) {
@@ -74,6 +84,7 @@ class App extends React.Component {
       ...prevState.lineTypeStr,
       ...prevState.currentDay,
       ...prevState.dataDayHours,
+      ...prevState.clockConfig,
       chartType
     }))
   }
@@ -88,6 +99,8 @@ class App extends React.Component {
               dayInsights={this.state.dayInsights}
               setDate={date => this.setDate(date)}
               setLineType={(lineType, lineTypeStr) => this.setLineType(lineType, lineTypeStr)}
+              setClockConfig = {(clockConfig) => this.setClockConfig(clockConfig)}
+              configValue = {this.state.clockConfig}
               firstValue={this.state.currentDay}
               secondValue={this.state.lineTypeStr}
               chartType={this.state.chartType}
@@ -99,7 +112,8 @@ class App extends React.Component {
           { this.state.dataDayHours && this.state.chartType === 'Radial' && <RadialLineChart currentDay={this.state.currentDay}
             dataDayHours={this.state.dataDayHours}
             dayInsights={this.state.dayInsights}
-            lineType={this.state.lineType}/>
+            lineType={this.state.lineType}
+            clockConfig={this.state.clockConfig}/>
           }
           {
             this.state.dataDayHours && this.state.chartType === 'BarChart' && <BarChart currentDay={this.state.currentDay}
