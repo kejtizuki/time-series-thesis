@@ -3,7 +3,7 @@ import React from 'react';
 import Scatter from './Scatter/Scatter'
 import ScatterMY from './ScatterMY/ScatterMY'
 import RadialLineChart from './RadialLineChart/RadialLineChart'
-import RadialLineChartLib from './RadialLineChart/RadialLineChartLib'
+// import RadialLineChartLib from './RadialLineChart/RadialLineChartLib'
 import BarChart from './BarChart/BarChart'
 import Menu from './Menu/Menu'
 import * as d3 from "d3";
@@ -38,12 +38,14 @@ class App extends React.Component {
       // console.log('obj vals', Object.values(dataParser.getDayInsights(data)))
 
       const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), this.state.currentDay);
+      // const mean = dataParser.dayMean(dataDayHours)
       const dayInsights = dataParser.getDayInsights(data);
 
       this.setState({
         data,
         dataDayHours,
-        dayInsights
+        dayInsights,
+        // mean
       });
    });
   }
@@ -113,7 +115,9 @@ class App extends React.Component {
             dataDayHours={this.state.dataDayHours}
             dayInsights={this.state.dayInsights}
             lineType={this.state.lineType}
-            clockConfig={this.state.clockConfig}/>
+            clockConfig={this.state.clockConfig}
+            // mean={this.state.mean}
+          />
           }
           {
             this.state.dataDayHours && this.state.chartType === 'BarChart' && <BarChart currentDay={this.state.currentDay}

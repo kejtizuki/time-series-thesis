@@ -5,7 +5,7 @@ import { select as d3Select } from 'd3-selection'
 import moment from 'moment'
 
 import data from './../data/itching.csv';
-import *  as dataParser from './dataParser.js';
+import *  as dataParser from '../dataParser.js';
 import './radialLineChart.scss'
 
 
@@ -86,6 +86,14 @@ class RadialLineChart extends React.Component {
 
     console.log('data ', data)
 
+    // Avg per month or per day (to compare) compare weekday with avg weekday
+    // make options to see how could it be compared
+    // minute by minute discuss in the report
+    // See different averages and compare?
+    // draw linecharts as a calendar -> to compare days in a month
+    // weekly data -> ranges radial chart with lines
+    // 26.11 14:00 meeting with Jakob
+
     const mean = dataParser.dayMean(data)
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
@@ -96,7 +104,7 @@ class RadialLineChart extends React.Component {
       .datum(data)
       .attr("fill", "url(#gradientRainbow)")
       .attr("stroke", "#213946")
-      .attr("stroke-width", 2)
+      .attr("stroke-width", 1)
       .attr('z-index', 200)
       .attr("d", line);
 
@@ -146,17 +154,17 @@ class RadialLineChart extends React.Component {
       .attr("opacity", 1)
       .attr("r", function() { return y(y.domain()[0])});
 
-      yTick.append("text")
-        .attr("y", function(d) { return -y(d); })
-        .attr("dy", "0.35em")
-        .text(function(d, i) {
-          if (d === 0) {
-          return ""
-        }
-        else {
-          return d
-        }
-      });
+    yTick.append("text")
+      .attr("y", function(d) { return -y(d); })
+      .attr("dy", "0.35em")
+      .text(function(d, i) {
+        if (d === 0) {
+        return ""
+      }
+      else {
+        return d
+      }
+    });
 
 
       var xAxis = svg.selectAll('.radial').append("g");
@@ -185,7 +193,8 @@ class RadialLineChart extends React.Component {
       .style("font-size", 10)
       .attr("color", "#595D5C")
       .attr("opacity", 1)
-      //
+
+
       // var lineLength = linePlot.node().getTotalLength();
       //
       // linePlot

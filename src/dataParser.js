@@ -69,6 +69,7 @@ return groupedByObj;
 }
 
 const groupByHoursArr = arr => {
+  console.log('groupByHours ', arr)
   let groupedByObj = {}
   let arrayOfHours = []
   for (let i=0; i< 24; i++) {
