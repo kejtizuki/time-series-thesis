@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/time-series-thesis/static/css/main.cb7ed95a.chunk.css",
+    "main.js": "/time-series-thesis/static/js/main.bc1a8fb7.chunk.js",
+    "main.js.map": "/time-series-thesis/static/js/main.bc1a8fb7.chunk.js.map",
+    "runtime~main.js": "/time-series-thesis/static/js/runtime~main.c35ab4ce.js",
+    "runtime~main.js.map": "/time-series-thesis/static/js/runtime~main.c35ab4ce.js.map",
+    "static/css/2.d58fcd6a.chunk.css": "/time-series-thesis/static/css/2.d58fcd6a.chunk.css",
+    "static/js/2.ab9eb9c2.chunk.js": "/time-series-thesis/static/js/2.ab9eb9c2.chunk.js",
+    "static/js/2.ab9eb9c2.chunk.js.map": "/time-series-thesis/static/js/2.ab9eb9c2.chunk.js.map",
+    "index.html": "/time-series-thesis/index.html",
+    "precache-manifest.496c9bf5621c63a2f6aee13e83433e3d.js": "/time-series-thesis/precache-manifest.496c9bf5621c63a2f6aee13e83433e3d.js",
+    "service-worker.js": "/time-series-thesis/service-worker.js",
+    "static/css/2.d58fcd6a.chunk.css.map": "/time-series-thesis/static/css/2.d58fcd6a.chunk.css.map",
+    "static/css/main.cb7ed95a.chunk.css.map": "/time-series-thesis/static/css/main.cb7ed95a.chunk.css.map",
+    "static/media/itching.csv": "/time-series-thesis/static/media/itching.ad9f77ba.csv"
+  }
+}
