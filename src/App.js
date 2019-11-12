@@ -31,7 +31,7 @@ class App extends React.Component {
       // console.log("how many in day ", dataParser.howManyInDay(dataParser.parseData(data)))
       // console.log("how many in month ", dataParser.howManyInMonth(dataParser.parseData(data)))
       // console.log("how many weekday in month ", dataParser.howManyWeekDayMonth(dataParser.parseData(data), dataParser.howManyInDay(dataParser.parseData(data))))
-      // console.log('day insights', dataParser.getDayInsights(data))
+      console.log('day insights', dataParser.getDayInsights(data))
       // console.log('day hours', dataParser.getDayHours(dataParser.getDayInsights(data), this.state.currentDay))
       // console.log('day hours ARR', dataParser.getDayHoursArr(dataParser.getDayInsights(data), this.state.currentDay))
 
@@ -63,7 +63,6 @@ class App extends React.Component {
   }
 
   setLineType(lineType, lineTypeStr) {
-    console.log('set line type ', lineTypeStr)
     this.setState(prevState => ({
       ...prevState.clockConfig,
       lineType,
@@ -72,15 +71,12 @@ class App extends React.Component {
   }
 
   setClockConfig(clockConfig) {
-    console.log('set clock config type ', clockConfig)
     this.setState({
       clockConfig
     })
   }
 
   setChartType(chartType) {
-
-    console.log('set chart type ', chartType)
     this.setState(prevState => ({
       ...prevState.lineType,
       ...prevState.lineTypeStr,

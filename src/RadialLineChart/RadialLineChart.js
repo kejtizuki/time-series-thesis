@@ -19,7 +19,7 @@ const innerRadius = 100,
 
 const formatHour = d3.timeFormat("%I %p")
 
-const fullCircle = 2 * Math.PI;
+const fullCircle = 2 * Math.PI * 23/24;
 
 const y = scaleRadial()
     .range([innerRadius, outerRadius]);
