@@ -4,7 +4,7 @@ import {scaleLinear, scaleBand, scaleTime, scaleRadial, schemeCategory20c } from
 import { select as d3Select } from 'd3-selection'
 import moment from 'moment'
 
-import data from './../data/itching.csv';
+// import data from './../data/itching.csv';
 import *  as dataParser from '../dataParser.js';
 import './radialLineChart.scss'
 
@@ -94,7 +94,8 @@ class RadialLineChart extends React.Component {
     // weekly data -> ranges radial chart with lines
     // 26.11 14:00 meeting with Jakob
 
-    const mean = dataParser.dayMean(data)
+    console.log('this.props.avgWeekday', this.props.avgWeekday)
+    // const mean = dataParser.getAvg(this.props.avgWeekday)
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
     y.domain(d3.extent(data, function(d) { return d.value; }));
@@ -107,6 +108,14 @@ class RadialLineChart extends React.Component {
       .attr("stroke-width", 1)
       .attr('z-index', 200)
       .attr("d", line);
+
+    var avgWeekday = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgWeekday)
+      .attr("fill", "none")
+      .attr("stroke", "#2A41E5")
+      .attr("stroke-width", 3)
+      .attr("d", line);
+
 
     var numColors = 10;
     var colorScale = d3.scaleLinear()
@@ -142,11 +151,11 @@ class RadialLineChart extends React.Component {
       .attr("r", function(d) {return y(d)});
 
     //add avg
-    yAxis.append("circle")
-      .attr("fill", "none")
-      .attr("stroke", "#2A41E5")
-      .attr("stroke-width", 3)
-      .attr("r", function() { return y(mean) });
+    // yAxis.append("circle")
+    //   .attr("fill", "none")
+    //   .attr("stroke", "#2A41E5")
+    //   .attr("stroke-width", 3)
+    //   .attr("r", function() { return y(this.props.avgWeekday) });
 
     yAxis.append("circle")
       .attr("fill", "white")

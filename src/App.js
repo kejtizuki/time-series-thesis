@@ -17,34 +17,57 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentDay: '2017-02-25',
+      currentDay: '2017-03-01',
       lineType: d3.curveCardinalClosed,
       chartType: 'Radial',
-      clockConfig: 'Midnight Up'
+      clockConfig: 'Midnight Up',
+      avgWeekday: null
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    // if (prevProps !== this.props) {
+    //
+    // }
   }
 
   componentDidMount() {
     d3.csv(data).then(data => {
 
+      const dayInsights = dataParser.getDayInsights(data)
+      const weekdayNr = dataParser.getWeekday(this.state.currentDay)
+
+      const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
+      console.log('allExistingWeekdays', allExistingWeekdays)
+
+      const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
+      console.log('avgWeekdayXXX', avgWeekday)
+
       // console.log('csv', data)
       // console.log("how many in day ", dataParser.howManyInDay(dataParser.parseData(data)))
       // console.log("how many in month ", dataParser.howManyInMonth(dataParser.parseData(data)))
       // console.log("how many weekday in month ", dataParser.howManyWeekDayMonth(dataParser.parseData(data), dataParser.howManyInDay(dataParser.parseData(data))))
-      console.log('day insights', dataParser.getDayInsights(data))
+      // console.log('day insights', dataParser.getDayInsights(data))
       // console.log('day hours', dataParser.getDayHours(dataParser.getDayInsights(data), this.state.currentDay))
+
+      console.log('weekday ', dataParser.getWeekday(this.state.currentDay))
+      // console.log('weekdayInsights ', dataParser.getWeekdayInsights(dayInsights, 3))
+      // console.log('Merged data grouped into hours ', dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)))
+      // console.log('weekday length ', Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3)).length)
+      // console.log('avg weekday - wednesday', dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)), allExistingWeekdays))
       // console.log('day hours ARR', dataParser.getDayHoursArr(dataParser.getDayInsights(data), this.state.currentDay))
 
       // console.log('obj vals', Object.values(dataParser.getDayInsights(data)))
 
       const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), this.state.currentDay);
       // const mean = dataParser.dayMean(dataDayHours)
-      const dayInsights = dataParser.getDayInsights(data);
+      // const dayInsights = dataParser.getDayInsights(data);
 
       this.setState({
         data,
         dataDayHours,
         dayInsights,
+        avgWeekday
         // mean
       });
    });
@@ -53,12 +76,19 @@ class App extends React.Component {
   setDate(date) {
     const currentDay = date;
     const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(this.state.data), date);
+
+    const dayInsights = dataParser.getDayInsights(this.state.data)
+    const weekdayNr = dataParser.getWeekday(date)
+    const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
+    const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
+
     this.setState(prevState => ({
       ...prevState.lineType,
       ...prevState.lineTypeStr,
       ...prevState.clockConfig,
       currentDay,
-      dataDayHours
+      dataDayHours,
+      avgWeekday
   }));
   }
 
@@ -83,6 +113,7 @@ class App extends React.Component {
       ...prevState.currentDay,
       ...prevState.dataDayHours,
       ...prevState.clockConfig,
+      ...prevState.avgWeekday,
       chartType
     }))
   }
@@ -112,6 +143,7 @@ class App extends React.Component {
             dayInsights={this.state.dayInsights}
             lineType={this.state.lineType}
             clockConfig={this.state.clockConfig}
+            avgWeekday={this.state.avgWeekday}
             // mean={this.state.mean}
           />
           }

@@ -1,4 +1,6 @@
 import moment from 'moment';
+import dayjs from 'dayjs'
+import weekday from 'dayjs/plugin/weekday'
 import * as d3 from "d3";
 
 export const extractDate = timeStamp => moment(`${timeStamp.split('T')[0]}`, 'YYYYMMDDxxx').format('YYYY-MM-DD').split('T')[0];
@@ -28,8 +30,12 @@ const parseTime = (timeStamp, offset) => {
 };
 
 export const getDayInsights = data => {
+  dayjs.extend(weekday)
   let newData = data.map(item => ({ date: parseDate(item[data.columns[0]]), time: parseTime(item[data.columns[0]], item[data.columns[1]]) }));
-  newData.unshift({ date: parseDate(data.columns[0]), time: parseTime(data.columns[0], data.columns[1]) });
+  newData.unshift({
+    date: parseDate(data.columns[0]),
+    time: parseTime(data.columns[0], data.columns[1])
+  });
   return groupBy(newData);
 };
 
@@ -43,7 +49,7 @@ export const getDayHours = (data, timeStamp) => {
   return groupByHours(thisDayHours)
 }
 
-export const dayMean = obj => {
+export const getAvg = obj => {
   let sum, mean
   let tmpSumArr = []
   obj.map(hour => {
@@ -68,12 +74,11 @@ const groupByHours = arr => {
 return groupedByObj;
 }
 
-const groupByHoursArr = arr => {
-  console.log('groupByHours ', arr)
+export const groupByHoursArr = arr => {
   let groupedByObj = {}
   let arrayOfHours = []
   for (let i=0; i< 24; i++) {
-    arrayOfHours.push({key: i, value: 0, class: 0});
+    arrayOfHours.push({key: i, value: 0});
   }
   arr.filter(a => {
     const hour = parseInt(a.split(':')[0])
@@ -116,3 +121,46 @@ export const parseData = (data) => {
   const dataArr = newData.map(item => item.timestamp);
   return dataArr
 };
+
+export const getWeekday = (timeStamp) => {
+  dayjs.extend(weekday)
+  let weekdaysArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  return dayjs(timeStamp).weekday()
+  // return weekdaysArr[dayjs(timeStamp).weekday()]
+}
+
+export const getFilteredbyWeekday = (dayInsights, weekday) => {
+  let filtered = Object.keys(dayInsights)
+  .filter(key => dayjs(key).weekday() === weekday)
+  .reduce((obj, key) => {
+      obj[key] = dayInsights[key];
+      return obj;
+    }, {});
+  console.log('filtered ', filtered)
+  return filtered
+}
+
+export const getWeekdayInsights = (dayInsights, weekday) => {
+  let filtered = Object.keys(dayInsights)
+  .filter(key => dayjs(key).weekday() === weekday)
+  .reduce((obj, key) => {
+      obj[key] = dayInsights[key];
+      return obj;
+    }, {});
+
+  let mergedWeekdaysData = Object.keys(filtered).reduce(function(res, v) {
+    return res.concat(filtered[v]);
+  }, []);
+
+  return mergedWeekdaysData
+}
+
+export const avgWeekdayHours = (data, totalWeekdays) => {
+  let avgData = data.map(item => ({
+    key: item.key,
+    value: (item.value)/totalWeekdays
+  }))
+
+  console.log('avg wednesday ', avgData)
+  return avgData
+}

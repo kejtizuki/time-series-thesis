@@ -11,8 +11,8 @@ import './menu.scss'
 class Menu extends Component {
 
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       chartType: 'Radial'
     }
