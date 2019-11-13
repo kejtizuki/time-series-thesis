@@ -8,7 +8,7 @@ import BarChart from './BarChart/BarChart'
 import Menu from './Menu/Menu'
 import * as d3 from "d3";
 
-import data from './data/itching.csv';
+import data from './data/data-tinnitus.csv';
 import *  as dataParser from './dataParser';
 import './App.scss';
 
@@ -17,7 +17,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentDay: '2017-03-01',
+      currentDay: '2019-10-02',
       lineType: d3.curveCardinalClosed,
       chartType: 'Radial',
       clockConfig: 'Midnight Up',
@@ -151,7 +151,8 @@ class App extends React.Component {
             this.state.dataDayHours && this.state.chartType === 'BarChart' && <BarChart currentDay={this.state.currentDay}
               dataDayHours={this.state.dataDayHours}
               dayInsights={this.state.dayInsights}
-              lineType={this.state.lineType}/>
+              lineType={this.state.lineType}
+              avgWeekday={this.state.avgWeekday}/>
           }
         </div>
       </div>
