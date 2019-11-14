@@ -142,7 +142,6 @@ class BarChart extends React.Component {
  //BASIC CHART
  renderBarChartBasic() {
     const data = this.props.dataDayHours;
-    console.log('barchart data ', data)
 
     const svg = d3.select(this.refs.svgElemBar);
 

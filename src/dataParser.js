@@ -136,7 +136,6 @@ export const getFilteredbyWeekday = (dayInsights, weekday) => {
       obj[key] = dayInsights[key];
       return obj;
     }, {});
-  console.log('filtered ', filtered)
   return filtered
 }
 
