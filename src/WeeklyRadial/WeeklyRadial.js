@@ -55,7 +55,7 @@ class WeeklyRadial extends React.Component {
   		.radius(function(d) { return y(d.value); })
       .curve(this.props.lineType)
 
-    const data = this.props.dataDayHours;
+    const data = this.props.avgMonday;
 
     const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
@@ -93,36 +93,64 @@ class WeeklyRadial extends React.Component {
     // const mean = dataParser.getAvg(this.props.avgWeekday)
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
-    y.domain(d3.extent(data, function(d) { return d.value; }));
+    y.domain(d3.extent(this.props.allAvgValues, function(d) { return d; }));
 
     // var linePlot = gSelect.append("path")
 
     var avgMonday = d3.selectAll('.radial').append("path")
       .datum(this.props.avgMonday)
       .attr("fill", "none")
-      .attr("stroke", "#2A41E5")
+      .attr("stroke", "#565656")
       .attr("stroke-width", 1)
+      .attr('opacity', 0.5)
       .attr("d", line);
 
     var avgTuesday = d3.selectAll('.radial').append("path")
       .datum(this.props.avgTuesday)
       .attr("fill", "none")
-      .attr("stroke", "#24bbc0")
+      .attr("stroke", "#565656")
       .attr("stroke-width", 1)
+      .attr('opacity', 0.5)
       .attr("d", line);
 
     var avgWednesday = d3.selectAll('.radial').append("path")
       .datum(this.props.avgWednesday)
       .attr("fill", "none")
-      .attr("stroke", "red")
+      .attr("stroke", "#565656")
       .attr("stroke-width", 1)
+      .attr('opacity', 0.5)
       .attr("d", line);
 
     var avgThursday = d3.selectAll('.radial').append("path")
       .datum(this.props.avgThursday)
       .attr("fill", "none")
-      .attr("stroke", "#F1C459")
+      .attr("stroke", "#565656")
       .attr("stroke-width", 1)
+      .attr('opacity', 0.5)
+      .attr("d", line);
+
+    var avgFriday = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgFriday)
+      .attr("fill", "none")
+      .attr("stroke", "#565656")
+      .attr("stroke-width", 1)
+      .attr('opacity', 0.5)
+      .attr("d", line);
+
+    var avgSaturday = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgSaturday)
+      .attr("fill", "none")
+      .attr("stroke", "#565656")
+      .attr("stroke-width", 1)
+      .attr('opacity', 0.5)
+      .attr("d", line);
+
+    var avgSunday = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgSunday)
+      .attr("fill", "none")
+      .attr("stroke", "#565656")
+      .attr("stroke-width", 1)
+      .attr('opacity', 0.5)
       .attr("d", line);
 
 

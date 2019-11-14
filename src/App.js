@@ -19,14 +19,14 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentDay: '2017-03-28',
+      currentDay: '2017-09-05',
       lineType: d3.curveCardinalClosed,
       chartType: 'Radial',
       timePeriod: 'Daily',
       clockConfig: 'Midnight Up',
       avgWeekday: null,
-      avgMonday: null
-
+      avgMonday: null,
+      allAvgValues: null
     };
   }
 
@@ -38,6 +38,8 @@ class App extends React.Component {
 
   componentDidMount() {
     d3.csv(data).then(data => {
+
+      console.log('DATAA', data)
 
       const dayInsights = dataParser.getDayInsights(data)
       const weekdayNr = dataParser.getWeekday(this.state.currentDay)
@@ -65,9 +67,16 @@ class App extends React.Component {
       const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays)
       const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays)
 
-      console.log('avg Monday ', avgMonday)
-      console.log('avg tuesday ', avgTuesday)
-      console.log('avg Wednesday ', avgWednesday)
+      let allAvgValues = []
+      avgMonday.map(item => allAvgValues.push(item.value))
+      avgTuesday.map(item => allAvgValues.push(item.value))
+      avgWednesday.map(item => allAvgValues.push(item.value))
+      avgThursday.map(item => allAvgValues.push(item.value))
+      avgFriday.map(item => allAvgValues.push(item.value))
+      avgSaturday.map(item => allAvgValues.push(item.value))
+      avgSunday.map(item => allAvgValues.push(item.value))
+
+      console.log('allAvgValues', allAvgValues)
 
       // console.log('csv', data)
       // console.log("how many in day ", dataParser.howManyInDay(dataParser.parseData(data)))
@@ -100,7 +109,8 @@ class App extends React.Component {
         avgThursday,
         avgFriday,
         avgSaturday,
-        avgSunday
+        avgSunday,
+        allAvgValues
         // mean
       });
    });
@@ -131,6 +141,15 @@ class App extends React.Component {
     const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays)
     const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays)
 
+    //All values from avg data pushed to one array
+    let allAvgValues = []
+    avgMonday.map(item => allAvgValues.push(item.value))
+    avgTuesday.map(item => allAvgValues.push(item.value))
+    avgWednesday.map(item => allAvgValues.push(item.value))
+    avgThursday.map(item => allAvgValues.push(item.value))
+    avgFriday.map(item => allAvgValues.push(item.value))
+    avgSaturday.map(item => allAvgValues.push(item.value))
+    avgSunday.map(item => allAvgValues.push(item.value))
 
     this.setState(prevState => ({
       ...prevState.lineType,
@@ -145,7 +164,8 @@ class App extends React.Component {
       avgThursday,
       avgFriday,
       avgSaturday,
-      avgSunday
+      avgSunday,
+      allAvgValues
   }));
   }
 
@@ -232,6 +252,10 @@ class App extends React.Component {
           avgTuesday={this.state.avgTuesday}
           avgWednesday={this.state.avgWednesday}
           avgThursday={this.state.avgThursday}
+          avgFriday={this.state.avgFriday}
+          avgSaturday={this.state.avgSaturday}
+          avgSunday={this.state.avgSunday}
+          allAvgValues={this.state.allAvgValues}
           // mean={this.state.mean}
         />
         }
