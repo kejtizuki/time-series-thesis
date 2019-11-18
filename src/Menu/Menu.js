@@ -119,6 +119,17 @@ class Menu extends Component {
           <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={secondValue} placeholder="Select an option" />
           <p>Clock configuration</p>
           <Dropdown options={clockConfig} onChange={(e) => this.onClockConfigChange(e)} value={configValue} placeholder="Select an option" />
+
+          <p>Avg period</p>
+          <label>
+          <input type="checkbox" value='allDataAvg' />
+          Avg weekday from all data
+          </label>
+          <br />
+          <label>
+          <input type="checkbox" value='monthDataAvg' />
+          Avg taken from this month
+          </label>
           </div>
         )}
 

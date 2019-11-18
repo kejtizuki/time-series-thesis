@@ -57,7 +57,7 @@ class RadialLineChart extends React.Component {
 
     const data = this.props.dataDayHours;
 
-    console.log('LINE ', this.props.clockConfig)
+    console.log('xxDATAxx', data)
 
     const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
@@ -86,7 +86,9 @@ class RadialLineChart extends React.Component {
 
     console.log('data ', data)
 
-    // Avg per month or per day (to compare) compare weekday with avg weekday
+    // Avg all data for a weekday
+    // Avg per month or
+    // per day (to compare) compare weekday with avg weekday
     // make options to see how could it be compared
     // minute by minute discuss in the report
     // See different averages and compare?
