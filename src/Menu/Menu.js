@@ -65,6 +65,11 @@ class Menu extends Component {
     this.props.setChartType(event.target.name)
   }
 
+  changeTimePeriod(event) {
+    console.log(event.target.name)
+    this.props.setTimePeriod(event.target.name)
+  }
+
   render() {
 
     const defaultOption = Object.keys(this.props.dayInsights)[0];
@@ -76,22 +81,39 @@ class Menu extends Component {
 
     return (
       <div className="menu">
-        <h1>Daily insights</h1>
+        <h1>{this.props.timePeriod} insights</h1>
         <div className="btnsHolder">
-          Graph type
+          Time period
           <br /><br />
-          <button className={ (this.props.chartType === 'Radial') ? 'btn btn-active': 'btn-normal btn' }
-            onClick={(e) => this.onButtonClick(e)}
-            name="Radial">Radial</button>
-          <button className={ (this.props.chartType === 'BarChart') ? 'btn btn-active': 'btn btn-normal' }
-            onClick={(e) => this.onButtonClick(e)}
-            name="BarChart">Bar chart</button>
+          <button className={ (this.props.timePeriod === 'Daily') ? 'btn btn-active-white': 'btn btn-normal-white' }
+            onClick={(e) => this.changeTimePeriod(e)}
+            name="Daily">Daily</button>
+          <button className={ (this.props.timePeriod === 'Weekly') ? 'btn btn-active-white': 'btn-normal-white btn' }
+            onClick={(e) => this.changeTimePeriod(e)}
+            name="Weekly">Weekly</button>
         </div>
-        Day
-        <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />
-
         {
-          this.props.chartType === 'Radial' && (
+          (this.props.timePeriod === 'Daily') &&
+          <div className="btnsHolder">
+            Graph type
+            <br /><br />
+            <button className={ (this.props.chartType === 'Radial') ? 'btn btn-active': 'btn-normal btn' }
+              onClick={(e) => this.onButtonClick(e)}
+              name="Radial">Radial</button>
+            <button className={ (this.props.chartType === 'BarChart') ? 'btn btn-active': 'btn btn-normal' }
+              onClick={(e) => this.onButtonClick(e)}
+              name="BarChart">Bar chart</button>
+          </div>
+        }
+        {
+          (this.props.chartType === 'Radial' && this.props.timePeriod === 'Daily') &&
+          <div>
+          Day
+          <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />
+          </div>
+        }
+        {
+          (this.props.chartType === 'Radial') && (
           <div>
           <p>Line type</p>
           <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={secondValue} placeholder="Select an option" />
@@ -99,12 +121,7 @@ class Menu extends Component {
           <Dropdown options={clockConfig} onChange={(e) => this.onClockConfigChange(e)} value={configValue} placeholder="Select an option" />
           </div>
         )}
-        {
-          this.props.chartType === 'BarChart' && (
-            <div>
 
-            </div>
-        )}
       </div>
     )
   }

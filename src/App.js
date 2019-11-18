@@ -3,11 +3,13 @@ import React from 'react';
 import Scatter from './Scatter/Scatter'
 import ScatterMY from './ScatterMY/ScatterMY'
 import RadialLineChart from './RadialLineChart/RadialLineChart'
+import WeeklyRadial from './WeeklyRadial/WeeklyRadial'
 // import RadialLineChartLib from './RadialLineChart/RadialLineChartLib'
 import BarChart from './BarChart/BarChart'
 import Menu from './Menu/Menu'
 import * as d3 from "d3";
 
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import data from './data/itching.csv';
 import *  as dataParser from './dataParser';
 import './App.scss';
@@ -17,11 +19,14 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentDay: '2017-03-01',
+      currentDay: '2017-09-05',
       lineType: d3.curveCardinalClosed,
       chartType: 'Radial',
+      timePeriod: 'Daily',
       clockConfig: 'Midnight Up',
-      avgWeekday: null
+      avgWeekday: null,
+      avgMonday: null,
+      allAvgValues: null
     };
   }
 
@@ -34,6 +39,8 @@ class App extends React.Component {
   componentDidMount() {
     d3.csv(data).then(data => {
 
+      console.log('DATAA', data)
+
       const dayInsights = dataParser.getDayInsights(data)
       const weekdayNr = dataParser.getWeekday(this.state.currentDay)
 
@@ -42,6 +49,34 @@ class App extends React.Component {
 
       const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
       console.log('avgWeekdayXXX', avgWeekday)
+
+
+      const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1)).length
+      const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2)).length
+      const allExistingWednesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3)).length
+      const allExistingThursdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 4)).length
+      const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5)).length
+      const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6)).length
+      const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0)).length
+
+      const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays)
+      const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays)
+      const avgWednesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)), allExistingWednesdays)
+      const avgThursday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 4)), allExistingThursdays)
+      const avgFriday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 5)), allExistingFridays)
+      const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays)
+      const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays)
+
+      let allAvgValues = []
+      avgMonday.map(item => allAvgValues.push(item.value))
+      avgTuesday.map(item => allAvgValues.push(item.value))
+      avgWednesday.map(item => allAvgValues.push(item.value))
+      avgThursday.map(item => allAvgValues.push(item.value))
+      avgFriday.map(item => allAvgValues.push(item.value))
+      avgSaturday.map(item => allAvgValues.push(item.value))
+      avgSunday.map(item => allAvgValues.push(item.value))
+
+      console.log('allAvgValues', allAvgValues)
 
       // console.log('csv', data)
       // console.log("how many in day ", dataParser.howManyInDay(dataParser.parseData(data)))
@@ -67,7 +102,15 @@ class App extends React.Component {
         data,
         dataDayHours,
         dayInsights,
-        avgWeekday
+        avgWeekday,
+        avgMonday,
+        avgTuesday,
+        avgWednesday,
+        avgThursday,
+        avgFriday,
+        avgSaturday,
+        avgSunday,
+        allAvgValues
         // mean
       });
    });
@@ -82,13 +125,47 @@ class App extends React.Component {
     const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
     const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
 
+    const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1)).length
+    const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2)).length
+    const allExistingWednesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3)).length
+    const allExistingThursdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 4)).length
+    const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5)).length
+    const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6)).length
+    const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0)).length
+
+    const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays)
+    const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays)
+    const avgWednesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)), allExistingWednesdays)
+    const avgThursday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 4)), allExistingThursdays)
+    const avgFriday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 5)), allExistingFridays)
+    const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays)
+    const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays)
+
+    //All values from avg data pushed to one array
+    let allAvgValues = []
+    avgMonday.map(item => allAvgValues.push(item.value))
+    avgTuesday.map(item => allAvgValues.push(item.value))
+    avgWednesday.map(item => allAvgValues.push(item.value))
+    avgThursday.map(item => allAvgValues.push(item.value))
+    avgFriday.map(item => allAvgValues.push(item.value))
+    avgSaturday.map(item => allAvgValues.push(item.value))
+    avgSunday.map(item => allAvgValues.push(item.value))
+
     this.setState(prevState => ({
       ...prevState.lineType,
       ...prevState.lineTypeStr,
       ...prevState.clockConfig,
       currentDay,
       dataDayHours,
-      avgWeekday
+      avgWeekday,
+      avgMonday,
+      avgTuesday,
+      avgWednesday,
+      avgThursday,
+      avgFriday,
+      avgSaturday,
+      avgSunday,
+      allAvgValues
   }));
   }
 
@@ -114,7 +191,21 @@ class App extends React.Component {
       ...prevState.dataDayHours,
       ...prevState.clockConfig,
       ...prevState.avgWeekday,
+      ...prevState.avgMonday,
       chartType
+    }))
+  }
+
+  setTimePeriod(timePeriod) {
+    this.setState(prevState => ({
+      ...prevState.lineType,
+      ...prevState.lineTypeStr,
+      ...prevState.currentDay,
+      ...prevState.dataDayHours,
+      ...prevState.clockConfig,
+      ...prevState.avgWeekday,
+      ...prevState.avgMonday,
+      timePeriod
     }))
   }
 
@@ -134,24 +225,47 @@ class App extends React.Component {
               secondValue={this.state.lineTypeStr}
               chartType={this.state.chartType}
               setChartType={chartType => this.setChartType(chartType)}
+              timePeriod={this.state.timePeriod}
+              setTimePeriod={timePeriod => this.setTimePeriod(timePeriod)}
             />
         }
         </div>
         <div className="chartContainer">
-          { this.state.dataDayHours && this.state.chartType === 'Radial' && <RadialLineChart currentDay={this.state.currentDay}
-            dataDayHours={this.state.dataDayHours}
-            dayInsights={this.state.dayInsights}
-            lineType={this.state.lineType}
-            clockConfig={this.state.clockConfig}
-            avgWeekday={this.state.avgWeekday}
-            // mean={this.state.mean}
-          />
-          }
+        { this.state.dataDayHours && this.state.chartType === 'Radial' && this.state.timePeriod === 'Daily' &&
+        <RadialLineChart currentDay={this.state.currentDay}
+          dataDayHours={this.state.dataDayHours}
+          dayInsights={this.state.dayInsights}
+          lineType={this.state.lineType}
+          clockConfig={this.state.clockConfig}
+          avgWeekday={this.state.avgWeekday}
+          // mean={this.state.mean}
+        />
+        }
+        { this.state.dataDayHours && this.state.timePeriod === 'Weekly' &&
+        <WeeklyRadial currentDay={this.state.currentDay}
+          dataDayHours={this.state.dataDayHours}
+          dayInsights={this.state.dayInsights}
+          lineType={this.state.lineType}
+          clockConfig={this.state.clockConfig}
+          avgWeekday={this.state.avgWeekday}
+          avgMonday={this.state.avgMonday}
+          avgTuesday={this.state.avgTuesday}
+          avgWednesday={this.state.avgWednesday}
+          avgThursday={this.state.avgThursday}
+          avgFriday={this.state.avgFriday}
+          avgSaturday={this.state.avgSaturday}
+          avgSunday={this.state.avgSunday}
+          allAvgValues={this.state.allAvgValues}
+          // mean={this.state.mean}
+        />
+        }
           {
-            this.state.dataDayHours && this.state.chartType === 'BarChart' && <BarChart currentDay={this.state.currentDay}
+            this.state.dataDayHours && this.state.chartType === 'BarChart' && this.state.timePeriod === 'Daily' &&
+            <BarChart currentDay={this.state.currentDay}
               dataDayHours={this.state.dataDayHours}
               dayInsights={this.state.dayInsights}
-              lineType={this.state.lineType}/>
+              lineType={this.state.lineType}
+              avgWeekday={this.state.avgWeekday}/>
           }
         </div>
       </div>

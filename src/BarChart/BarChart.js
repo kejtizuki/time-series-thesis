@@ -40,6 +40,8 @@ class BarChart extends React.Component {
  renderBarChart() {
 
   const data = this.props.dataDayHours;
+  const avgWeekday = this.props.avgWeekday;
+
   const x = scaleBand()
     .rangeRound([0, width])
     .domain(data.map((d) => d.key))
@@ -124,12 +126,22 @@ class BarChart extends React.Component {
     .attr('class', 'axis')
     .call(yAxis);
 
+  svg.append("path")
+    .datum(avgWeekday)
+    .attr("fill", "none")
+    .attr("stroke", "#2A41E5")
+    .attr("stroke-width", 3)
+    .attr("d", d3.line()
+      .x(function(d) { return x(d.key) })
+      .y(function(d) { return y(d.value) })
+      .curve(d3.curveCatmullRom.alpha(0.5))
+    )
+    .attr("transform", "translate(" + 2*x.bandwidth() + ",0)")
  }
 
  //BASIC CHART
  renderBarChartBasic() {
     const data = this.props.dataDayHours;
-    console.log('barchart data ', data)
 
     const svg = d3.select(this.refs.svgElemBar);
 

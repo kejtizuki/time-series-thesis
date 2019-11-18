@@ -28,10 +28,20 @@ $active-color: #F5D800;
       color: $active-color;
       background-color: $bg-color;
     }
+    .btn-normal-white{
+      border-color: white;
+      color: white;
+      background-color: $bg-color;
+    }
     .btn-active {
       background-color: $active-color;
       color: $bg-color;
       border-color: $active-color;
+    }
+    .btn-active-white {
+      background-color: white;
+      color: $bg-color;
+      border-color: white;
     }
 }
 }

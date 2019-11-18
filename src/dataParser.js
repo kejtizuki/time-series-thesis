@@ -136,7 +136,6 @@ export const getFilteredbyWeekday = (dayInsights, weekday) => {
       obj[key] = dayInsights[key];
       return obj;
     }, {});
-  console.log('filtered ', filtered)
   return filtered
 }
 
@@ -151,7 +150,6 @@ export const getWeekdayInsights = (dayInsights, weekday) => {
   let mergedWeekdaysData = Object.keys(filtered).reduce(function(res, v) {
     return res.concat(filtered[v]);
   }, []);
-
   return mergedWeekdaysData
 }
 
@@ -161,7 +159,5 @@ export const avgWeekdayHours = (data, totalWeekdays) => {
     key: item.key,
     value: (item.value)/totalWeekdays
   }))
-
-  console.log('avg wednesday ', avgData)
   return avgData
 }
