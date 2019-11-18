@@ -155,6 +155,7 @@ export const getWeekdayInsights = (dayInsights, weekday) => {
   return mergedWeekdaysData
 }
 
+// returns object of key (hour) and value (average occurence in this hour)
 export const avgWeekdayHours = (data, totalWeekdays) => {
   let avgData = data.map(item => ({
     key: item.key,
