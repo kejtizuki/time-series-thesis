@@ -57,8 +57,6 @@ class RadialLineChart extends React.Component {
 
     const data = this.props.dataDayHours;
 
-    console.log('xxDATAxx', data)
-
     const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
 
@@ -84,8 +82,6 @@ class RadialLineChart extends React.Component {
     .attr('opacity', 0)
     .remove();
 
-    console.log('data ', data)
-
     // Avg all data for a weekday
     // Avg per month or
     // per day (to compare) compare weekday with avg weekday
@@ -96,7 +92,6 @@ class RadialLineChart extends React.Component {
     // weekly data -> ranges radial chart with lines
     // 26.11 14:00 meeting with Jakob
 
-    console.log('this.props.avgWeekday', this.props.avgWeekday)
     // const mean = dataParser.getAvg(this.props.avgWeekday)
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
@@ -115,6 +110,13 @@ class RadialLineChart extends React.Component {
       .datum(this.props.avgWeekday)
       .attr("fill", "none")
       .attr("stroke", "#2A41E5")
+      .attr("stroke-width", 3)
+      .attr("d", line);
+
+    var avgSaturdayInAMonth = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgSaturdayInAMonth)
+      .attr("fill", "none")
+      .attr("stroke", "red")
       .attr("stroke-width", 3)
       .attr("d", line);
 

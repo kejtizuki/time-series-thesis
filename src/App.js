@@ -19,7 +19,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentDay: '2017-09-05',
+      currentDay: '2017-03-04',
       lineType: d3.curveCardinalClosed,
       chartType: 'Radial',
       timePeriod: 'Daily',
@@ -39,33 +39,32 @@ class App extends React.Component {
   componentDidMount() {
     d3.csv(data).then(data => {
 
-      console.log('DATAA', data)
-
       const dayInsights = dataParser.getDayInsights(data)
       const weekdayNr = dataParser.getWeekday(this.state.currentDay)
 
       const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
-      console.log('allExistingWeekdays', allExistingWeekdays)
 
       const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
-      console.log('avgWeekdayXXX', avgWeekday)
 
 
-      const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1)).length
-      const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2)).length
-      const allExistingWednesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3)).length
-      const allExistingThursdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 4)).length
-      const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5)).length
-      const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6)).length
-      const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0)).length
+      const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1))
+      const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2))
+      const allExistingWednesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3))
+      const allExistingThursdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 4))
+      const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5))
+      const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6))
+      const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0))
 
-      const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays)
-      const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays)
-      const avgWednesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)), allExistingWednesdays)
-      const avgThursday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 4)), allExistingThursdays)
-      const avgFriday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 5)), allExistingFridays)
-      const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays)
-      const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays)
+      const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays.length)
+      const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays.length)
+      const avgWednesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)), allExistingWednesdays.length)
+      const avgThursday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 4)), allExistingThursdays.length)
+      const avgFriday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 5)), allExistingFridays.length)
+      const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays.length)
+      const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays.length)
+
+      const allSaturdaysInAMonth = dataParser.filteredByMonth(allExistingSaturdays, 2)
+      const avgSaturdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, 6, 2)), allSaturdaysInAMonth.length)
 
       let allAvgValues = []
       avgMonday.map(item => allAvgValues.push(item.value))
@@ -85,7 +84,8 @@ class App extends React.Component {
       // console.log('day insights', dataParser.getDayInsights(data))
       // console.log('day hours', dataParser.getDayHours(dataParser.getDayInsights(data), this.state.currentDay))
 
-      console.log('weekday ', dataParser.getWeekday(this.state.currentDay))
+      // console.log('weekday ', dataParser.getWeekday(this.state.currentDay))
+
       // console.log('weekdayInsights ', dataParser.getWeekdayInsights(dayInsights, 3))
       // console.log('Merged data grouped into hours ', dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)))
       // console.log('weekday length ', Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3)).length)
@@ -110,7 +110,8 @@ class App extends React.Component {
         avgFriday,
         avgSaturday,
         avgSunday,
-        allAvgValues
+        allAvgValues,
+        avgSaturdayInAMonth
         // mean
       });
    });
@@ -125,21 +126,29 @@ class App extends React.Component {
     const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
     const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
 
-    const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1)).length
-    const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2)).length
-    const allExistingWednesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3)).length
-    const allExistingThursdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 4)).length
-    const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5)).length
-    const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6)).length
-    const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0)).length
+    const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1))
+    const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2))
+    const allExistingWednesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3))
+    const allExistingThursdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 4))
+    const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5))
+    const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6))
+    const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0))
 
-    const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays)
-    const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays)
-    const avgWednesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)), allExistingWednesdays)
-    const avgThursday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 4)), allExistingThursdays)
-    const avgFriday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 5)), allExistingFridays)
-    const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays)
-    const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays)
+    console.log('weekday insights ', dataParser.getWeekdayInsights(dayInsights, 6))
+
+    const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays.length)
+    const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays.length)
+    const avgWednesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 3)), allExistingWednesdays.length)
+    const avgThursday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 4)), allExistingThursdays.length)
+    const avgFriday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 5)), allExistingFridays.length)
+    const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays.length)
+    const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays.length)
+
+    const allSaturdaysInAMonth = dataParser.filteredByMonth(allExistingSaturdays, 2)
+    console.log('allSaturdaysInAMonth', allSaturdaysInAMonth)
+    const avgSaturdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, 6, 2)), allSaturdaysInAMonth.length)
+    console.log('avgSaturday', avgSaturday)
+    console.log('avgSaturdayInAMonth', avgSaturdayInAMonth)
 
     //All values from avg data pushed to one array
     let allAvgValues = []
@@ -165,7 +174,8 @@ class App extends React.Component {
       avgFriday,
       avgSaturday,
       avgSunday,
-      allAvgValues
+      allAvgValues,
+      avgSaturdayInAMonth
   }));
   }
 
@@ -192,6 +202,7 @@ class App extends React.Component {
       ...prevState.clockConfig,
       ...prevState.avgWeekday,
       ...prevState.avgMonday,
+      ...prevState.avgSaturdayInAMonth,
       chartType
     }))
   }
@@ -205,6 +216,7 @@ class App extends React.Component {
       ...prevState.clockConfig,
       ...prevState.avgWeekday,
       ...prevState.avgMonday,
+      ...prevState.avgSaturdayInAMonth,
       timePeriod
     }))
   }
@@ -238,6 +250,7 @@ class App extends React.Component {
           lineType={this.state.lineType}
           clockConfig={this.state.clockConfig}
           avgWeekday={this.state.avgWeekday}
+          avgSaturdayInAMonth={this.state.avgSaturdayInAMonth}
           // mean={this.state.mean}
         />
         }

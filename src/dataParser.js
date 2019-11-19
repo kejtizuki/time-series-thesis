@@ -1,5 +1,6 @@
 import moment from 'moment';
 import dayjs from 'dayjs'
+import toObject from 'dayjs/plugin/toObject'
 import weekday from 'dayjs/plugin/weekday'
 import * as d3 from "d3";
 
@@ -140,6 +141,10 @@ export const getFilteredbyWeekday = (dayInsights, weekday) => {
 }
 
 export const getWeekdayInsights = (dayInsights, weekday) => {
+
+  dayjs.extend(toObject)
+  //dayjs('2019-12-09').toObject() months are returned from 0 to 11
+  // console.log('Oobject', dayjs(Object.keys(dayInsights)[0]).toObject())
   let filtered = Object.keys(dayInsights)
   .filter(key => dayjs(key).weekday() === weekday)
   .reduce((obj, key) => {
@@ -151,6 +156,40 @@ export const getWeekdayInsights = (dayInsights, weekday) => {
     return res.concat(filtered[v]);
   }, []);
   return mergedWeekdaysData
+}
+
+export const getWeekdayInsightsFilteredByMonth = (dayInsights, weekday, month) => {
+
+  dayjs.extend(toObject)
+  //dayjs('2019-12-09').toObject() months are returned from 0 to 11
+  // console.log('Oobject', dayjs(Object.keys(dayInsights)[0]).toObject())
+  let filteredByDay = Object.keys(dayInsights)
+  .filter(key => dayjs(key).weekday() === weekday)
+  .reduce((obj, key) => {
+      obj[key] = dayInsights[key];
+      return obj;
+    }, {});
+
+  let filteredByMonth = Object.keys(filteredByDay)
+  .filter(key => dayjs(key).toObject().months === month)
+  .reduce((obj, key) => {
+      obj[key] = dayInsights[key];
+      return obj;
+    }, {});
+
+  let mergedWeekdaysData = Object.keys(filteredByMonth).reduce(function(res, v) {
+    return res.concat(filteredByMonth[v]);
+  }, []);
+  return mergedWeekdaysData
+}
+
+//all days in a month
+export const filteredByMonth = (allDaysArr, month) => {
+  let filtered = allDaysArr
+  .filter(key => dayjs(key).toObject().months === month)
+
+  console.log('filtered ', filtered)
+  return filtered
 }
 
 // returns object of key (hour) and value (average occurence in this hour)

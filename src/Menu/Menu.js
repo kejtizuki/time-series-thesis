@@ -61,12 +61,10 @@ class Menu extends Component {
   }
 
   onButtonClick(event) {
-    console.log(event.target.name)
     this.props.setChartType(event.target.name)
   }
 
   changeTimePeriod(event) {
-    console.log(event.target.name)
     this.props.setTimePeriod(event.target.name)
   }
 
