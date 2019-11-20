@@ -154,14 +154,15 @@ class RadialLineChart extends React.Component {
       .datum(this.props.avgWeekday)
       .attr("fill", "none")
       .attr("stroke", "#2A41E5")
-      .attr("stroke-width", 2)
+      // .attr("stroke-width", 2)
+      .attr("stroke-width", function(d) { return d.value * 10; })
       .attr("d", line);
 
     var avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
       .datum(this.props.avgWeekdayInAMonth)
       .attr("fill", "none")
       .attr("stroke", "#F05336")
-      .attr("stroke-width", 2)
+      .attr("stroke-width", function(d) { return y(d.value); })
       .attr("d", line);
 
     //add avg
