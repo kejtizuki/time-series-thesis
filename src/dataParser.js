@@ -183,6 +183,16 @@ export const getWeekdayInsightsFilteredByMonth = (dayInsights, weekday, month) =
   return mergedWeekdaysData
 }
 
+export const getMonth = (currentDay) => {
+  dayjs.extend(toObject)
+  return dayjs(currentDay).toObject().months
+}
+
+export const getWeekdayNr = (currentDay) => {
+  dayjs.extend(toObject)
+  return dayjs(currentDay).toObject()
+}
+
 //all days in a month
 export const filteredByMonth = (allDaysArr, month) => {
   let filtered = allDaysArr

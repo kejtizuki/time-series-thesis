@@ -39,9 +39,10 @@ class App extends React.Component {
   componentDidMount() {
     d3.csv(data).then(data => {
 
+      const currentDay = this.state.currentDay;
       const dayInsights = dataParser.getDayInsights(data)
       const weekdayNr = dataParser.getWeekday(this.state.currentDay)
-
+      const currentMonth = dataParser.getMonth(currentDay)
       const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
 
       const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
@@ -63,8 +64,33 @@ class App extends React.Component {
       const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays.length)
       const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays.length)
 
-      const allSaturdaysInAMonth = dataParser.filteredByMonth(allExistingSaturdays, 2)
-      const avgSaturdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, 6, 2)), allSaturdaysInAMonth.length)
+      const allOfThisWeekdayInAMonth = () => {
+        if (weekdayNr == 1) {
+          return dataParser.filteredByMonth(allExistingMondays, currentMonth)
+        }
+        if (weekdayNr == 2) {
+          return dataParser.filteredByMonth(allExistingTuesdays, currentMonth)
+        }
+        if (weekdayNr == 3) {
+          return dataParser.filteredByMonth(allExistingWednesdays, currentMonth)
+        }
+        if (weekdayNr == 4) {
+          return dataParser.filteredByMonth(allExistingThursdays, currentMonth)
+        }
+        if (weekdayNr == 5) {
+          return dataParser.filteredByMonth(allExistingFridays, currentMonth)
+        }
+        if (weekdayNr == 6) {
+          return dataParser.filteredByMonth(allExistingSaturdays, currentMonth)
+        }
+        if (weekdayNr == 7) {
+          return dataParser.filteredByMonth(allExistingSundays, currentMonth)
+        }
+      }
+
+      const avgWeekdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, weekdayNr, currentMonth)), allOfThisWeekdayInAMonth.length)
+
+      console.log('avgWeekdayInAMonth', avgWeekdayInAMonth)
 
       let allAvgValues = []
       avgMonday.map(item => allAvgValues.push(item.value))
@@ -111,7 +137,7 @@ class App extends React.Component {
         avgSaturday,
         avgSunday,
         allAvgValues,
-        avgSaturdayInAMonth
+        avgWeekdayInAMonth
         // mean
       });
    });
@@ -119,6 +145,7 @@ class App extends React.Component {
 
   setDate(date) {
     const currentDay = date;
+    const currentMonth = dataParser.getMonth(currentDay)
     const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(this.state.data), date);
 
     const dayInsights = dataParser.getDayInsights(this.state.data)
@@ -144,11 +171,43 @@ class App extends React.Component {
     const avgSaturday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 6)), allExistingSaturdays.length)
     const avgSunday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 0)), allExistingSundays.length)
 
-    const allSaturdaysInAMonth = dataParser.filteredByMonth(allExistingSaturdays, 2)
-    console.log('allSaturdaysInAMonth', allSaturdaysInAMonth)
-    const avgSaturdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, 6, 2)), allSaturdaysInAMonth.length)
-    console.log('avgSaturday', avgSaturday)
-    console.log('avgSaturdayInAMonth', avgSaturdayInAMonth)
+    let allOfThisWeekdayInAMonth;
+
+    if (weekdayNr == 1) {
+      console.log(dataParser.filteredByMonth(allExistingMondays, currentMonth))
+      allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingMondays, currentMonth)
+    }
+    if (weekdayNr == 2) {
+      console.log(dataParser.filteredByMonth(allExistingTuesdays, currentMonth))
+      allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingTuesdays, currentMonth)
+    }
+    if (weekdayNr == 3) {
+      console.log(dataParser.filteredByMonth(allExistingWednesdays, currentMonth))
+      allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingWednesdays, currentMonth)
+    }
+    if (weekdayNr == 4) {
+      console.log(dataParser.filteredByMonth(allExistingThursdays, currentMonth))
+      allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingThursdays, currentMonth)
+    }
+    if (weekdayNr == 5) {
+      console.log(dataParser.filteredByMonth(allExistingFridays, currentMonth))
+      allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingFridays, currentMonth)
+    }
+    if (weekdayNr == 6) {
+      console.log(dataParser.filteredByMonth(allExistingSaturdays, currentMonth))
+      allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingSaturdays, currentMonth)
+    }
+    if (weekdayNr == 7) {
+      console.log(dataParser.filteredByMonth(allExistingSundays, currentMonth))
+      allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingSundays, currentMonth)
+    }
+
+
+    console.log('allOfThisWeekdayInAMonth', allOfThisWeekdayInAMonth)
+
+    const avgWeekdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, weekdayNr, currentMonth)), allOfThisWeekdayInAMonth.length)
+
+    console.log('avgWeekdayInAMonth', avgWeekdayInAMonth)
 
     //All values from avg data pushed to one array
     let allAvgValues = []
@@ -175,7 +234,7 @@ class App extends React.Component {
       avgSaturday,
       avgSunday,
       allAvgValues,
-      avgSaturdayInAMonth
+      avgWeekdayInAMonth
   }));
   }
 
@@ -202,7 +261,7 @@ class App extends React.Component {
       ...prevState.clockConfig,
       ...prevState.avgWeekday,
       ...prevState.avgMonday,
-      ...prevState.avgSaturdayInAMonth,
+      ...prevState.avgWeekdayInAMonth,
       chartType
     }))
   }
@@ -216,7 +275,7 @@ class App extends React.Component {
       ...prevState.clockConfig,
       ...prevState.avgWeekday,
       ...prevState.avgMonday,
-      ...prevState.avgSaturdayInAMonth,
+      ...prevState.avgWeekdayInAMonth,
       timePeriod
     }))
   }
@@ -250,7 +309,7 @@ class App extends React.Component {
           lineType={this.state.lineType}
           clockConfig={this.state.clockConfig}
           avgWeekday={this.state.avgWeekday}
-          avgSaturdayInAMonth={this.state.avgSaturdayInAMonth}
+          avgWeekdayInAMonth={this.state.avgWeekdayInAMonth}
           // mean={this.state.mean}
         />
         }

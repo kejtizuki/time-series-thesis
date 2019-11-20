@@ -97,28 +97,23 @@ class RadialLineChart extends React.Component {
     x.domain(d3.extent(data, function(d) { return d.key; }));
     y.domain(d3.extent(data, function(d) { return d.value; }));
 
+    var yAxis = d3.selectAll('.radial').append("g")
+    .attr("text-anchor", "middle");
+
+    var yTick = yAxis
+    .selectAll(".radial")
+    // .selectAll("g")
+    .data(y.ticks(6))
+    .enter().append("g");
+
+    yTick.append("circle")
+      .attr("fill", "none")
+      .attr("stroke", "#edf1f4")
+      // .attr("opacity", 0.5)
+      .attr("r", function(d) {return y(d)});
+
+
     // var linePlot = gSelect.append("path")
-    var linePlot = d3.selectAll('.radial').append("path")
-      .datum(data)
-      .attr("fill", "url(#gradientRainbow)")
-      .attr("stroke", "#213946")
-      .attr("stroke-width", 1)
-      .attr('z-index', 200)
-      .attr("d", line);
-
-    var avgWeekday = d3.selectAll('.radial').append("path")
-      .datum(this.props.avgWeekday)
-      .attr("fill", "none")
-      .attr("stroke", "#2A41E5")
-      .attr("stroke-width", 3)
-      .attr("d", line);
-
-    var avgSaturdayInAMonth = d3.selectAll('.radial').append("path")
-      .datum(this.props.avgSaturdayInAMonth)
-      .attr("fill", "none")
-      .attr("stroke", "red")
-      .attr("stroke-width", 3)
-      .attr("d", line);
 
 
     var numColors = 10;
@@ -139,20 +134,35 @@ class RadialLineChart extends React.Component {
       .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
       .attr("stop-color", function(d) { return colorScale(d); });
 
-    var yAxis = d3.selectAll('.radial').append("g")
-    .attr("text-anchor", "middle");
+    var linePlot = d3.selectAll('.radial').append("path")
+      .datum(data)
+      .attr("fill", "url(#gradientRainbow)")
+      .attr("stroke", "#213946")
+      .attr("stroke-width", 1)
+      .attr("d", line);
 
-    var yTick = yAxis
-    .selectAll(".radial")
-    // .selectAll("g")
-    .data(y.ticks(5))
-    .enter().append("g");
+    var yAxisWhite = d3.selectAll('.radial').append("g")
+      .attr("text-anchor", "middle");
 
-    yTick.append("circle")
+    yAxisWhite.append("circle")
+      .attr("fill", "white")
+      .attr("stroke", "black")
+      .attr("opacity", 1)
+      .attr("r", function() { return y(y.domain()[0])});
+
+    var avgWeekday = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgWeekday)
       .attr("fill", "none")
-      .attr("stroke", "#D8D8D8")
-      .attr("opacity", 0.5)
-      .attr("r", function(d) {return y(d)});
+      .attr("stroke", "#2A41E5")
+      .attr("stroke-width", 2)
+      .attr("d", line);
+
+    var avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgWeekdayInAMonth)
+      .attr("fill", "none")
+      .attr("stroke", "#F05336")
+      .attr("stroke-width", 2)
+      .attr("d", line);
 
     //add avg
     // yAxis.append("circle")
@@ -160,12 +170,6 @@ class RadialLineChart extends React.Component {
     //   .attr("stroke", "#2A41E5")
     //   .attr("stroke-width", 3)
     //   .attr("r", function() { return y(this.props.avgWeekday) });
-
-    yAxis.append("circle")
-      .attr("fill", "white")
-      .attr("stroke", "black")
-      .attr("opacity", 1)
-      .attr("r", function() { return y(y.domain()[0])});
 
     yTick.append("text")
       .attr("y", function(d) { return -y(d); })
