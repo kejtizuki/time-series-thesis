@@ -40,6 +40,8 @@ class RadialLineChart extends React.Component {
 
   renderRadial = () => {
 
+    console.log(this.props)
+
     const x = scaleLinear()
 
     if (this.props.clockConfig === 'Midnight Up') {
@@ -96,7 +98,15 @@ class RadialLineChart extends React.Component {
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
     // y.domain(d3.extent(data, function(d) { return d.value; }));
-    y.domain(d3.extent(this.props.minMaxAllData, function(d) { return d; }));
+    if (this.props.avgAllDataChecked) {
+      y.domain(d3.extent(this.props.minMaxWeekdayData, function(d) { return d; }));
+    }
+    if (this.props.avgMonthDataChecked) {
+      y.domain(d3.extent(this.props.minMaxAllData, function(d) { return d; }));
+    }
+    if (this.props.avgMonthDataChecked === false && this.props.avgAllDataChecked === false) {
+      y.domain(d3.extent(data, function(d) { return d.value; }));
+    }
 
     var yAxis = d3.selectAll('.radial').append("g")
     .attr("text-anchor", "middle");
@@ -142,21 +152,28 @@ class RadialLineChart extends React.Component {
       .attr("stroke-width", 1)
       .attr("d", line);
 
-    var avgWeekday = d3.selectAll('.radial').append("path")
-      .datum(this.props.avgWeekday)
-      .attr("fill", "none")
-      .attr("stroke", "#2A41E5")
-      // .attr("stroke-width", 1)
-      .attr("stroke-width", function(d) { console.log( d.value); return d.value })
-      .attr("d", line);
+    var avgWeekday;
+    if (this.props.avgAllDataChecked) {
+      avgWeekday = d3.selectAll('.radial').append("path")
+        .datum(this.props.avgWeekday)
+        .attr("fill", "none")
+        .attr("stroke", "#2A41E5")
+        // .attr("stroke-width", 1)
+        .attr("stroke-width", function(d) { console.log( d.value); return d.value })
+        .attr("d", line);
+    }
 
-    var avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
-      .datum(this.props.avgWeekdayInAMonth)
-      .attr("fill", "none")
-      .attr("stroke", "#F05336")
-      .attr("stroke-width", 1)
-      // .attr("stroke-width", function(d) { console.log(d.value );return y(d.value); })
-      .attr("d", line);
+    var avgWeekdayInAMonth;
+    if (this.props.avgMonthDataChecked) {
+      avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
+        .datum(this.props.avgWeekdayInAMonth)
+        .attr("fill", "none")
+        .attr("stroke", "#F05336")
+        .attr("stroke-width", 1)
+        // .attr("stroke-width", function(d) { console.log(d.value );return y(d.value); })
+        .attr("d", line);
+    }
+
 
     var yAxisWhite = d3.selectAll('.radial').append("g")
       .attr("text-anchor", "middle");

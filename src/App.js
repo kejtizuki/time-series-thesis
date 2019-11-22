@@ -26,7 +26,9 @@ class App extends React.Component {
       clockConfig: 'Midnight Up',
       avgWeekday: null,
       avgMonday: null,
-      allAvgValues: null
+      allAvgValues: null,
+      avgMonthDataChecked: true,
+      avgAllDataChecked: true
     };
   }
 
@@ -120,6 +122,10 @@ class App extends React.Component {
       avgWeekdayInAMonth.map(item => minMaxAllData.push(item.value))
       console.log('minMaxAllData', minMaxAllData)
 
+      let minMaxWeekdayData = []
+      avgWeekday.map(item => minMaxWeekdayData.push(item.value))
+      dataDayHours.map(item => minMaxWeekdayData.push(item.value))
+
       // console.log('csv', data)
       // console.log("how many in day ", dataParser.howManyInDay(dataParser.parseData(data)))
       // console.log("how many in month ", dataParser.howManyInMonth(dataParser.parseData(data)))
@@ -153,7 +159,8 @@ class App extends React.Component {
         avgSunday,
         allAvgValues,
         avgWeekdayInAMonth,
-        minMaxAllData
+        minMaxAllData,
+        minMaxWeekdayData
         // mean
       });
    });
@@ -231,6 +238,10 @@ class App extends React.Component {
     dataDayHours.map(item => minMaxAllData.push(item.value))
     avgWeekdayInAMonth.map(item => minMaxAllData.push(item.value))
 
+    let minMaxWeekdayData = []
+    avgWeekday.map(item => minMaxWeekdayData.push(item.value))
+    dataDayHours.map(item => minMaxWeekdayData.push(item.value))
+
     this.setState(prevState => ({
       ...prevState.lineType,
       ...prevState.lineTypeStr,
@@ -247,7 +258,8 @@ class App extends React.Component {
       avgSunday,
       allAvgValues,
       avgWeekdayInAMonth,
-      minMaxAllData
+      minMaxAllData,
+      minMaxWeekdayData
   }));
   }
 
@@ -276,6 +288,7 @@ class App extends React.Component {
       ...prevState.avgMonday,
       ...prevState.avgWeekdayInAMonth,
       ...prevState.minMaxAllData,
+      ...prevState.minMaxWeekdayData,
       chartType
     }))
   }
@@ -291,7 +304,32 @@ class App extends React.Component {
       ...prevState.avgMonday,
       ...prevState.avgWeekdayInAMonth,
       ...prevState.minMaxAllData,
+      ...prevState.minMaxWeekdayData,
       timePeriod
+    }))
+  }
+
+  setAllDataChecked(avgAllDataChecked) {
+    console.log('avgAllDataChecked', avgAllDataChecked)
+      this.setState({
+        avgAllDataChecked
+      })
+  }
+
+  setMonthDataChecked(avgMonthDataChecked) {
+    this.setState(prevState => ({
+      ...prevState.lineType,
+      ...prevState.lineTypeStr,
+      ...prevState.currentDay,
+      ...prevState.dataDayHours,
+      ...prevState.clockConfig,
+      ...prevState.avgWeekday,
+      ...prevState.avgMonday,
+      ...prevState.avgWeekdayInAMonth,
+      ...prevState.minMaxAllData,
+      ...prevState.minMaxWeekdayData,
+      ...prevState.timePeriod,
+      avgMonthDataChecked
     }))
   }
 
@@ -313,6 +351,10 @@ class App extends React.Component {
               setChartType={chartType => this.setChartType(chartType)}
               timePeriod={this.state.timePeriod}
               setTimePeriod={timePeriod => this.setTimePeriod(timePeriod)}
+              avgAllDataChecked={this.state.avgAllDataChecked}
+              avgMonthDataChecked={this.state.avgMonthDataChecked}
+              setAllDataChecked={avgAllDataChecked => this.setAllDataChecked(avgAllDataChecked)}
+              setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
             />
         }
         </div>
@@ -326,6 +368,9 @@ class App extends React.Component {
           avgWeekday={this.state.avgWeekday}
           avgWeekdayInAMonth={this.state.avgWeekdayInAMonth}
           minMaxAllData={this.state.minMaxAllData}
+          minMaxWeekdayData={this.state.minMaxWeekdayData}
+          avgAllDataChecked={this.state.avgAllDataChecked}
+          avgMonthDataChecked={this.state.avgMonthDataChecked}
           // mean={this.state.mean}
         />
         }

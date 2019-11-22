@@ -68,6 +68,14 @@ class Menu extends Component {
     this.props.setTimePeriod(event.target.name)
   }
 
+  checkAvgAllData(event) {
+    this.props.setAllDataChecked(event.target.checked)
+  }
+
+  checkAvgMonthData(event) {
+    this.props.setMonthDataChecked(event.target.checked)
+  }
+
   render() {
 
     const defaultOption = Object.keys(this.props.dayInsights)[0];
@@ -120,12 +128,12 @@ class Menu extends Component {
 
           <p>Avg period</p>
           <label>
-          <input type="checkbox" value='allDataAvg' />
+          <input type="checkbox" value='allDataAvg' checked={this.props.avgAllDataChecked} onChange={(e) => this.checkAvgAllData(e)} />
           Avg weekday from all data
           </label>
           <br />
           <label>
-          <input type="checkbox" value='monthDataAvg' />
+          <input type="checkbox" value='monthDataAvg' checked={this.props.avgMonthDataChecked} onChange={(e) => this.checkAvgMonthData(e)} />
           Avg taken from this month
           </label>
           </div>
