@@ -95,7 +95,8 @@ class RadialLineChart extends React.Component {
     // const mean = dataParser.getAvg(this.props.avgWeekday)
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
-    y.domain(d3.extent(data, function(d) { return d.value; }));
+    // y.domain(d3.extent(data, function(d) { return d.value; }));
+    y.domain(d3.extent(this.props.minMaxAllData, function(d) { return d; }));
 
     var yAxis = d3.selectAll('.radial').append("g")
     .attr("text-anchor", "middle");
@@ -141,6 +142,22 @@ class RadialLineChart extends React.Component {
       .attr("stroke-width", 1)
       .attr("d", line);
 
+    var avgWeekday = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgWeekday)
+      .attr("fill", "none")
+      .attr("stroke", "#2A41E5")
+      // .attr("stroke-width", 1)
+      .attr("stroke-width", function(d) { console.log( d.value); return d.value })
+      .attr("d", line);
+
+    var avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
+      .datum(this.props.avgWeekdayInAMonth)
+      .attr("fill", "none")
+      .attr("stroke", "#F05336")
+      .attr("stroke-width", 1)
+      // .attr("stroke-width", function(d) { console.log(d.value );return y(d.value); })
+      .attr("d", line);
+
     var yAxisWhite = d3.selectAll('.radial').append("g")
       .attr("text-anchor", "middle");
 
@@ -149,21 +166,6 @@ class RadialLineChart extends React.Component {
       .attr("stroke", "black")
       .attr("opacity", 1)
       .attr("r", function() { return y(y.domain()[0])});
-
-    var avgWeekday = d3.selectAll('.radial').append("path")
-      .datum(this.props.avgWeekday)
-      .attr("fill", "none")
-      .attr("stroke", "#2A41E5")
-      // .attr("stroke-width", 2)
-      .attr("stroke-width", function(d) { return d.value * 10; })
-      .attr("d", line);
-
-    var avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
-      .datum(this.props.avgWeekdayInAMonth)
-      .attr("fill", "none")
-      .attr("stroke", "#F05336")
-      .attr("stroke-width", function(d) { return y(d.value); })
-      .attr("d", line);
 
     //add avg
     // yAxis.append("circle")
