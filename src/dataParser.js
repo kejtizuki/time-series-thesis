@@ -183,6 +183,27 @@ export const getWeekdayInsightsFilteredByMonth = (dayInsights, weekday, month) =
   return mergedWeekdaysData
 }
 
+//returns object where key is a day and value is an array of timestamps
+export const getMonthInsights = (dayInsights, month) => {
+
+    dayjs.extend(toObject)
+    //dayjs('2019-12-09').toObject() months are returned from 0 to 11
+    // console.log('Oobject', dayjs(Object.keys(dayInsights)[0]).toObject())
+
+    let filteredByMonth = Object.keys(dayInsights)
+    .filter(key => dayjs(key).toObject().months === month)
+    .reduce((obj, key) => {
+        obj[key] = dayInsights[key];
+        return obj;
+      }, {});
+
+    // let merged = Object.keys(filteredByMonth).reduce(function(res, v) {
+    //   return res.concat(filteredByMonth[v]);
+    // }, []);
+    return filteredByMonth
+}
+
+//Returns which month is a date
 export const getMonth = (currentDay) => {
   dayjs.extend(toObject)
   return dayjs(currentDay).toObject().months
