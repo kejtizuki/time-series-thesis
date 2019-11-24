@@ -55,13 +55,9 @@ class CalendarRadial extends React.Component {
   		.radius(function(d) { return y(d.value); })
       .curve(this.props.lineType)
 
+    const data = this.props.dataDayHours;
 
-    let data = this.props.dataDayHours;
-
-    // let thisSvg = "svgElem" + this.props.currentDay
-    console.log('#', this.props.currentDay)
-
-    const svg = d3Select("#2017-03-04");
+    const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
 
     gSelect.exit()
@@ -253,7 +249,7 @@ class CalendarRadial extends React.Component {
       <div className="center">
 
         <svg width={150} height={150}
-            ref="svgElem" id="2017-03-04">
+            ref={"svgElem"}>
         </svg>
 
       </div>
