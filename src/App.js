@@ -35,7 +35,7 @@ class App extends React.Component {
       allAvgValues: null,
       avgMonthDataChecked: true,
       avgAllDataChecked: true,
-      dataset: 'sugar craving'
+      dataset: 'itching'
       // monthData: null
     };
   }
@@ -291,9 +291,9 @@ class App extends React.Component {
   }
 
   setDataset(dataset) {
-    const firstDay = Object.keys(dayInsights)[0]
-    console.log('firstDay', firstDay)
-    const currentDay = firstDay;
+    // const firstDay = Object.keys(dayInsights)[0]
+    // console.log('firstDay', firstDay)
+    // const currentDay = firstDay;
     this.setState(prevState => ({
       ...prevState.lineType,
       ...prevState.lineTypeStr,
@@ -398,66 +398,20 @@ class App extends React.Component {
         }
         </div>
 
-        <div className="chartContainer">
-        {
-        this.state.dataDayHours && this.state.chartType === 'Radial' && this.state.timePeriod === 'Daily' &&
-        <RadialLineChart currentDay={this.state.currentDay}
-          dataDayHours={this.state.dataDayHours}
-          dayInsights={this.state.dayInsights}
-          lineType={this.state.lineType}
-          clockConfig={this.state.clockConfig}
-          avgWeekday={this.state.avgWeekday}
-          avgWeekdayInAMonth={this.state.avgWeekdayInAMonth}
-          minMaxAllData={this.state.minMaxAllData}
-          minMaxWeekdayData={this.state.minMaxWeekdayData}
-          avgAllDataChecked={this.state.avgAllDataChecked}
-          avgMonthDataChecked={this.state.avgMonthDataChecked}
-          // mean={this.state.mean}
-        />
-        }
-        { this.state.dataDayHours && this.state.timePeriod === 'Weekly' &&
-        <WeeklyRadial currentDay={this.state.currentDay}
-          dataDayHours={this.state.dataDayHours}
-          dayInsights={this.state.dayInsights}
-          lineType={this.state.lineType}
-          clockConfig={this.state.clockConfig}
-          avgWeekday={this.state.avgWeekday}
-          avgMonday={this.state.avgMonday}
-          avgTuesday={this.state.avgTuesday}
-          avgWednesday={this.state.avgWednesday}
-          avgThursday={this.state.avgThursday}
-          avgFriday={this.state.avgFriday}
-          avgSaturday={this.state.avgSaturday}
-          avgSunday={this.state.avgSunday}
-          allAvgValues={this.state.allAvgValues}
-          // mean={this.state.mean}
-        />
-        }
-        {
-          this.state.dataDayHours && this.state.chartType === 'BarChart' && this.state.timePeriod === 'Daily' &&
-          <BarChart currentDay={this.state.currentDay}
-            dataDayHours={this.state.dataDayHours}
-            dayInsights={this.state.dayInsights}
-            lineType={this.state.lineType}
-            avgWeekday={this.state.avgWeekday}
-            avgWeekdayInAMonth={this.state.avgWeekdayInAMonth}
-            minMaxAllData={this.state.minMaxAllData}
-            minMaxWeekdayData={this.state.minMaxWeekdayData}
-            avgAllDataChecked={this.state.avgAllDataChecked}
-            avgMonthDataChecked={this.state.avgMonthDataChecked}
-          />
-        }
-        </div>
 
-        {/* {
-          this.state.monthData &&
+
+
+         {
+          this.state.monthData && this.state.currentDay &&
           <div className="calendarContainer">
           <Calendar monthData={this.state.monthData}
             lineType={this.state.lineType}
             clockConfig={this.state.clockConfig}/>
           </div>
-        } */}
-      </div>
+        }
+
+        </div>
+
     );
   }
 }

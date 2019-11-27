@@ -27,18 +27,21 @@ const y = scaleRadial()
 
 class CalendarRadial extends React.Component {
 
- componentDidUpdate(prevProps) {
-   if (prevProps !== this.props) {
-     d3.select("svg").selectAll("*").remove();
-     this.renderRadial();
-   }
- }
+ // componentDidUpdate(prevProps) {
+ //   console.log('prevProps:', prevProps)
+ //   if (prevProps !== this.props) {
+ //     console.log('clear:::');
+ //     d3.select("svg").selectAll("*").remove();
+ //     this.renderRadial();
+ //   }
+ // }
 
  componentDidMount() {
    this.renderRadial()
  }
 
   renderRadial = () => {
+    console.log('XXXXXXXXXX', this.props)
 
     const x = scaleLinear()
 
@@ -57,11 +60,11 @@ class CalendarRadial extends React.Component {
 
     const data = this.props.dataDayHours;
 
-    let svg = d3.select(this.refs[this.props.currentDay])
+    const svg = d3.select(this.refs[this.props.currentDay])
 
     //array of svgs
 
-    
+
     // let svg = d3.select('#\\' + this.props.currentDay);
     const gSelect = svg.selectAll('.radial').data(data);
 

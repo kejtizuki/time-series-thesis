@@ -35,12 +35,11 @@ class RadialLineChart extends React.Component {
  }
 
  componentDidMount() {
+
    this.renderRadial()
  }
 
   renderRadial = () => {
-
-    console.log(this.props)
 
     const x = scaleLinear()
 
@@ -216,6 +215,13 @@ class RadialLineChart extends React.Component {
       .style("font-size", 10)
       .attr("color", "#595D5C")
       .attr("opacity", 1)
+      //
+      // xAxis.selectAll("text")
+      // .data(x.ticks(24))
+      // .enter()
+      // .append("text")
+      // .attr('x',function(d){ var angle = x(d); return innerRadius.sin(angle); })
+      // .attr('y',function(d){ var angle = x(d); return -innerRadius.cos(angle); });
 
       var yAxisText = d3.selectAll('.radial').append("g")
       .attr("text-anchor", "middle");
