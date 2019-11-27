@@ -6,7 +6,7 @@ import moment from 'moment'
 
 // import data from './../data/itching.csv';
 import *  as dataParser from '../dataParser.js';
-// import './radialLineChart.scss'
+import './radialLineChart.scss'
 
 
 const margin = {top: 20, right: 10, bottom: 20, left: 10};
@@ -25,7 +25,7 @@ const y = scaleRadial()
     .range([innerRadius, outerRadius]);
 
 
-class CalendarRadial extends React.Component {
+class RadialLineChart extends React.Component {
 
  componentDidUpdate(prevProps) {
    if (prevProps !== this.props) {
@@ -39,6 +39,8 @@ class CalendarRadial extends React.Component {
  }
 
   renderRadial = () => {
+
+    console.log(this.props)
 
     const x = scaleLinear()
 
@@ -57,12 +59,7 @@ class CalendarRadial extends React.Component {
 
     const data = this.props.dataDayHours;
 
-    let svg = d3.select(this.refs[this.props.currentDay])
-
-    //array of svgs
-
-    
-    // let svg = d3.select('#\\' + this.props.currentDay);
+    const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
 
     gSelect.exit()
@@ -101,17 +98,15 @@ class CalendarRadial extends React.Component {
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
     // y.domain(d3.extent(data, function(d) { return d.value; }));
-    // if (this.props.avgAllDataChecked) {
-    //   y.domain(d3.extent(this.props.minMaxWeekdayData, function(d) { return d; }));
-    // }
-    // if (this.props.avgMonthDataChecked) {
-    //   y.domain(d3.extent(this.props.minMaxAllData, function(d) { return d; }));
-    // }
-    // if (this.props.avgMonthDataChecked === false && this.props.avgAllDataChecked === false) {
-    //   y.domain(d3.extent(data, function(d) { return d.value; }));
-    // }
-
-    y.domain(d3.extent(data, function(d) { return d.value; }));
+    if (this.props.avgAllDataChecked) {
+      y.domain(d3.extent(this.props.minMaxAllData, function(d) { return d; }));
+    }
+    if (this.props.avgMonthDataChecked) {
+      y.domain(d3.extent(this.props.minMaxAllData, function(d) { return d; }));
+    }
+    if (this.props.avgMonthDataChecked === false && this.props.avgAllDataChecked === false) {
+      y.domain(d3.extent(this.props.minMaxAllData, function(d) { return d; }));
+    }
 
     var yAxis = d3.selectAll('.radial').append("g")
     .attr("text-anchor", "middle");
@@ -147,7 +142,7 @@ class CalendarRadial extends React.Component {
       .selectAll("stop")
       .data(d3.range(numColors))
       .enter().append("stop")
-      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
+      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 35) + "%"; })
       .attr("stop-color", function(d) { return colorScale(d); });
 
     var linePlot = d3.selectAll('.radial').append("path")
@@ -157,27 +152,27 @@ class CalendarRadial extends React.Component {
       .attr("stroke-width", 1)
       .attr("d", line);
 
-    // var avgWeekday;
-    // if (this.props.avgAllDataChecked) {
-    //   avgWeekday = d3.selectAll('.radial').append("path")
-    //     .datum(this.props.avgWeekday)
-    //     .attr("fill", "none")
-    //     .attr("stroke", "#2A41E5")
-    //     // .attr("stroke-width", 1)
-    //     .attr("stroke-width", function(d) { console.log( d.value); return d.value })
-    //     .attr("d", line);
-    // }
-    //
-    // var avgWeekdayInAMonth;
-    // if (this.props.avgMonthDataChecked) {
-    //   avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
-    //     .datum(this.props.avgWeekdayInAMonth)
-    //     .attr("fill", "none")
-    //     .attr("stroke", "#F05336")
-    //     .attr("stroke-width", 1)
-    //     // .attr("stroke-width", function(d) { console.log(d.value );return y(d.value); })
-    //     .attr("d", line);
-    // }
+    var avgWeekday;
+    if (this.props.avgAllDataChecked) {
+      avgWeekday = d3.selectAll('.radial').append("path")
+        .datum(this.props.avgWeekday)
+        .attr("fill", "none")
+        .attr("stroke", "#2A41E5")
+        // .attr("stroke-width", 1)
+        .attr("stroke-width", function(d) { console.log( d.value); return d.value })
+        .attr("d", line);
+    }
+
+    var avgWeekdayInAMonth;
+    if (this.props.avgMonthDataChecked) {
+      avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
+        .datum(this.props.avgWeekdayInAMonth)
+        .attr("fill", "none")
+        .attr("stroke", "#F05336")
+        .attr("stroke-width", 1)
+        // .attr("stroke-width", function(d) { console.log(d.value );return y(d.value); })
+        .attr("d", line);
+    }
 
 
     var yAxisWhite = d3.selectAll('.radial').append("g")
@@ -224,7 +219,7 @@ class CalendarRadial extends React.Component {
       // xTick.append("line")
       //   .attr("x2", -5)
       //   .attr("stroke", "#595D5C");
-
+      //
       // xTick.append("text")
       //   .attr("transform", function(d) {
       //     var angle = x(d.key);
@@ -251,10 +246,10 @@ class CalendarRadial extends React.Component {
 
   render() {
     return(
-      <div className="center">
+      <div className="radialContainer center">
 
         <svg width={150} height={150}
-            ref={this.props.currentDay} id={this.props.currentDay}>
+            ref="svgElem">
         </svg>
 
       </div>
@@ -262,4 +257,4 @@ class CalendarRadial extends React.Component {
   }
 }
 
-export default CalendarRadial;
+export default RadialLineChart;

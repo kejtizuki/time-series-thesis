@@ -11,7 +11,12 @@ import Calendar from './Calendar/Calendar'
 import * as d3 from "d3";
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import data from './data/itching.csv';
+
+import dataItching from './data/itching.csv';
+import dataSymptoms from './data/symptoms.csv';
+import dataTinnitus from './data/data-tinnitus.csv';
+import dataSugar from './data/data-sugar_craving.csv';
+
 import *  as dataParser from './dataParser';
 import './App.scss';
 
@@ -20,7 +25,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentDay: '2017-03-04',
+      // currentDay: '2017-03-04',
       lineType: d3.curveCardinalClosed,
       chartType: 'Radial',
       timePeriod: 'Daily',
@@ -30,6 +35,7 @@ class App extends React.Component {
       allAvgValues: null,
       avgMonthDataChecked: true,
       avgAllDataChecked: true,
+      dataset: 'sugar craving'
       // monthData: null
     };
   }
@@ -41,11 +47,29 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    d3.csv(data).then(data => {
 
-      const currentDay = this.state.currentDay;
+    let data;
+    if (this.state.dataset === 'itching') {
+      data = dataItching
+    }
+    if (this.state.dataset === 'symptoms') {
+      data = dataSymptoms
+    }
+    if (this.state.dataset === 'tinnitus') {
+      data = dataTinnitus
+    }
+    if (this.state.dataset === 'sugar craving') {
+      data = dataSugar
+    }
+
+    d3.csv(data).then(data => {
       const dayInsights = dataParser.getDayInsights(data)
-      const weekdayNr = dataParser.getWeekday(this.state.currentDay)
+      const firstDay = Object.keys(dayInsights)[0]
+      console.log('firstDay', firstDay)
+      const currentDay = firstDay;
+
+      console.log('dayInsights', dayInsights)
+      const weekdayNr = dataParser.getWeekday(currentDay)
       const currentMonth = dataParser.getMonth(currentDay)
       const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), currentDay);
       const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
@@ -90,9 +114,11 @@ class App extends React.Component {
       if (weekdayNr == 6) {
         allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingSaturdays, currentMonth)
       }
-      if (weekdayNr == 7) {
+      if (weekdayNr == 0) {
         allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingSundays, currentMonth)
       }
+
+      console.log('allOfThisWeekdayInAMonth', allOfThisWeekdayInAMonth)
 
       const avgWeekdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, weekdayNr, currentMonth)), allOfThisWeekdayInAMonth.length)
 
@@ -135,6 +161,7 @@ class App extends React.Component {
       // const dayInsights = dataParser.getDayInsights(data);
 
       this.setState({
+        firstDay,
         data,
         dataDayHours,
         dayInsights,
@@ -207,7 +234,7 @@ class App extends React.Component {
     if (weekdayNr == 6) {
       allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingSaturdays, currentMonth)
     }
-    if (weekdayNr == 7) {
+    if (weekdayNr == 0) {
       allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingSundays, currentMonth)
     }
 
@@ -261,6 +288,26 @@ class App extends React.Component {
       lineType,
       lineTypeStr
     }));
+  }
+
+  setDataset(dataset) {
+    const firstDay = Object.keys(dayInsights)[0]
+    console.log('firstDay', firstDay)
+    const currentDay = firstDay;
+    this.setState(prevState => ({
+      ...prevState.lineType,
+      ...prevState.lineTypeStr,
+      ...prevState.currentDay,
+      ...prevState.dataDayHours,
+      ...prevState.clockConfig,
+      ...prevState.avgWeekday,
+      ...prevState.avgMonday,
+      ...prevState.avgWeekdayInAMonth,
+      ...prevState.minMaxAllData,
+      ...prevState.minMaxWeekdayData,
+      ...prevState.timePeriod,
+      dataset
+    }))
   }
 
   setClockConfig(clockConfig) {
@@ -335,6 +382,7 @@ class App extends React.Component {
               setDate={date => this.setDate(date)}
               setLineType={(lineType, lineTypeStr) => this.setLineType(lineType, lineTypeStr)}
               setClockConfig = {(clockConfig) => this.setClockConfig(clockConfig)}
+              setDataset={(dataset) => this.setDataset(dataset)}
               configValue = {this.state.clockConfig}
               firstValue={this.state.currentDay}
               secondValue={this.state.lineTypeStr}
@@ -349,7 +397,7 @@ class App extends React.Component {
             />
         }
         </div>
-        {/*
+
         <div className="chartContainer">
         {
         this.state.dataDayHours && this.state.chartType === 'Radial' && this.state.timePeriod === 'Daily' &&
@@ -391,18 +439,24 @@ class App extends React.Component {
             dataDayHours={this.state.dataDayHours}
             dayInsights={this.state.dayInsights}
             lineType={this.state.lineType}
-            avgWeekday={this.state.avgWeekday}/>
+            avgWeekday={this.state.avgWeekday}
+            avgWeekdayInAMonth={this.state.avgWeekdayInAMonth}
+            minMaxAllData={this.state.minMaxAllData}
+            minMaxWeekdayData={this.state.minMaxWeekdayData}
+            avgAllDataChecked={this.state.avgAllDataChecked}
+            avgMonthDataChecked={this.state.avgMonthDataChecked}
+          />
         }
-        </div> */}
+        </div>
 
-        {
+        {/* {
           this.state.monthData &&
           <div className="calendarContainer">
           <Calendar monthData={this.state.monthData}
             lineType={this.state.lineType}
             clockConfig={this.state.clockConfig}/>
           </div>
-        }
+        } */}
       </div>
     );
   }

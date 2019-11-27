@@ -184,25 +184,11 @@ class RadialLineChart extends React.Component {
       .attr("opacity", 1)
       .attr("r", function() { return y(y.domain()[0])});
 
-    //add avg
     // yAxis.append("circle")
     //   .attr("fill", "none")
     //   .attr("stroke", "#2A41E5")
     //   .attr("stroke-width", 3)
     //   .attr("r", function() { return y(this.props.avgWeekday) });
-
-    yTick.append("text")
-      .attr("y", function(d) { return -y(d); })
-      .attr("dy", "0.35em")
-      .text(function(d, i) {
-        if (d === 0) {
-        return ""
-      }
-      else {
-        return d
-      }
-    });
-
 
       var xAxis = svg.selectAll('.radial').append("g");
 
@@ -213,7 +199,7 @@ class RadialLineChart extends React.Component {
         .enter().append("g")
         .attr("text-anchor", "middle")
         .attr("transform", function(d) {
-        return "rotate(" + ((x(d)) * 180 / Math.PI - 90) + ")translate(" + innerRadius + ",0)";
+          return "rotate(" + ((x(d)) * 180 / Math.PI - 90) + ")translate(" + innerRadius + ",0)";
         });
 
       xTick.append("line")
@@ -221,15 +207,37 @@ class RadialLineChart extends React.Component {
         .attr("stroke", "#595D5C");
 
       xTick.append("text")
-        .attr("transform", function(d) {
-          var angle = x(d.key);
-          return ((angle < Math.PI / 2) || (angle > (Math.PI * 3 / 2))) ? "rotate(90)translate(0,22)" : "rotate(-90)translate(0, -15)"; })
-            .text(function(d) {
-            return d;
+      .attr("transform", function(d) {
+        var angle = x(d.key);
+        return ((angle < Math.PI / 2) || (angle > (Math.PI * 3 / 2))) ? "rotate(90)translate(0,0)" : "rotate(-90)translate(0, -15)"; })
+          .text(function(d) {
+          return d;
       })
       .style("font-size", 10)
       .attr("color", "#595D5C")
       .attr("opacity", 1)
+
+      var yAxisText = d3.selectAll('.radial').append("g")
+      .attr("text-anchor", "middle");
+
+      var yTickText = yAxisText
+      .selectAll(".radial")
+      // .selectAll("g")
+      .data(y.ticks(6))
+      .enter().append("g");
+
+      yTickText.append("text")
+        .attr("y", function(d) { return -y(d); })
+        .attr("dy", "0.35em")
+        .style('fill', '#565656')
+        .text(function(d, i) {
+          if (d === 0) {
+          return ""
+        }
+        else {
+          return d
+        }
+      });
 
 
       // var lineLength = linePlot.node().getTotalLength();

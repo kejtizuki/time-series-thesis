@@ -51,6 +51,22 @@ class Menu extends Component {
     }
   }
 
+  onDatasetChange(e) {
+    if (e.value === 'itching') {
+      this.props.setDataset('itching');
+    }
+    if (e.value === 'symptoms') {
+      this.props.setDataset('symptoms');
+    }
+    if (e.value === 'tinnitus') {
+      this.props.setDataset('data-tinnitus');
+    }
+    if (e.value === 'sugar craving') {
+      this.props.setDataset('data-sugar_craving');
+    }
+
+  }
+
   onClockConfigChange(e) {
     if (e.value === 'Midnight Up') {
       this.props.setClockConfig('Midnight Up');
@@ -77,17 +93,20 @@ class Menu extends Component {
   }
 
   render() {
-
     const defaultOption = Object.keys(this.props.dayInsights)[0];
     const lines = ['Cardinal', 'Linear', 'Basis', 'Bundle', 'Catmull', 'Natural'];
     const clockConfig = ['Midnight Up', 'Midnight Down']
-    const firstValue = this.props.firstValue || defaultOption;
+    const firstValue = this.props.firstValue || defaultOption || this.props.firstDay;
     const secondValue = this.props.secondValue || lines[0];
     const configValue = this.props.configValue || clockConfig[0];
+    const datasets = ['itching', 'symptoms', 'data-tinnitus', 'data-sugar_craving']
 
     return (
       <div className="menu">
         <h1>{this.props.timePeriod} insights</h1>
+        <p>Dataset</p>
+        <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasets[1]} placeholder="Select an option" />
+        <br />
         <div className="btnsHolder">
           Time period
           <br /><br />
@@ -112,20 +131,24 @@ class Menu extends Component {
           </div>
         }
         {
-          (this.props.chartType === 'Radial' && this.props.timePeriod === 'Daily') &&
+          (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart' && this.props.timePeriod === 'Daily') &&
           <div>
-          Day
+          <p>Day</p>
           <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />
           </div>
         }
         {
-          (this.props.chartType === 'Radial') && (
+          (this.props.chartType === 'Radial') &&
           <div>
           <p>Line type</p>
           <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={secondValue} placeholder="Select an option" />
           <p>Clock configuration</p>
           <Dropdown options={clockConfig} onChange={(e) => this.onClockConfigChange(e)} value={configValue} placeholder="Select an option" />
-
+          </div>
+        }
+        {
+        (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') && (
+        <div>
           <p>Avg period</p>
           <label>
           <input type="checkbox" value='allDataAvg' checked={this.props.avgAllDataChecked} onChange={(e) => this.checkAvgAllData(e)} />
@@ -136,8 +159,9 @@ class Menu extends Component {
           <input type="checkbox" value='monthDataAvg' checked={this.props.avgMonthDataChecked} onChange={(e) => this.checkAvgMonthData(e)} />
           Avg taken from this month
           </label>
-          </div>
-        )}
+        </div>
+
+      )}
 
       </div>
     )

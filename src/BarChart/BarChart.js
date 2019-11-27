@@ -41,6 +41,7 @@ class BarChart extends React.Component {
 
   const data = this.props.dataDayHours;
   const avgWeekday = this.props.avgWeekday;
+  var avgWeekdayInAMonth = this.props.avgWeekdayInAMonth;
 
   const x = scaleBand()
     .rangeRound([0, width])
@@ -49,11 +50,39 @@ class BarChart extends React.Component {
 
   const y = scaleLinear()
     .range([height, 0])
-    .domain([
-      d3.min(data, function(d) { return d.value; }),
-      d3.max(data, function(d) { return d.value })
-    ])
-    .nice();
+    // .domain([
+    //   d3.min(data, function(d) { return d.value; }),
+    //   d3.max(data, function(d) { return d.value })
+    // ])
+    // .nice();
+
+  if (this.props.avgAllDataChecked) {
+    y.domain(
+      [
+        d3.min(this.props.minMaxWeekdayData, function(d) { return d; }),
+        d3.max(this.props.minMaxWeekdayData, function(d) { return d })
+      ]
+      // d3.extent(this.props.minMaxWeekdayData, function(d) { return d; })
+    );
+  }
+  if (this.props.avgMonthDataChecked) {
+    y.domain(
+      [
+        d3.min(this.props.minMaxAllData, function(d) { return d; }),
+        d3.max(this.props.minMaxAllData, function(d) { return d })
+      ]
+      // d3.extent(this.props.minMaxAllData, function(d) { return d; })
+    );
+  }
+  if (this.props.avgMonthDataChecked === false && this.props.avgAllDataChecked === false) {
+    y.domain(
+      [
+        d3.min(data, function(d) { return d.value; }),
+        d3.max(data, function(d) { return d.value })
+      ]
+    );
+    // y.domain(d3.extent(data, function(d) { return d.value; }));
+  }
 
   const svg = d3.select(this.refs.svgElemBar);
 
@@ -126,17 +155,33 @@ class BarChart extends React.Component {
     .attr('class', 'axis')
     .call(yAxis);
 
-  svg.append("path")
-    .datum(avgWeekday)
-    .attr("fill", "none")
-    .attr("stroke", "#2A41E5")
-    .attr("stroke-width", 3)
-    .attr("d", d3.line()
-      .x(function(d) { return x(d.key) })
-      .y(function(d) { return y(d.value) })
-      .curve(d3.curveCatmullRom.alpha(0.5))
-    )
-    .attr("transform", "translate(" + 2*x.bandwidth() + ",0)")
+  if (this.props.avgAllDataChecked) {
+    svg.append("path")
+      .datum(avgWeekday)
+      .attr("fill", "none")
+      .attr("stroke", "#2A41E5")
+      .attr("stroke-width", 1)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.key) })
+        .y(function(d) { return y(d.value) })
+        .curve(d3.curveCatmullRom.alpha(0.5))
+      )
+      .attr("transform", "translate(" + 2*x.bandwidth() + ",0)")
+  }
+
+    if (this.props.avgMonthDataChecked) {
+      svg.append("path")
+        .datum(avgWeekdayInAMonth)
+        .attr("fill", "none")
+        .attr("stroke", "#F05336")
+        .attr("stroke-width", 1)
+        .attr("d", d3.line()
+          .x(function(d) { return x(d.key) })
+          .y(function(d) { return y(d.value) })
+          .curve(d3.curveCatmullRom.alpha(0.5))
+        )
+        .attr("transform", "translate(" + 2*x.bandwidth() + ",0)")
+    }
  }
 
  //BASIC CHART
