@@ -28,6 +28,9 @@ const y = scaleRadial()
 class RadialLineChart extends React.Component {
 
  componentDidUpdate(prevProps) {
+
+   console.log('did updateeee prevProps', prevProps)
+   console.log('did updateeee props', this.props)
    if (prevProps !== this.props) {
      d3.select("svg").selectAll("*").remove();
      this.renderRadial();
@@ -157,8 +160,7 @@ class RadialLineChart extends React.Component {
         .datum(this.props.avgWeekday)
         .attr("fill", "none")
         .attr("stroke", "#2A41E5")
-        // .attr("stroke-width", 1)
-        .attr("stroke-width", function(d) { console.log( d.value); return d.value })
+        .attr("stroke-width", 1)
         .attr("d", line);
     }
 

@@ -59,10 +59,10 @@ class Menu extends Component {
       this.props.setDataset('symptoms');
     }
     if (e.value === 'tinnitus') {
-      this.props.setDataset('data-tinnitus');
+      this.props.setDataset('tinnitus');
     }
     if (e.value === 'sugar craving') {
-      this.props.setDataset('data-sugar_craving');
+      this.props.setDataset('sugar craving');
     }
 
   }
@@ -99,13 +99,14 @@ class Menu extends Component {
     const firstValue = this.props.firstValue || defaultOption || this.props.firstDay;
     const secondValue = this.props.secondValue || lines[0];
     const configValue = this.props.configValue || clockConfig[0];
-    const datasets = ['itching', 'symptoms', 'data-tinnitus', 'data-sugar_craving']
+    const datasets = ['itching', 'symptoms', 'tinnitus', 'sugar craving']
+    const datasetValue = this.props.datasetValue || datasets[0]
 
     return (
       <div className="menu">
         <h1>{this.props.timePeriod} insights</h1>
         <p>Dataset</p>
-        <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasets[1]} placeholder="Select an option" />
+        <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasetValue} placeholder="Select an option" />
         <br />
         <div className="btnsHolder">
           Time period
