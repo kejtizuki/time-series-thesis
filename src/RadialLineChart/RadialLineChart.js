@@ -20,6 +20,7 @@ const innerRadius = 100,
 const formatHour = d3.timeFormat("%I %p")
 
 const fullCircle = 2 * Math.PI * 23/24;
+const circleDegree = 360;
 
 const y = scaleRadial()
     .range([innerRadius, outerRadius]);
@@ -40,6 +41,34 @@ class RadialLineChart extends React.Component {
  componentDidMount() {
 
    this.renderRadial()
+ }
+
+ degToRad(degrees) {
+   return degrees * Math.PI / 180;
+ }
+
+ clockToRad(clock, direction) {
+   var unit = circleDegree / 12;
+   var degree = direction > 0 ? unit * clock : unit * clock - circleDegree;
+   return this.degToRad(degree);
+ }
+
+ getCoordFromCircle(deg, cx, cy, r) {
+   var rad = this.degToRad(deg);
+   var x = cx + r * Math.cos(rad);
+   var y = cy + r * Math.sin(rad);
+   return [x, y];
+ }
+
+ splitDegrees(num) {
+   var angle = circleDegree / num;
+   var degrees = [];
+
+   for (var ang = 0; ang < circleDegree; ang += angle) {
+     degrees.push(ang);
+   }
+
+   return degrees;
  }
 
   renderRadial = () => {
@@ -86,20 +115,7 @@ class RadialLineChart extends React.Component {
     .attr('opacity', 0)
     .remove();
 
-    // Avg all data for a weekday
-    // Avg per month or
-    // per day (to compare) compare weekday with avg weekday
-    // make options to see how could it be compared
-    // minute by minute discuss in the report
-    // See different averages and compare?
-    // draw linecharts as a calendar -> to compare days in a month
-    // weekly data -> ranges radial chart with lines
-    // 26.11 14:00 meeting with Jakob
-
-    // const mean = dataParser.getAvg(this.props.avgWeekday)
-
     x.domain(d3.extent(data, function(d) { return d.key; }));
-    // y.domain(d3.extent(data, function(d) { return d.value; }));
     if (this.props.avgAllDataChecked) {
       y.domain(d3.extent(this.props.minMaxWeekdayData, function(d) { return d; }));
     }
@@ -122,11 +138,7 @@ class RadialLineChart extends React.Component {
     yTick.append("circle")
       .attr("fill", "none")
       .attr("stroke", "#edf1f4")
-      // .attr("opacity", 0.5)
       .attr("r", function(d) {return y(d)});
-
-
-    // var linePlot = gSelect.append("path")
 
 
     var numColors = 10;
@@ -217,13 +229,6 @@ class RadialLineChart extends React.Component {
       .style("font-size", 10)
       .attr("color", "#595D5C")
       .attr("opacity", 1)
-      //
-      // xAxis.selectAll("text")
-      // .data(x.ticks(24))
-      // .enter()
-      // .append("text")
-      // .attr('x',function(d){ var angle = x(d); return innerRadius.sin(angle); })
-      // .attr('y',function(d){ var angle = x(d); return -innerRadius.cos(angle); });
 
       var yAxisText = d3.selectAll('.radial').append("g")
       .attr("text-anchor", "middle");
@@ -247,16 +252,33 @@ class RadialLineChart extends React.Component {
         }
       });
 
+    //for from to pie chart
+    const radius = 70;
+    const fromClock = 17/2;
+    const toClock = 3;
 
-      // var lineLength = linePlot.node().getTotalLength();
-      //
-      // linePlot
-      //   .attr("stroke-dasharray", lineLength + " " + lineLength)
-      //   .attr("stroke-dashoffset", -lineLength)
-      //   .transition()
-      //   .duration(1500)
-      //   .ease(d3.easeLinear)
-      //   .attr("stroke-dashoffset", 0);
+    var clockGroup, offSetX, offSetY, pi;
+    pi = Math.PI;
+
+    clockGroup = yAxisWhite.append("g")
+      .attr("transform", "translate(" + offSetX + "," + offSetY + ")");
+
+    var arc = d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius)
+      .startAngle(this.clockToRad(fromClock, -1))
+      .endAngle(this.clockToRad(toClock, 1));
+
+    clockGroup.append("circle")
+      .attr("r", radius)
+      .attr("fill", "#D8E0DD")
+      .attr("class", "clock outercircle")
+      // .attr("stroke", "#184081")
+      // .attr("stroke-width", 1);
+
+    clockGroup.append('path')
+      .attr('d', arc)
+      .style('fill', '#18456A');
 
   }
 
