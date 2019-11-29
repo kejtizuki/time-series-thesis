@@ -73,38 +73,12 @@ class CalendarRadial extends React.Component {
 
     const data = this.props.dataDayHours;
 
+    console.log('data radial calendar', data)
+
     const svg = d3.select(this.refs[this.props.currentDay])
-
-    //array of svgs
-
-
-    // let svg = d3.select('#\\' + this.props.currentDay);
-    // const gSelect = svg.data(data);
 
     var g = svg.append("g")
     	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    // gSelect.exit()
-    // .classed('radial', false)
-    // .attr('opacity', 0.8)
-    // .transition()
-    // .attr('opacity', 0)
-    // .remove();
-
-    // current.interrupt();
-
-    // var gEnter = gSelect.enter().append("g")
-    // const g = svg
-    // .append("g")
-    // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-    // .classed('radial', true);
-
-    // const exit = gSelect.exit().classed('radial', false);
-    // exit
-    // .attr('opacity', 0.8)
-    // .transition()
-    // .attr('opacity', 0)
-    // .remove();
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
     // y.domain(d3.extent(data, function(d) { return d.value; }));
@@ -123,16 +97,16 @@ class CalendarRadial extends React.Component {
     var yAxis = g.append("g")
     .attr("text-anchor", "middle");
 
-    // var yTick = yAxis
-    // .selectAll(".radial")
-    // .data(y.ticks(3))
-    // .enter().append("g");
-    //
-    // yTick.append("circle")
-    //   .attr("fill", "none")
-    //   .attr("stroke", "#edf1f4")
-    //   // .attr("opacity", 0.5)
-    //   .attr("r", function(d) {return y(d)});
+    var yTick = yAxis
+    .selectAll(".radial")
+    // .selectAll("g")
+    .data(y.ticks(6))
+    .enter().append("g");
+
+    yTick.append("circle")
+      .attr("fill", "none")
+      .attr("stroke", "#edf1f4")
+      .attr("r", function(d) {return y(d)});
 
 
     var numColors = 10;

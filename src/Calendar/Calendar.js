@@ -73,11 +73,11 @@ class Calendar extends Component {
           dayInsights={this.props.monthData}
           lineType={this.props.lineType}
           clockConfig={this.props.clockConfig} />
-          <CalendarRadial currentDay={'2017-03-06'}
-            dataDayHours={dataParser.getDayHoursArr(this.props.monthData, '2017-03-06')}
-            dayInsights={this.props.monthData}
-            lineType={this.props.lineType}
-            clockConfig={this.props.clockConfig} />
+        <CalendarRadial currentDay={'2017-03-06'}
+          dataDayHours={dataParser.getDayHoursArr(this.props.monthData, '2017-03-06')}
+          dayInsights={this.props.monthData}
+          lineType={this.props.lineType}
+          clockConfig={this.props.clockConfig} />
       </div>
     )
   }
