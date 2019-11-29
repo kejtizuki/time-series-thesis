@@ -48,6 +48,8 @@ class App extends React.Component {
 
   componentDidMount() {
 
+    // const data = this.state.dataset or ""
+
     let data;
     if (this.state.dataset === 'itching') {
       data = dataItching
@@ -472,30 +474,28 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <div className="menuContainer">
-          {
-            this.state.dayInsights &&
-            <Menu
-              dayInsights={this.state.dayInsights}
-              setDate={date => this.setDate(date)}
-              setLineType={(lineType, lineTypeStr) => this.setLineType(lineType, lineTypeStr)}
-              setClockConfig = {(clockConfig) => this.setClockConfig(clockConfig)}
-              setDataset={(dataset) => this.setDataset(dataset)}
-              datasetValue={this.state.dataset}
-              configValue = {this.state.clockConfig}
-              firstValue={this.state.currentDay}
-              secondValue={this.state.lineTypeStr}
-              chartType={this.state.chartType}
-              setChartType={chartType => this.setChartType(chartType)}
-              timePeriod={this.state.timePeriod}
-              setTimePeriod={timePeriod => this.setTimePeriod(timePeriod)}
-              avgAllDataChecked={this.state.avgAllDataChecked}
-              avgMonthDataChecked={this.state.avgMonthDataChecked}
-              setAllDataChecked={avgAllDataChecked => this.setAllDataChecked(avgAllDataChecked)}
-              setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
-            />
-        }
-        </div>
+        {
+          this.state.dayInsights &&
+          <Menu
+            dayInsights={this.state.dayInsights}
+            setDate={date => this.setDate(date)}
+            setLineType={(lineType, lineTypeStr) => this.setLineType(lineType, lineTypeStr)}
+            setClockConfig = {(clockConfig) => this.setClockConfig(clockConfig)}
+            setDataset={(dataset) => this.setDataset(dataset)}
+            datasetValue={this.state.dataset}
+            configValue = {this.state.clockConfig}
+            firstValue={this.state.currentDay}
+            secondValue={this.state.lineTypeStr}
+            chartType={this.state.chartType}
+            setChartType={chartType => this.setChartType(chartType)}
+            timePeriod={this.state.timePeriod}
+            setTimePeriod={timePeriod => this.setTimePeriod(timePeriod)}
+            avgAllDataChecked={this.state.avgAllDataChecked}
+            avgMonthDataChecked={this.state.avgMonthDataChecked}
+            setAllDataChecked={avgAllDataChecked => this.setAllDataChecked(avgAllDataChecked)}
+            setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
+          />
+      }
 
        {/* <div className="chartContainer">
        {

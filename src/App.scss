@@ -6,8 +6,6 @@ body {
 }
 .app {
   display: flex;
-  flex-flow: row wrap;
-  flex-direction: row;
   .menuContainer {
     width: 20%;
     height: 100vh;
@@ -19,6 +17,6 @@ body {
     height: 100%;
   }
   .calendarContainer {
-    display: flex;
+    width: 75%;
   }
 }

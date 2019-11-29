@@ -1,4 +1,8 @@
 .calendar {
   margin-left: 50px;
   display: flex;
+  flex-direction: column;
+  .row {
+    display: flex;
+  }
 }

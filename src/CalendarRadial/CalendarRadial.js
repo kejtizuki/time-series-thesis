@@ -9,14 +9,14 @@ import *  as dataParser from '../dataParser.js';
 // import './radialLineChart.scss'
 
 
-const margin = {top: 20, right: 10, bottom: 20, left: 10};
+const margin = {top: 5, right: 5, bottom: 5, left: 5};
 
 const circleDegree = 360;
 
-const width = 150 - margin.left - margin.right,
-  height = 150 - margin.top - margin.bottom;
+const width = 100 - margin.left - margin.right,
+  height = 100 - margin.top - margin.bottom;
 
-const innerRadius = 20,
+const innerRadius = 15,
     outerRadius = Math.min(width, height) / 2 - 6;
 
 const formatHour = d3.timeFormat("%I %p")
@@ -124,7 +124,7 @@ class CalendarRadial extends React.Component {
       .selectAll("stop")
       .data(d3.range(numColors))
       .enter().append("stop")
-      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
+      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 50) + "%"; })
       .attr("stop-color", function(d) { return colorScale(d); });
 
     var linePlot = g.append("path")
@@ -145,7 +145,7 @@ class CalendarRadial extends React.Component {
 
 
       //for from to pie chart
-      const radius = 15;
+      const radius = 10;
       const fromClock = 15/2;
       const toClock = 9/2;
 
@@ -179,7 +179,7 @@ class CalendarRadial extends React.Component {
     return(
       <div className="center">
 
-        <svg width={150} height={150}
+        <svg width={100} height={100}
             ref={this.props.currentDay} id={this.props.currentDay}>
         </svg>
 

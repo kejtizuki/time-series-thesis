@@ -2,7 +2,7 @@ import React, {createRef} from 'react';
 import * as d3 from "d3";
 import {scaleLinear, scaleBand, scaleTime, scaleRadial, schemeCategory20c } from 'd3-scale';
 import { select as d3Select } from 'd3-selection'
-import moment from 'moment'
+import { getSunrise, getSunset } from 'sunrise-sunset-js';
 
 // import data from './../data/itching.csv';
 import *  as dataParser from '../dataParser.js';
@@ -88,7 +88,17 @@ class RadialLineChart extends React.Component {
   		.radius(function(d) { return y(d.value); })
       .curve(this.props.lineType)
 
+    const currentDay = this.props.currentDay
+    console.log('currentDay', currentDay)
     const data = this.props.dataDayHours;
+
+    let sunset, sunrise;
+    if (currentDay !== undefined) {
+     sunset = getSunset(55.67594, 12.56553, new Date(currentDay));
+     sunrise = getSunrise(55.67594, 12.56553, new Date(currentDay));
+     console.log('sunset', sunset, sunrise)
+    }
+
 
     const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
@@ -287,7 +297,7 @@ class RadialLineChart extends React.Component {
       <div className="radialContainer center">
 
         <svg width={650} height={650}
-            ref="svgElem">
+            ref="svgElem" id="radial">
         </svg>
 
       </div>
