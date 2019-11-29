@@ -254,8 +254,8 @@ class RadialLineChart extends React.Component {
 
     //for from to pie chart
     const radius = 70;
-    const fromClock = 17/2;
-    const toClock = 3;
+    const fromClock = 15/2;
+    const toClock = 9/2;
 
     var clockGroup, offSetX, offSetY, pi;
     pi = Math.PI;
@@ -269,16 +269,16 @@ class RadialLineChart extends React.Component {
       .startAngle(this.clockToRad(fromClock, -1))
       .endAngle(this.clockToRad(toClock, 1));
 
+    //DAY
     clockGroup.append("circle")
       .attr("r", radius)
-      .attr("fill", "#D8E0DD")
+      .attr("fill", "#D0D6F9")
       .attr("class", "clock outercircle")
-      // .attr("stroke", "#184081")
-      // .attr("stroke-width", 1);
 
+    //NIGHT
     clockGroup.append('path')
       .attr('d', arc)
-      .style('fill', '#18456A');
+      .style('fill', '#1A1571');
 
   }
 

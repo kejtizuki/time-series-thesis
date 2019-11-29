@@ -35,7 +35,7 @@ class App extends React.Component {
       allAvgValues: null,
       avgMonthDataChecked: true,
       avgAllDataChecked: true,
-      dataset: 'symptoms'
+      dataset: 'itching'
       // monthData: null
     };
   }
@@ -497,7 +497,7 @@ class App extends React.Component {
         }
         </div>
 
-        <div className="chartContainer">
+       {/* <div className="chartContainer">
        {
        this.state.dataDayHours && this.state.chartType === 'Radial' && this.state.timePeriod === 'Daily' &&
        <RadialLineChart currentDay={this.state.currentDay}
@@ -546,10 +546,10 @@ class App extends React.Component {
            avgMonthDataChecked={this.state.avgMonthDataChecked}
          />
        }
-       </div>
+       </div> */}
 
 
-{/*
+
          {
           this.state.monthData && this.state.currentDay &&
           <div className="calendarContainer">
@@ -557,7 +557,7 @@ class App extends React.Component {
             lineType={this.state.lineType}
             clockConfig={this.state.clockConfig}/>
           </div>
-        } */}
+        }
 
         </div>
 

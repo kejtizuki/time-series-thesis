@@ -11,6 +11,8 @@ import *  as dataParser from '../dataParser.js';
 
 const margin = {top: 20, right: 10, bottom: 20, left: 10};
 
+const circleDegree = 360;
+
 const width = 150 - margin.left - margin.right,
   height = 150 - margin.top - margin.bottom;
 
@@ -40,6 +42,17 @@ class CalendarRadial extends React.Component {
    this.renderRadial()
  }
 
+ clockToRad(clock, direction) {
+   var unit = circleDegree / 12;
+   var degree = direction > 0 ? unit * clock : unit * clock - circleDegree;
+   return this.degToRad(degree);
+ }
+
+ degToRad(degrees) {
+   return degrees * Math.PI / 180;
+ }
+
+
   renderRadial = () => {
     console.log('XXXXXXXXXX', this.props)
 
@@ -66,41 +79,32 @@ class CalendarRadial extends React.Component {
 
 
     // let svg = d3.select('#\\' + this.props.currentDay);
-    const gSelect = svg.selectAll('.radial').data(data);
+    // const gSelect = svg.data(data);
 
-    gSelect.exit()
-    .classed('radial', false)
-    .attr('opacity', 0.8)
-    .transition()
-    .attr('opacity', 0)
-    .remove();
+    var g = svg.append("g")
+    	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    // gSelect.exit()
+    // .classed('radial', false)
+    // .attr('opacity', 0.8)
+    // .transition()
+    // .attr('opacity', 0)
+    // .remove();
 
     // current.interrupt();
 
-    var gEnter = gSelect.enter().append("g")
+    // var gEnter = gSelect.enter().append("g")
     // const g = svg
     // .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-    .classed('radial', true);
+    // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    // .classed('radial', true);
 
-    const exit = gSelect.exit().classed('radial', false);
-    exit
-    .attr('opacity', 0.8)
-    .transition()
-    .attr('opacity', 0)
-    .remove();
-
-    // Avg all data for a weekday
-    // Avg per month or
-    // per day (to compare) compare weekday with avg weekday
-    // make options to see how could it be compared
-    // minute by minute discuss in the report
-    // See different averages and compare?
-    // draw linecharts as a calendar -> to compare days in a month
-    // weekly data -> ranges radial chart with lines
-    // 26.11 14:00 meeting with Jakob
-
-    // const mean = dataParser.getAvg(this.props.avgWeekday)
+    // const exit = gSelect.exit().classed('radial', false);
+    // exit
+    // .attr('opacity', 0.8)
+    // .transition()
+    // .attr('opacity', 0)
+    // .remove();
 
     x.domain(d3.extent(data, function(d) { return d.key; }));
     // y.domain(d3.extent(data, function(d) { return d.value; }));
@@ -116,23 +120,19 @@ class CalendarRadial extends React.Component {
 
     y.domain(d3.extent(data, function(d) { return d.value; }));
 
-    var yAxis = d3.selectAll('.radial').append("g")
+    var yAxis = g.append("g")
     .attr("text-anchor", "middle");
 
-    var yTick = yAxis
-    .selectAll(".radial")
-    // .selectAll("g")
-    .data(y.ticks(6))
-    .enter().append("g");
-
-    yTick.append("circle")
-      .attr("fill", "none")
-      .attr("stroke", "#edf1f4")
-      // .attr("opacity", 0.5)
-      .attr("r", function(d) {return y(d)});
-
-
-    // var linePlot = gSelect.append("path")
+    // var yTick = yAxis
+    // .selectAll(".radial")
+    // .data(y.ticks(3))
+    // .enter().append("g");
+    //
+    // yTick.append("circle")
+    //   .attr("fill", "none")
+    //   .attr("stroke", "#edf1f4")
+    //   // .attr("opacity", 0.5)
+    //   .attr("r", function(d) {return y(d)});
 
 
     var numColors = 10;
@@ -141,7 +141,7 @@ class CalendarRadial extends React.Component {
       .range(["#F5D801", "#74D877", "#2A4858"])
       .interpolate(d3.interpolateHcl);
 
-    var gradient = d3.selectAll('.radial').append("defs").append("radialGradient")
+    var gradient = g.append("defs").append("radialGradient")
       .attr("id", "gradientRainbow")
       .attr("gradientUnits", "userSpaceOnUse")
       .attr("cx", "0%")
@@ -153,37 +153,14 @@ class CalendarRadial extends React.Component {
       .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 40) + "%"; })
       .attr("stop-color", function(d) { return colorScale(d); });
 
-    var linePlot = d3.selectAll('.radial').append("path")
+    var linePlot = g.append("path")
       .datum(data)
       .attr("fill", "url(#gradientRainbow)")
       .attr("stroke", "#213946")
       .attr("stroke-width", 1)
       .attr("d", line);
 
-    // var avgWeekday;
-    // if (this.props.avgAllDataChecked) {
-    //   avgWeekday = d3.selectAll('.radial').append("path")
-    //     .datum(this.props.avgWeekday)
-    //     .attr("fill", "none")
-    //     .attr("stroke", "#2A41E5")
-    //     // .attr("stroke-width", 1)
-    //     .attr("stroke-width", function(d) { console.log( d.value); return d.value })
-    //     .attr("d", line);
-    // }
-    //
-    // var avgWeekdayInAMonth;
-    // if (this.props.avgMonthDataChecked) {
-    //   avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
-    //     .datum(this.props.avgWeekdayInAMonth)
-    //     .attr("fill", "none")
-    //     .attr("stroke", "#F05336")
-    //     .attr("stroke-width", 1)
-    //     // .attr("stroke-width", function(d) { console.log(d.value );return y(d.value); })
-    //     .attr("d", line);
-    // }
-
-
-    var yAxisWhite = d3.selectAll('.radial').append("g")
+    var yAxisWhite = g.append("g")
       .attr("text-anchor", "middle");
 
     yAxisWhite.append("circle")
@@ -192,63 +169,35 @@ class CalendarRadial extends React.Component {
       .attr("opacity", 1)
       .attr("r", function() { return y(y.domain()[0])});
 
-    //add avg
-    // yAxis.append("circle")
-    //   .attr("fill", "none")
-    //   .attr("stroke", "#2A41E5")
-    //   .attr("stroke-width", 3)
-    //   .attr("r", function() { return y(this.props.avgWeekday) });
 
-    // yTick.append("text")
-    //   .attr("y", function(d) { return -y(d); })
-    //   .attr("dy", "0.35em")
-    //   .text(function(d, i) {
-    //     if (d === 0) {
-    //     return ""
-    //   }
-    //   else {
-    //     return d
-    //   }
-    // });
+      //for from to pie chart
+      const radius = 15;
+      const fromClock = 15/2;
+      const toClock = 9/2;
 
+      var clockGroup, offSetX, offSetY, pi;
+      pi = Math.PI;
 
-      var xAxis = svg.selectAll('.radial').append("g");
+      clockGroup = yAxisWhite.append("g")
+        // .attr("transform", "translate(" + offSetX + "," + offSetY + ")");
 
-      // var xTick = xAxis
-      //   // .selectAll("g")
-      //   .selectAll(".radial")
-      //   .data(x.ticks(24))
-      //   .enter().append("g")
-      //   .attr("text-anchor", "middle")
-      //   .attr("transform", function(d) {
-      //   return "rotate(" + ((x(d)) * 180 / Math.PI - 90) + ")translate(" + innerRadius + ",0)";
-      //   });
-      //
-      // xTick.append("line")
-      //   .attr("x2", -5)
-      //   .attr("stroke", "#595D5C");
+      var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius)
+        .startAngle(this.clockToRad(fromClock, -1))
+        .endAngle(this.clockToRad(toClock, 1));
 
-      // xTick.append("text")
-      //   .attr("transform", function(d) {
-      //     var angle = x(d.key);
-      //     return ((angle < Math.PI / 2) || (angle > (Math.PI * 3 / 2))) ? "rotate(90)translate(0,22)" : "rotate(-90)translate(0, -15)"; })
-      //       .text(function(d) {
-      //       return d;
-      // })
-      // .style("font-size", 10)
-      // .attr("color", "#595D5C")
-      // .attr("opacity", 1)
+      //DAY
+      clockGroup.append("circle")
+        .attr("r", radius)
+        .attr("fill", "#D0D6F9")
+        .attr("class", "clock outercircle")
 
+      //NIGHT
+      clockGroup.append('path')
+        .attr('d', arc)
+        .style('fill', '#1A1571');
 
-      // var lineLength = linePlot.node().getTotalLength();
-      //
-      // linePlot
-      //   .attr("stroke-dasharray", lineLength + " " + lineLength)
-      //   .attr("stroke-dashoffset", -lineLength)
-      //   .transition()
-      //   .duration(1500)
-      //   .ease(d3.easeLinear)
-      //   .attr("stroke-dashoffset", 0);
 
   }
 
