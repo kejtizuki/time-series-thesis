@@ -156,6 +156,8 @@ class CalendarRadial extends React.Component {
       if (this.props.currentDay !== undefined) {
         sunset = dayjs(getSunset(55.67594, 12.56553, new Date(this.props.currentDay))).format('k');
         sunrise = dayjs(getSunrise(55.67594, 12.56553, new Date(this.props.currentDay))).format('k')
+        sunset = parseInt(sunset)/2
+        sunrise = parseInt(sunrise)/2
       }
 
       var clockGroup, offSetX, offSetY, pi;

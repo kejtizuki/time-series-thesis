@@ -27,7 +27,7 @@ class App extends React.Component {
     this.state = {
       // currentDay: '2017-03-04',
       lineType: d3.curveCardinalClosed,
-      chartType: 'Radial',
+      chartType: 'Calendar',
       timePeriod: 'Daily',
       clockConfig: 'Midnight Up',
       avgWeekday: null,
@@ -158,7 +158,7 @@ class App extends React.Component {
       // const dayInsights = dataParser.getDayInsights(data);
 
       this.setState({
-        currentDay,
+        // currentDay,
         firstDay,
         data,
         dataDayHours,
@@ -466,6 +466,13 @@ class App extends React.Component {
     }))
   }
 
+  setDay(currentDay) {
+    this.setState(prevState => ({
+      chartType: 'Radial',
+      currentDay
+    }))
+  }
+
   render() {
     return (
       <div className="app">
@@ -492,9 +499,10 @@ class App extends React.Component {
           />
       }
 
-       <div className="chartContainer">
+
        {
        this.state.dataDayHours && this.state.chartType === 'Radial' && this.state.timePeriod === 'Daily' &&
+      <div className="chartContainer">
        <RadialLineChart currentDay={this.state.currentDay}
          dataDayHours={this.state.dataDayHours}
          dayInsights={this.state.dayInsights}
@@ -508,8 +516,10 @@ class App extends React.Component {
          avgMonthDataChecked={this.state.avgMonthDataChecked}
          // mean={this.state.mean}
        />
+     </div>
        }
        { this.state.dataDayHours && this.state.timePeriod === 'Weekly' &&
+       <div className="chartContainer">
        <WeeklyRadial currentDay={this.state.currentDay}
          dataDayHours={this.state.dataDayHours}
          dayInsights={this.state.dayInsights}
@@ -526,9 +536,11 @@ class App extends React.Component {
          allAvgValues={this.state.allAvgValues}
          // mean={this.state.mean}
        />
+     </div>
        }
        {
          this.state.dataDayHours && this.state.chartType === 'BarChart' && this.state.timePeriod === 'Daily' &&
+         <div className="chartContainer">
          <BarChart currentDay={this.state.currentDay}
            dataDayHours={this.state.dataDayHours}
            dayInsights={this.state.dayInsights}
@@ -540,19 +552,20 @@ class App extends React.Component {
            avgAllDataChecked={this.state.avgAllDataChecked}
            avgMonthDataChecked={this.state.avgMonthDataChecked}
          />
-       }
        </div>
+       }
 
 
 
-         {/* {
-          this.state.monthData && this.state.currentDay &&
+         {
+          this.state.monthData && this.state.currentDay && this.state.chartType === 'Calendar' &&
           <div className="calendarContainer">
           <Calendar monthData={this.state.monthData}
             lineType={this.state.lineType}
-            clockConfig={this.state.clockConfig}/>
+            clockConfig={this.state.clockConfig}
+            setDay={currentDay => this.setDay(currentDay)}/>
           </div>
-        } */}
+        }
 
         </div>
 

@@ -21,7 +21,14 @@ class Calendar extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      d3.select("svg").selectAll("*").remove();
+      this.render();
+    }
+  }
 
+  chooseDay(day) {
+    this.props.setDay(day);
   }
 
 
@@ -83,7 +90,7 @@ class Calendar extends Component {
       <div className="date-grid" id="random">
         {
           Object.keys(this.props.monthData).map(item =>
-          <div className={'day-wrapper' && firstDayClass}>
+          <div className={'day-wrapper' && firstDayClass} onClick={() => this.chooseDay(item)}>
             <p className="day-nr">{item.split("-")[2]}</p>
             <CalendarRadial currentDay={item}
             dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
