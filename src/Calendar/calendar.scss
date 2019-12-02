@@ -14,6 +14,7 @@
 
 .calendar-container {
    padding: 20px;
+   width: 840px;
 }
 
 .day-nr {
@@ -37,12 +38,17 @@
   align-items: flex-start;
   grid-template-columns: repeat(7, 1fr);
   .day {
-    width: 120px;
+    box-sizing: border-box;
+    margin-right: 2px;
+    text-align: right;
   }
 }
 
 .day-wrapper {
   border: 1px solid #edf1f4;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .monday {

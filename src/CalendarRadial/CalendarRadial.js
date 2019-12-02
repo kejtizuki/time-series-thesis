@@ -18,7 +18,7 @@ const margin = {top: 5, right: 5, bottom: 5, left: 5};
 
 const circleDegree = 360;
 const w = 120;
-const h = 120;
+const h = 100;
 
 const width = w - margin.left - margin.right,
   height = h - margin.top - margin.bottom;

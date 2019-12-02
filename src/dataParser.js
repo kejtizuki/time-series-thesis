@@ -226,6 +226,12 @@ export const getMonth = (currentDay) => {
   return dayjs(currentDay).toObject().months
 }
 
+export const getMonthName = (currentDay) => {
+  dayjs.extend(toObject)
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  return months[dayjs(currentDay).toObject().months]
+}
+
 export const getWeekdayNr = (currentDay) => {
   dayjs.extend(toObject)
   return dayjs(currentDay).toObject()

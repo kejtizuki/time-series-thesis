@@ -28,7 +28,7 @@ class App extends React.Component {
       // currentDay: '2017-03-04',
       lineType: d3.curveCardinalClosed,
       chartType: 'Calendar',
-      timePeriod: 'Daily',
+      timePeriod: 'Month',
       clockConfig: 'Midnight Up',
       avgWeekday: null,
       avgMonday: null,
@@ -467,10 +467,11 @@ class App extends React.Component {
   }
 
   setDay(currentDay) {
-    this.setState(prevState => ({
+    this.setState({
       chartType: 'Radial',
-      currentDay
-    }))
+      timePeriod: 'Daily'
+    })
+    this.setDate(currentDay)
   }
 
   render() {

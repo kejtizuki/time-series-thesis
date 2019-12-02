@@ -104,10 +104,8 @@ class Menu extends Component {
 
     return (
       <div className="menu">
-        {
-          this.props.timePeriod &&
-          <h1> insights</h1>
-        }
+        <h1>{this.props.timePeriod} insights</h1>
+
         <p>Dataset</p>
         <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasetValue} placeholder="Select an option" />
         <br />
@@ -167,8 +165,15 @@ class Menu extends Component {
           Avg taken from this month
           </label>
         </div>
-
       )}
+      <br /><br />
+      {
+        this.props.chartType === 'Calendar' &&
+        <label>
+        <input type="checkbox" value='allDataAvg' checked={this.props.avgAllDataChecked} onChange={(e) => this.checkAvgAllData(e)} />
+        Show heatmap
+        </label>
+      }
 
       </div>
     )
