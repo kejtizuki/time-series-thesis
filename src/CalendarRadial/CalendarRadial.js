@@ -17,9 +17,11 @@ import './calendarRadial.scss'
 const margin = {top: 5, right: 5, bottom: 5, left: 5};
 
 const circleDegree = 360;
+const w = 120;
+const h = 120;
 
-const width = 100 - margin.left - margin.right,
-  height = 100 - margin.top - margin.bottom;
+const width = w - margin.left - margin.right,
+  height = h - margin.top - margin.bottom;
 
 const innerRadius = 15,
     outerRadius = Math.min(width, height) / 2 - 6;
@@ -154,8 +156,6 @@ class CalendarRadial extends React.Component {
       if (this.props.currentDay !== undefined) {
         sunset = dayjs(getSunset(55.67594, 12.56553, new Date(this.props.currentDay))).format('k');
         sunrise = dayjs(getSunrise(55.67594, 12.56553, new Date(this.props.currentDay))).format('k')
-        sunset = parseInt(sunset)/2
-        sunrise = parseInt(sunrise)/2
       }
 
       var clockGroup, offSetX, offSetY, pi;
@@ -188,7 +188,7 @@ class CalendarRadial extends React.Component {
     return(
       <div className="center">
 
-        <svg width={100} height={100} className="calendarSvg"
+        <svg width={w} height={h} className="calendarSvg"
             ref={this.props.currentDay} id={this.props.currentDay}>
         </svg>
 

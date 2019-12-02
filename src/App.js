@@ -158,6 +158,7 @@ class App extends React.Component {
       // const dayInsights = dataParser.getDayInsights(data);
 
       this.setState({
+        currentDay,
         firstDay,
         data,
         dataDayHours,
@@ -190,15 +191,6 @@ class App extends React.Component {
     const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
     const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
     const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
-
-    // dataDayHours.map(item => minMaxAllData.push(item.value))
-
-    // let allMonthValues = [];
-    // Object.values(monthData).map(arr => allMonthValues.concat(arr))
-    // console.log('allMonthValues', allMonthValues)
-    // this.setState({
-    //   allMonthValues
-    // })
 
     const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1))
     const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2))
@@ -241,10 +233,6 @@ class App extends React.Component {
     }
 
     const avgWeekdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, weekdayNr, currentMonth)), allOfThisWeekdayInAMonth.length)
-
-    for (let i = 0; i< monthData.length; i++) {
-
-    }
 
     //All values from avg data pushed to one array
     let allAvgValues = []
@@ -503,7 +491,7 @@ class App extends React.Component {
             setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
           />
       }
-{/* 
+
        <div className="chartContainer">
        {
        this.state.dataDayHours && this.state.chartType === 'Radial' && this.state.timePeriod === 'Daily' &&
@@ -553,18 +541,18 @@ class App extends React.Component {
            avgMonthDataChecked={this.state.avgMonthDataChecked}
          />
        }
-       </div> */}
+       </div>
 
 
 
-         {
+         {/* {
           this.state.monthData && this.state.currentDay &&
           <div className="calendarContainer">
           <Calendar monthData={this.state.monthData}
             lineType={this.state.lineType}
             clockConfig={this.state.clockConfig}/>
           </div>
-        }
+        } */}
 
         </div>
 

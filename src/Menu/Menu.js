@@ -104,22 +104,28 @@ class Menu extends Component {
 
     return (
       <div className="menu">
-        <h1>{this.props.timePeriod} insights</h1>
+        {
+          this.props.timePeriod &&
+          <h1> insights</h1>
+        }
         <p>Dataset</p>
         <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasetValue} placeholder="Select an option" />
         <br />
-        <div className="btnsHolder">
-          Time period
-          <br /><br />
-          <button className={ (this.props.timePeriod === 'Daily') ? 'btn btn-active-white': 'btn btn-normal-white' }
-            onClick={(e) => this.changeTimePeriod(e)}
-            name="Daily">Daily</button>
-          <button className={ (this.props.timePeriod === 'Weekly') ? 'btn btn-active-white': 'btn-normal-white btn' }
-            onClick={(e) => this.changeTimePeriod(e)}
-            name="Weekly">Weekly</button>
-        </div>
         {
-          (this.props.timePeriod === 'Daily') &&
+          (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') &&
+          <div className="btnsHolder">
+            Time period
+            <br /><br />
+            <button className={ (this.props.timePeriod === 'Daily') ? 'btn btn-active-white': 'btn btn-normal-white' }
+              onClick={(e) => this.changeTimePeriod(e)}
+              name="Daily">Daily</button>
+            <button className={ (this.props.timePeriod === 'Weekly') ? 'btn btn-active-white': 'btn-normal-white btn' }
+              onClick={(e) => this.changeTimePeriod(e)}
+              name="Weekly">Weekly</button>
+          </div>
+        }
+        {
+          (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') &&
           <div className="btnsHolder">
             Graph type
             <br /><br />
@@ -132,7 +138,7 @@ class Menu extends Component {
           </div>
         }
         {
-          (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart' && this.props.timePeriod === 'Daily') &&
+          (this.props.chartType === 'Calendar' || this.props.chartType === 'Radial' || this.props.chartType === 'BarChart' && this.props.timePeriod === 'Daily') &&
           <div>
           <p>Day</p>
           <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />

@@ -100,12 +100,13 @@ class RadialLineChart extends React.Component {
     dayjs.extend(advancedFormat)
 
     let sunset, sunrise;
+
     if (currentDay !== undefined) {
      sunset = dayjs(getSunset(55.67594, 12.56553, new Date(currentDay))).format('k');
      sunrise = dayjs(getSunrise(55.67594, 12.56553, new Date(currentDay))).format('k')
-     sunset = parseInt(sunset)/2
-     sunrise = parseInt(sunrise)/2
     }
+    sunset = parseInt(sunset)/2
+    sunrise = parseInt(sunrise)/2
 
     const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
