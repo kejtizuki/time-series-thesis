@@ -5,4 +5,25 @@
   .row {
     display: flex;
   }
+  .pushLeft {
+    display: flex;
+    align-items: flex-start;
+  }
+}
+
+
+.calendar-container {
+   padding: 20px;
+}
+
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day-wrapper {
+  border: 1px solid #edf1f4;
+  &:first-child {
+    grid-column: 4;
+  }
 }

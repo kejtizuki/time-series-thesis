@@ -3,10 +3,15 @@ import * as d3 from "d3";
 import {scaleLinear, scaleBand, scaleTime, scaleRadial, schemeCategory20c } from 'd3-scale';
 import { select as d3Select } from 'd3-selection'
 import moment from 'moment'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import { getSunrise, getSunset } from 'sunrise-sunset-js';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 
 // import data from './../data/itching.csv';
 import *  as dataParser from '../dataParser.js';
-// import './radialLineChart.scss'
+import './calendarRadial.scss'
 
 
 const margin = {top: 5, right: 5, bottom: 5, left: 5};
@@ -29,14 +34,14 @@ const y = scaleRadial()
 
 class CalendarRadial extends React.Component {
 
- // componentDidUpdate(prevProps) {
+ componentDidUpdate(prevProps) {
  //   console.log('prevProps:', prevProps)
  //   if (prevProps !== this.props) {
  //     console.log('clear:::');
  //     d3.select("svg").selectAll("*").remove();
  //     this.renderRadial();
  //   }
- // }
+ }
 
  componentDidMount() {
    this.renderRadial()
@@ -54,7 +59,6 @@ class CalendarRadial extends React.Component {
 
 
   renderRadial = () => {
-    console.log('XXXXXXXXXX', this.props)
 
     const x = scaleLinear()
 
@@ -73,8 +77,6 @@ class CalendarRadial extends React.Component {
 
     const data = this.props.dataDayHours;
 
-    console.log('data radial calendar', data)
-
     const svg = d3.select(this.refs[this.props.currentDay])
 
     var g = svg.append("g")
@@ -83,16 +85,16 @@ class CalendarRadial extends React.Component {
     x.domain(d3.extent(data, function(d) { return d.key; }));
     // y.domain(d3.extent(data, function(d) { return d.value; }));
     // if (this.props.avgAllDataChecked) {
-    //   y.domain(d3.extent(this.props.minMaxWeekdayData, function(d) { return d; }));
+    // y.domain(d3.extent(minMaxScale, function(d) { return d; }));
     // }
     // if (this.props.avgMonthDataChecked) {
-    //   y.domain(d3.extent(this.props.minMaxAllData, function(d) { return d; }));
+      y.domain(d3.extent(this.props.scaleDataMonth, function(d) { return d; }));
     // }
     // if (this.props.avgMonthDataChecked === false && this.props.avgAllDataChecked === false) {
     //   y.domain(d3.extent(data, function(d) { return d.value; }));
     // }
 
-    y.domain(d3.extent(data, function(d) { return d.value; }));
+    // y.domain(d3.extent(data, function(d) { return d.value; }));
 
     var yAxis = g.append("g")
     .attr("text-anchor", "middle");
@@ -124,7 +126,7 @@ class CalendarRadial extends React.Component {
       .selectAll("stop")
       .data(d3.range(numColors))
       .enter().append("stop")
-      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 50) + "%"; })
+      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 45) + "%"; })
       .attr("stop-color", function(d) { return colorScale(d); });
 
     var linePlot = g.append("path")
@@ -146,8 +148,15 @@ class CalendarRadial extends React.Component {
 
       //for from to pie chart
       const radius = 10;
-      const fromClock = 15/2;
-      const toClock = 9/2;
+
+      dayjs.extend(advancedFormat)
+      let sunset, sunrise;
+      if (this.props.currentDay !== undefined) {
+        sunset = dayjs(getSunset(55.67594, 12.56553, new Date(this.props.currentDay))).format('k');
+        sunrise = dayjs(getSunrise(55.67594, 12.56553, new Date(this.props.currentDay))).format('k')
+        sunset = parseInt(sunset)/2
+        sunrise = parseInt(sunrise)/2
+      }
 
       var clockGroup, offSetX, offSetY, pi;
       pi = Math.PI;
@@ -158,8 +167,8 @@ class CalendarRadial extends React.Component {
       var arc = d3.arc()
         .innerRadius(0)
         .outerRadius(radius)
-        .startAngle(this.clockToRad(fromClock, -1))
-        .endAngle(this.clockToRad(toClock, 1));
+        .startAngle(this.clockToRad(sunset, -1))
+        .endAngle(this.clockToRad(sunrise, 1));
 
       //DAY
       clockGroup.append("circle")
@@ -179,7 +188,7 @@ class CalendarRadial extends React.Component {
     return(
       <div className="center">
 
-        <svg width={100} height={100}
+        <svg width={100} height={100} className="calendarSvg"
             ref={this.props.currentDay} id={this.props.currentDay}>
         </svg>
 

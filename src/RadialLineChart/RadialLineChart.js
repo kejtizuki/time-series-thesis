@@ -3,6 +3,10 @@ import * as d3 from "d3";
 import {scaleLinear, scaleBand, scaleTime, scaleRadial, schemeCategory20c } from 'd3-scale';
 import { select as d3Select } from 'd3-selection'
 import { getSunrise, getSunset } from 'sunrise-sunset-js';
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 
 // import data from './../data/itching.csv';
 import *  as dataParser from '../dataParser.js';
@@ -92,13 +96,16 @@ class RadialLineChart extends React.Component {
     console.log('currentDay', currentDay)
     const data = this.props.dataDayHours;
 
+    // dayjs.extend(LocalizedFormat)
+    dayjs.extend(advancedFormat)
+
     let sunset, sunrise;
     if (currentDay !== undefined) {
-     sunset = getSunset(55.67594, 12.56553, new Date(currentDay));
-     sunrise = getSunrise(55.67594, 12.56553, new Date(currentDay));
-     console.log('sunset', sunset, sunrise)
+     sunset = dayjs(getSunset(55.67594, 12.56553, new Date(currentDay))).format('k');
+     sunrise = dayjs(getSunrise(55.67594, 12.56553, new Date(currentDay))).format('k')
+     sunset = parseInt(sunset)/2
+     sunrise = parseInt(sunrise)/2
     }
-
 
     const svg = d3.select(this.refs.svgElem);
     const gSelect = svg.selectAll('.radial').data(data);
@@ -276,8 +283,8 @@ class RadialLineChart extends React.Component {
     var arc = d3.arc()
       .innerRadius(0)
       .outerRadius(radius)
-      .startAngle(this.clockToRad(fromClock, -1))
-      .endAngle(this.clockToRad(toClock, 1));
+      .startAngle(this.clockToRad(sunset, -1))
+      .endAngle(this.clockToRad(sunrise, 1));
 
     //DAY
     clockGroup.append("circle")

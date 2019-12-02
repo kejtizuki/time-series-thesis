@@ -67,10 +67,7 @@ class App extends React.Component {
     d3.csv(data).then(data => {
       const dayInsights = dataParser.getDayInsights(data)
       const firstDay = Object.keys(dayInsights)[0]
-      console.log('firstDay', firstDay)
       const currentDay = firstDay;
-
-      console.log('dayInsights', dayInsights)
       const weekdayNr = dataParser.getWeekday(currentDay)
       const currentMonth = dataParser.getMonth(currentDay)
       const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), currentDay);
@@ -119,8 +116,6 @@ class App extends React.Component {
       if (weekdayNr == 0) {
         allOfThisWeekdayInAMonth = dataParser.filteredByMonth(allExistingSundays, currentMonth)
       }
-
-      console.log('allOfThisWeekdayInAMonth', allOfThisWeekdayInAMonth)
 
       const avgWeekdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, weekdayNr, currentMonth)), allOfThisWeekdayInAMonth.length)
 
@@ -190,13 +185,20 @@ class App extends React.Component {
     const currentMonth = dataParser.getMonth(currentDay)
     const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(this.state.data), date);
 
-    console.log('this.state.data', this.state.data)
-
     const dayInsights = dataParser.getDayInsights(this.state.data)
     const weekdayNr = dataParser.getWeekday(date)
     const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
     const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
     const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+
+    // dataDayHours.map(item => minMaxAllData.push(item.value))
+
+    // let allMonthValues = [];
+    // Object.values(monthData).map(arr => allMonthValues.concat(arr))
+    // console.log('allMonthValues', allMonthValues)
+    // this.setState({
+    //   allMonthValues
+    // })
 
     const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1))
     const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2))
@@ -205,8 +207,6 @@ class App extends React.Component {
     const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5))
     const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6))
     const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0))
-
-    console.log('weekday insights ', dataParser.getWeekdayInsights(dayInsights, 6))
 
     const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays.length)
     const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays.length)
@@ -242,6 +242,10 @@ class App extends React.Component {
 
     const avgWeekdayInAMonth = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsightsFilteredByMonth(dayInsights, weekdayNr, currentMonth)), allOfThisWeekdayInAMonth.length)
 
+    for (let i = 0; i< monthData.length; i++) {
+
+    }
+
     //All values from avg data pushed to one array
     let allAvgValues = []
     avgMonday.map(item => allAvgValues.push(item.value))
@@ -252,15 +256,21 @@ class App extends React.Component {
     avgSaturday.map(item => allAvgValues.push(item.value))
     avgSunday.map(item => allAvgValues.push(item.value))
 
+    //avgAllDataChecked
     //Array of all values from a given weekday taken from current day and avgWeekday values and avgForAMonth
     let minMaxAllData = []
     avgWeekday.map(item => minMaxAllData.push(item.value))
     dataDayHours.map(item => minMaxAllData.push(item.value))
     avgWeekdayInAMonth.map(item => minMaxAllData.push(item.value))
 
+    console.log('minMaxAllData', minMaxAllData)
+
+    //avgMonthDataChecked
     let minMaxWeekdayData = []
     avgWeekday.map(item => minMaxWeekdayData.push(item.value))
     dataDayHours.map(item => minMaxWeekdayData.push(item.value))
+
+    console.log('minMaxWeekdayData', minMaxWeekdayData)
 
     this.setState(prevState => ({
       ...prevState.lineType,
@@ -310,7 +320,6 @@ class App extends React.Component {
     d3.csv(data).then(data => {
       const dayInsights = dataParser.getDayInsights(data)
       const firstDay = Object.keys(dayInsights)[0]
-      console.log('firstDay', firstDay)
       const currentDay = firstDay;
 
       const currentMonth = dataParser.getMonth(currentDay)
@@ -328,8 +337,6 @@ class App extends React.Component {
       const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5))
       const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6))
       const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0))
-
-      console.log('weekday insights ', dataParser.getWeekdayInsights(dayInsights, 6))
 
       const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays.length)
       const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays.length)
@@ -496,8 +503,8 @@ class App extends React.Component {
             setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
           />
       }
-
-       {/* <div className="chartContainer">
+{/* 
+       <div className="chartContainer">
        {
        this.state.dataDayHours && this.state.chartType === 'Radial' && this.state.timePeriod === 'Daily' &&
        <RadialLineChart currentDay={this.state.currentDay}

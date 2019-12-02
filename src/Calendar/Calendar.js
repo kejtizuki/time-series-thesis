@@ -13,23 +13,15 @@ class Calendar extends Component {
 
   constructor(props) {
     super(props);
-    console.log('calendar props ', this.props.monthData['2017-03-03'])
     this.state = {
       oneDay: this.props.monthData['2017-03-03']
     }
   }
 
   componentDidMount() {
-
-    console.log('month', this.props.monthData)
-
-    // Object.keys(this.props.monthData).map(item => console.log(item))
-
   }
 
   componentDidUpdate(prevProps) {
-
-    console.log('month', this.props.monthData)
 
   }
 
@@ -52,7 +44,13 @@ class Calendar extends Component {
     let fourthRow = firstN(this.props.monthData, 21, 28);
     let fifthRow = firstN(this.props.monthData, 28, Object.keys(this.props.monthData).length);
 
-    console.log('-------', this.props.monthData);
+    let scaleDataMonth = [];
+    Object.keys(this.props.monthData).map(item => {
+      for (let i=0; i < Object.keys(item).length; i++) {
+        scaleDataMonth.push(dataParser.groupByHoursArr(this.props.monthData[item])[i].value)
+      }
+
+    })
 
     // const renderGrid = (rows, cols) => { // 5 x 7
     //   var htmlElements = "";
@@ -71,22 +69,25 @@ class Calendar extends Component {
     // }
 
     return (
-      <div className="calendar" id="random">
+      <div className="calendar-container">
+      <div className="date-grid" id="random">
         {/* { renderGrid(3, 3) } */}
-        {/* {
+        {
           Object.keys(this.props.monthData).map(item =>
-            <div className="calendar-wrapper">
+          <div className="day-wrapper">
             <CalendarRadial currentDay={item}
-           dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
-           dayInsights={this.props.monthData}
-           lineType={this.props.lineType}
-           clockConfig={this.props.clockConfig}
-         />
-       </div>
-     )} */}
+            dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
+            dayInsights={this.props.monthData}
+            lineType={this.props.lineType}
+            clockConfig={this.props.clockConfig}
+            scaleDataMonth={scaleDataMonth}
+            />
+          </div>
+        )}
 
-      <div className="row">
+      {/* <div className="row">
       {
+        this.props.monthData &&
         Object.keys(firstRow).map(item =>
           // <div className="calendar-wrapper">
           <CalendarRadial currentDay={item}
@@ -94,6 +95,7 @@ class Calendar extends Component {
          dayInsights={this.props.monthData}
          lineType={this.props.lineType}
          clockConfig={this.props.clockConfig}
+         scaleDataMonth={scaleDataMonth}
        />
      // </div>
      )
@@ -101,47 +103,56 @@ class Calendar extends Component {
     </div>
     <div className="row">
       {
+        this.props.monthData &&
       Object.keys(secondRow).map(item => <CalendarRadial currentDay={item}
        dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
        dayInsights={this.props.monthData}
        lineType={this.props.lineType}
        clockConfig={this.props.clockConfig}
+       scaleDataMonth={scaleDataMonth}
      />)
     }
   </div>
   <div className="row">
     {
+      this.props.monthData &&
     Object.keys(thirdRow).map(item => <CalendarRadial currentDay={item}
      dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
      dayInsights={this.props.monthData}
      lineType={this.props.lineType}
      clockConfig={this.props.clockConfig}
+     scaleDataMonth={scaleDataMonth}
    />)
   }
   </div>
   <div className="row">
     {
+      this.props.monthData &&
     Object.keys(fourthRow).map(item => <CalendarRadial currentDay={item}
      dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
      dayInsights={this.props.monthData}
      lineType={this.props.lineType}
      clockConfig={this.props.clockConfig}
+     scaleDataMonth={scaleDataMonth}
    />)
   }
   </div>
-  <div className="row">
+  <div className="row pushLeft">
     {
+      this.props.monthData &&
     Object.keys(fifthRow).map(item => <CalendarRadial currentDay={item}
      dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
      dayInsights={this.props.monthData}
      lineType={this.props.lineType}
      clockConfig={this.props.clockConfig}
+     scaleDataMonth={scaleDataMonth}
    />)
   }
 
-  </div>
+  </div> */}
 
       </div>
+    </div>
     )
   }
 }
