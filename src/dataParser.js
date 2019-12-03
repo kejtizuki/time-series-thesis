@@ -237,6 +237,14 @@ export const getWeekdayNr = (currentDay) => {
   return dayjs(currentDay).toObject()
 }
 
+export const getTotalInDay = (obj) => {
+  let counter = 0;
+  Object.values(obj).map(elem => {
+    counter = counter + elem.value
+  })
+  return counter;
+}
+
 //all days in a month
 export const filteredByMonth = (allDaysArr, month) => {
   let filtered = allDaysArr

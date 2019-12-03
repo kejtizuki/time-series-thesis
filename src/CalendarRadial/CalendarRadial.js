@@ -109,7 +109,7 @@ class CalendarRadial extends React.Component {
 
     yTick.append("circle")
       .attr("fill", "none")
-      .attr("stroke", "#edf1f4")
+      .attr("stroke", "white")
       .attr("r", function(d) {return y(d)});
 
 

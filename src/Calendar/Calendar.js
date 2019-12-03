@@ -7,9 +7,14 @@ import { select as d3Select } from 'd3-selection'
 import *  as dataParser from '../dataParser.js';
 import CalendarRadial from '../CalendarRadial/CalendarRadial'
 import ReactTooltip from 'react-tooltip'
+import {scaleLinear, scaleOrdinal} from 'd3-scale';
 
 import './calendar.scss'
 var classNames = require('classnames');
+
+const myColor = scaleLinear()
+.range(["white" , "#39859d"])
+.domain([0,150])
 
 class Calendar extends Component {
 
@@ -32,6 +37,10 @@ class Calendar extends Component {
     this.props.setDay(day);
   }
 
+  backgroundColor(item) {
+    return myColor(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))
+  }
+
 
   render() {
 
@@ -40,11 +49,21 @@ class Calendar extends Component {
       for (let i=0; i < Object.keys(item).length; i++) {
         scaleDataMonth.push(dataParser.groupByHoursArr(this.props.monthData[item])[i].value)
       }
-
     })
 
     const firstWeekday = dataParser.getWeekday(Object.keys(this.props.monthData)[0])
-    console.log('firstWeekday', firstWeekday)
+
+    let monthOccurences = []
+
+    Object.keys(this.props.monthData).map(item => {
+      console.log(myColor(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item))))
+      monthOccurences.push(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))
+    })
+    console.log('monthOccurences', monthOccurences)
+
+
+
+
 
     const firstDayClass = classNames({
       'monday': firstWeekday === 1,
@@ -74,8 +93,12 @@ class Calendar extends Component {
           <div className={'day-wrapper' + ' ' + firstDayClass}
             onClick={() => this.chooseDay(item)}
             data-tip={
-              'Day: ' + item.split("-")[2] + ' of ' + dataParser.getMonthName(item)
-            }>
+              item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + 'Occurences: ' +
+              dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item))
+            }
+            style={{backgroundColor: this.backgroundColor(item, monthOccurences) }}
+            // style={{backgroundColor: 'rgb(74, 125, 113)'}}
+            >
 
             <p className="day-nr">{item.split("-")[2]}</p>
             <CalendarRadial currentDay={item}
