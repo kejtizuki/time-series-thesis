@@ -13,7 +13,7 @@ import './calendar.scss'
 var classNames = require('classnames');
 
 const myColor = scaleLinear()
-.range(["white" , "#39859d"])
+.range(["white" , "#46a7c4"])
 .domain([0,150])
 
 class Calendar extends Component {

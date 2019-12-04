@@ -181,6 +181,22 @@ class App extends React.Component {
    });
   }
 
+  setMonth(month) {
+    console.log('month', month)
+    const dayInsights = dataParser.getDayInsights(this.state.data)
+    const currentMonth = month
+    const currentYear = Object.keys(dayInsights)[0].split('-')[0]
+    const currentDay = currentYear + '-' + currentMonth + '-01'
+    const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+
+    console.log('monthData', monthData)
+
+    this.setState(prevState => ({
+      currentDay,
+      monthData
+    }))
+  }
+
   setDate(date) {
     const currentDay = date;
     const currentMonth = dataParser.getMonth(currentDay)
@@ -497,6 +513,7 @@ class App extends React.Component {
             avgMonthDataChecked={this.state.avgMonthDataChecked}
             setAllDataChecked={avgAllDataChecked => this.setAllDataChecked(avgAllDataChecked)}
             setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
+            setMonth={(month) => {this.setMonth(month)}}
           />
       }
 

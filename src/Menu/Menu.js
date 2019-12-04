@@ -4,6 +4,7 @@ import 'react-dropdown/style.css';
 import * as d3 from "d3";
 import * as d3Axis from 'd3-axis'
 import { select as d3Select } from 'd3-selection'
+import *  as dataParser from '../dataParser.js';
 
 import './menu.scss'
 
@@ -28,6 +29,11 @@ class Menu extends Component {
 
   onDropdownChange(e) {
     this.props.setDate(e.value);
+  }
+
+  onMonthChange(e) {
+    console.log(e.value)
+    this.props.setMonth(e.value)
   }
 
   onLineChange(e) {
@@ -102,6 +108,12 @@ class Menu extends Component {
     const datasets = ['itching', 'symptoms', 'tinnitus', 'sugar craving']
     const datasetValue = this.props.datasetValue || datasets[0]
 
+    console.log(' dataParser.getMonths(this.props.dayInsights)',  dataParser.getMonths(this.props.dayInsights))
+    const months = dataParser.getMonths(this.props.dayInsights)
+
+    const chosenMonth = months[0]
+
+
     return (
       <div className="menu">
         <h1>{this.props.timePeriod} insights</h1>
@@ -136,10 +148,17 @@ class Menu extends Component {
           </div>
         }
         {
-          (this.props.chartType === 'Calendar' || this.props.chartType === 'Radial' || this.props.chartType === 'BarChart' && this.props.timePeriod === 'Daily') &&
+          (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart' && this.props.timePeriod === 'Daily') &&
           <div>
           <p>Day</p>
           <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />
+          </div>
+        }
+        {
+          (this.props.chartType === 'Calendar') &&
+          <div>
+          <p>Month</p>
+          <Dropdown options={months} onChange={(e) => this.onMonthChange(e)} value={chosenMonth} placeholder="Select an option" />
           </div>
         }
         {

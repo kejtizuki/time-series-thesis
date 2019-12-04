@@ -232,6 +232,19 @@ export const getMonthName = (currentDay) => {
   return months[dayjs(currentDay).toObject().months]
 }
 
+export const getMonths = (obj) => {
+  let monthsArray = [];
+  dayjs.extend(toObject)
+  Object.keys(obj)
+    .map(item => {
+      if (monthsArray.indexOf(item) === -1) {
+        monthsArray.push(dayjs(item).toObject().months)
+      }
+    })
+  monthsArray = [...new Set(monthsArray)]
+  return monthsArray
+}
+
 export const getWeekdayNr = (currentDay) => {
   dayjs.extend(toObject)
   return dayjs(currentDay).toObject()
