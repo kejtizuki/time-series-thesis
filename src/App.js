@@ -181,7 +181,7 @@ class App extends React.Component {
    });
   }
 
-  setMonth(month) {
+  setMonth(month, chosenMonth) {
     console.log('month', month)
     const dayInsights = dataParser.getDayInsights(this.state.data)
     const currentMonth = month
@@ -192,6 +192,7 @@ class App extends React.Component {
     console.log('monthData', monthData)
 
     this.setState(prevState => ({
+      chosenMonth,
       currentDay,
       monthData
     }))
@@ -513,7 +514,8 @@ class App extends React.Component {
             avgMonthDataChecked={this.state.avgMonthDataChecked}
             setAllDataChecked={avgAllDataChecked => this.setAllDataChecked(avgAllDataChecked)}
             setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
-            setMonth={(month) => {this.setMonth(month)}}
+            setMonth={(month, chosenMonth) => {this.setMonth(month, chosenMonth)}}
+            chosenMonth={this.state.chosenMonth}
           />
       }
 

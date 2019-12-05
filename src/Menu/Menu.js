@@ -33,7 +33,8 @@ class Menu extends Component {
 
   onMonthChange(e) {
     console.log(e.value)
-    this.props.setMonth(e.value)
+    console.log(dataParser.getMonthNrFromName(e.value))
+    this.props.setMonth(dataParser.getMonthNrFromName(e.value), e.value)
   }
 
   onLineChange(e) {
@@ -109,9 +110,10 @@ class Menu extends Component {
     const datasetValue = this.props.datasetValue || datasets[0]
 
     console.log(' dataParser.getMonths(this.props.dayInsights)',  dataParser.getMonths(this.props.dayInsights))
-    const months = dataParser.getMonths(this.props.dayInsights)
+    let months = dataParser.getMonths(this.props.dayInsights)
+    months = months.map(item => dataParser.getMonthNameFromMonthNr(item))
 
-    const chosenMonth = months[0]
+    const chosenMonth = this.props.chosenMonth || months[0]
 
 
     return (
