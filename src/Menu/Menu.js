@@ -120,9 +120,9 @@ class Menu extends Component {
       <div className="menu">
         <h1>{this.props.timePeriod} insights</h1>
 
-        <p>Dataset</p>
+        {/* <p>Dataset</p>
         <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasetValue} placeholder="Select an option" />
-        <br />
+        <br /> */}
         {
           (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') &&
           <div className="btnsHolder">

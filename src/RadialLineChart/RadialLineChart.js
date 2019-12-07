@@ -15,8 +15,8 @@ import './radialLineChart.scss'
 
 const margin = {top: 20, right: 10, bottom: 20, left: 10};
 
-const width = 650 - margin.left - margin.right,
-  height = 650 - margin.top - margin.bottom;
+const width = 700 - margin.left - margin.right,
+  height = 700 - margin.top - margin.bottom;
 
 const innerRadius = 100,
     outerRadius = Math.min(width, height) / 2 - 6;
@@ -304,8 +304,8 @@ class RadialLineChart extends React.Component {
     return(
       <div className="radialContainer center">
 
-        <svg width={650} height={650}
-            ref="svgElem" id="radial">
+        <svg width={700} height={700}
+            ref="svgElem" className="radialSvg">
         </svg>
 
       </div>
