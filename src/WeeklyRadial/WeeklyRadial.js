@@ -11,8 +11,8 @@ import './weeklyRadial.scss'
 
 const margin = {top: 20, right: 10, bottom: 20, left: 10};
 
-const width = 700 - margin.left - margin.right,
-  height = 700 - margin.top - margin.bottom;
+const width = 650 - margin.left - margin.right,
+  height = 650 - margin.top - margin.bottom;
 
 const innerRadius = 100,
     outerRadius = Math.min(width, height) / 2 - 6;
@@ -117,7 +117,7 @@ class WeeklyRadial extends React.Component {
   var avgMonday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgMonday)
     .attr("fill", "none")
-    .attr("stroke", "#FFD73E")
+    .attr("stroke", "#f9ae93")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -125,7 +125,7 @@ class WeeklyRadial extends React.Component {
   var avgTuesday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgTuesday)
     .attr("fill", "none")
-    .attr("stroke", "#FFD73E")
+    .attr("stroke", "#f9ae93")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -133,7 +133,7 @@ class WeeklyRadial extends React.Component {
   var avgWednesday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgWednesday)
     .attr("fill", "none")
-    .attr("stroke", "#FFD73E")
+    .attr("stroke", "#f9ae93")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -141,7 +141,7 @@ class WeeklyRadial extends React.Component {
   var avgThursday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgThursday)
     .attr("fill", "none")
-    .attr("stroke", "#FFD73E")
+    .attr("stroke", "#f9ae93")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -149,7 +149,7 @@ class WeeklyRadial extends React.Component {
   var avgFriday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgFriday)
     .attr("fill", "none")
-    .attr("stroke", "#FFD73E")
+    .attr("stroke", "#f9ae93")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -232,7 +232,7 @@ class WeeklyRadial extends React.Component {
     return(
       <div className="radialContainer center">
 
-        <svg width={700} height={700}
+        <svg width={650} height={650}
             ref="svgElem" className="radialSvg">
         </svg>
 

@@ -491,6 +491,13 @@ class App extends React.Component {
     this.setDate(currentDay)
   }
 
+  setWeek(currentDay) {
+    this.setState({
+      chartType: 'Week',
+      timePeriod: 'Weekly'
+    })
+  }
+
   render() {
     return (
       <div className="app">
@@ -538,7 +545,7 @@ class App extends React.Component {
        />
      </div>
        }
-       { this.state.dataDayHours && this.state.timePeriod === 'Weekly' &&
+       { this.state.dataDayHours && this.state.timePeriod === 'Weekly' && this.state.chartType === 'Week' &&
        <div className="chartContainer">
        <WeeklyRadial currentDay={this.state.currentDay}
          dataDayHours={this.state.dataDayHours}
@@ -583,7 +590,8 @@ class App extends React.Component {
           <Calendar monthData={this.state.monthData}
             lineType={this.state.lineType}
             clockConfig={this.state.clockConfig}
-            setDay={currentDay => this.setDay(currentDay)}/>
+            setDay={currentDay => this.setDay(currentDay)}
+            setWeek={currentDay => this.setWeek(currentDay)}/>
           </div>
         }
 

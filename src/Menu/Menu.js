@@ -5,6 +5,7 @@ import * as d3 from "d3";
 import * as d3Axis from 'd3-axis'
 import { select as d3Select } from 'd3-selection'
 import *  as dataParser from '../dataParser.js';
+import shift from '../assets/shift.png'
 
 import './menu.scss'
 
@@ -100,6 +101,28 @@ class Menu extends Component {
   }
 
   render() {
+
+    // var legend = svg.selectAll(".legend")
+    //           .data([0].concat(colorScale.quantiles()), function(d) { return d; });
+    //
+    //       legend.enter().append("g")
+    //           .attr("class", "legend");
+    //
+    //       legend.append("rect")
+    //         .attr("x", function(d, i) { return legendElementWidth * i; })
+    //         .attr("y", height)
+    //         .attr("width", legendElementWidth)
+    //         .attr("height", gridSize / 2)
+    //         .style("fill", function(d, i) { return colors[i]; });
+    //
+    //       legend.append("text")
+    //         .attr("class", "mono")
+    //         .text(function(d) { return "≥ " + Math.round(d); })
+    //         .attr("x", function(d, i) { return legendElementWidth * i; })
+    //         .attr("y", height + gridSize);
+    //
+    //       legend.exit().remove();
+
     const defaultOption = Object.keys(this.props.dayInsights)[0];
     const lines = ['Cardinal', 'Linear', 'Basis', 'Bundle', 'Catmull', 'Natural'];
     const clockConfig = ['Midnight Up', 'Midnight Down']
@@ -123,7 +146,7 @@ class Menu extends Component {
         {/* <p>Dataset</p>
         <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasetValue} placeholder="Select an option" />
         <br /> */}
-        {
+        {/* {
           (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') &&
           <div className="btnsHolder">
             Time period
@@ -135,7 +158,7 @@ class Menu extends Component {
               onClick={(e) => this.changeTimePeriod(e)}
               name="Weekly">Weekly</button>
           </div>
-        }
+        } */}
         {
           (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') &&
           <div className="btnsHolder">
@@ -195,6 +218,28 @@ class Menu extends Component {
         Show heatmap
         </label>
       }
+
+      {
+        this.props.chartType === 'Calendar' &&
+        <div>
+          <div className="instructions">
+            <div className="iconsRow">
+              <img src={require("./../assets/tap.png")} alt="shift" className="icon"/>
+            </div>
+            <div className="instructionsText">Click on a day to see daily overview</div>
+          </div>
+          <div className="instructions">
+            <div className="iconsRow">
+              <img src={require("./../assets/tap.png")} alt="shift" className="icon" />
+              <div className="iconBetween">+</div>
+              <img src={require("./../assets/shift.png")} alt="shift" className="iconHeight" />
+            </div>
+            <div className="instructionsText">Click + shift key to display weekly overview</div>
+          </div>
+        </div>
+      }
+
+      <div id="theBar"></div>
 
       </div>
     )

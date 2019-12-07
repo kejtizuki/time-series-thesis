@@ -15,8 +15,8 @@ import './radialLineChart.scss'
 
 const margin = {top: 20, right: 10, bottom: 20, left: 10};
 
-const width = 700 - margin.left - margin.right,
-  height = 700 - margin.top - margin.bottom;
+const width = 650 - margin.left - margin.right,
+  height = 650 - margin.top - margin.bottom;
 
 const innerRadius = 100,
     outerRadius = Math.min(width, height) / 2 - 6;
@@ -270,6 +270,31 @@ class RadialLineChart extends React.Component {
         }
       });
 
+    svg.selectAll("point")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("class", "point")
+    .attr("transform", function(d) {
+      console.log(d)
+      // use the line function and parse out the coordinates
+      let coorsY = x(d.value);
+      let coorsX = y(d.key);
+
+      console.log(coorsX, coorsY)
+      return "translate(" + coorsX + ',' + coorsY + ")"
+    })
+    .attr("r", 2);
+
+    // svg.selectAll(".point")
+    // .data(data)
+    // .enter().append("circle")
+    // .attr("class", "point")
+    // .attr("r", 2)
+    // .attr("cx", function(d,i){ return x(d.key) })
+    // .attr("cy", function(d,i){ return y(d.value) })
+    // .style("fill-opacity", 0.8);
+
     //for from to pie chart
     const radius = 70;
     const fromClock = 15/2;
@@ -304,7 +329,7 @@ class RadialLineChart extends React.Component {
     return(
       <div className="radialContainer center">
 
-        <svg width={700} height={700}
+        <svg width={650} height={650}
             ref="svgElem" className="radialSvg">
         </svg>
 

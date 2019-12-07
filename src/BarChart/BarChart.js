@@ -236,7 +236,7 @@ class BarChart extends React.Component {
       <div className="radialContainer center">
 
       <svg width={800} height={400}
-          ref="svgElemBar" className="radialSvg">
+          ref="svgElemBar" className="barChartSvg">
       </svg>
 
       </div>

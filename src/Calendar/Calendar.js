@@ -33,8 +33,15 @@ class Calendar extends Component {
     // }
   }
 
-  chooseDay(day) {
-    this.props.setDay(day);
+  chooseDay(e, day) {
+    if (e.shiftKey) {
+      this.props.setWeek(day);
+      console.log('SHIFT')
+    }
+    else {
+      this.props.setDay(day);
+    }
+
   }
 
   backgroundColor(item) {
@@ -91,7 +98,7 @@ class Calendar extends Component {
         {
           Object.keys(this.props.monthData).map(item =>
           <div className={'day-wrapper' + ' ' + firstDayClass}
-            onClick={() => this.chooseDay(item)}
+            onClick={(e) => this.chooseDay(e, item)}
             data-tip={
               item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + 'Occurences: ' +
               dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item))
