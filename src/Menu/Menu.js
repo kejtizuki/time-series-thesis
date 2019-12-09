@@ -6,6 +6,10 @@ import * as d3Axis from 'd3-axis'
 import { select as d3Select } from 'd3-selection'
 import *  as dataParser from '../dataParser.js';
 import shift from '../assets/shift.png'
+// import Checkbox from 'react-simple-checkbox';
+import Checkbox from 'rc-checkbox';
+import 'rc-checkbox/assets/index.css';
+
 
 import './menu.scss'
 
@@ -213,30 +217,43 @@ class Menu extends Component {
         {
         (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') && (
         <div>
+
           <p>Avg period</p>
+          <div class="checkbox">
           <label>
-          <input type="checkbox" value='allDataAvg' checked={this.props.avgAllDataChecked} onChange={(e) => this.checkAvgAllData(e)} />
-          Avg weekday from all data
+          <Checkbox type="checkbox" value='allDataAvg' checked={this.props.avgAllDataChecked} onChange={(e) => this.checkAvgAllData(e)} />
+          &nbsp; Avg weekday from all data
           </label>
+          </div>
           <br />
           <label>
-          <input type="checkbox" value='monthDataAvg' checked={this.props.avgMonthDataChecked} onChange={(e) => this.checkAvgMonthData(e)} />
-          Avg taken from this month
+          <Checkbox type="checkbox" value='monthDataAvg' checked={this.props.avgMonthDataChecked} onChange={(e) => this.checkAvgMonthData(e)} />
+          &nbsp; Avg taken from this month
           </label>
         </div>
       )}
       <br /><br />
       {
         this.props.chartType === 'Calendar' &&
-        <label>
-        <input type="checkbox" value='allDataAvg' checked={this.props.avgAllDataChecked} onChange={(e) => this.checkAvgAllData(e)} />
-        Show heatmap
+        // <div class="checkbox">
+          // <label className="checkbox-label">
+          // <input type="checkbox" value='allDataAvg' onChange={(e) => this.checkAvgAllData(e)} />
+          // <span className="checkbox-custom"></span>
+          // Show heatmap
+          // </label>
+        // </div>
+
+        <label className="checkbox-label">
+        <Checkbox onChange={(e) => this.checkAvgAllData(e)}/>
+          &nbsp;  Show heatmap
         </label>
+
       }
+
 
       {
         this.props.chartType === 'Calendar' &&
-        <div>
+        <div className="instructionsContainer">
           <div className="instructions">
             <div className="iconsRow">
               <img src={require("./../assets/tap.png")} alt="shift" className="icon"/>
