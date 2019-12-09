@@ -471,6 +471,12 @@ class App extends React.Component {
       })
   }
 
+  setHeatmapChecked(heatmapChecked) {
+    this.setState({
+      heatmapChecked
+    })
+  }
+
   setMonthDataChecked(avgMonthDataChecked) {
     this.setState(prevState => ({
       ...prevState.lineType,
@@ -534,6 +540,8 @@ class App extends React.Component {
             avgAllDataChecked={this.state.avgAllDataChecked}
             avgMonthDataChecked={this.state.avgMonthDataChecked}
             setAllDataChecked={avgAllDataChecked => this.setAllDataChecked(avgAllDataChecked)}
+            setHeatmapChecked={heatmapChecked => this.setHeatmapChecked(heatmapChecked)}
+            heatmapChecked={this.state.heatmapChecked}
             setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
             setMonth={(month, chosenMonth) => {this.setMonth(month, chosenMonth)}}
             chosenMonth={this.state.chosenMonth}
@@ -560,7 +568,7 @@ class App extends React.Component {
      </div>
        }
        {
-         this.state.dataDayHours && this.state.timePeriod === 'Weekly' && this.state.chartType === 'Week' &&
+         this.state.dataDayHours && this.state.timePeriod === 'Weekly' && this.state.chartType === 'WeekAvgRadial' &&
          <div className="chartContainer">
          <WeeklyRadial currentDay={this.state.currentDay}
            dataDayHours={this.state.dataDayHours}
@@ -590,6 +598,7 @@ class App extends React.Component {
            lineType={this.state.lineType}
            clockConfig={this.state.clockConfig}
            setDay={currentDay => this.setDay(currentDay)}
+           heatmapChecked={this.state.heatmapChecked}
            // currentDay={this.state.currentDay}
            // dataDayHours={this.state.dataDayHours}
            // dayInsights={this.state.dayInsights}
@@ -636,7 +645,8 @@ class App extends React.Component {
             lineType={this.state.lineType}
             clockConfig={this.state.clockConfig}
             setDay={currentDay => this.setDay(currentDay)}
-            setWeek={currentDay => this.setWeek(currentDay)}/>
+            setWeek={currentDay => this.setWeek(currentDay)}
+            heatmapChecked={this.state.heatmapChecked}/>
           </div>
         }
 

@@ -104,6 +104,10 @@ class Menu extends Component {
     this.props.setMonthDataChecked(event.target.checked)
   }
 
+  checkHeatmap(event) {
+    this.props.setHeatmapChecked(event.target.checked)
+  }
+
   render() {
 
     // var legend = svg.selectAll(".legend")
@@ -146,23 +150,6 @@ class Menu extends Component {
     return (
       <div className="menu">
         <h1>{this.props.timePeriod} insights</h1>
-
-        {/* <p>Dataset</p>
-        <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasetValue} placeholder="Select an option" />
-        <br /> */}
-        {/* {
-          (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') &&
-          <div className="btnsHolder">
-            Time period
-            <br /><br />
-            <button className={ (this.props.timePeriod === 'Daily') ? 'btn btn-active-white': 'btn btn-normal-white' }
-              onClick={(e) => this.changeTimePeriod(e)}
-              name="Daily">Daily</button>
-            <button className={ (this.props.timePeriod === 'Weekly') ? 'btn btn-active-white': 'btn-normal-white btn' }
-              onClick={(e) => this.changeTimePeriod(e)}
-              name="Weekly">Weekly</button>
-          </div>
-        } */}
         {
           (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') &&
           <div className="btnsHolder">
@@ -178,16 +165,16 @@ class Menu extends Component {
         }
 
         {
-          (this.props.chartType === 'Weekly' || this.props.chartType === 'WeekSummary') &&
+          (this.props.chartType === 'WeekAvgRadial' || this.props.chartType === 'WeekSummary') &&
           <div className="btnsHolder">
             Graph type
             <br /><br />
             <button className={ (this.props.chartType === 'WeekSummary') ? 'btn btn-active': 'btn-normal btn' }
               onClick={(e) => this.onButtonClick(e)}
-              name="Radial">Summary</button>
-            <button className={ (this.props.chartType === 'Weekly') ? 'btn btn-active': 'btn btn-normal' }
+              name="WeekSummary">Summary</button>
+            <button className={ (this.props.chartType === 'WeekAvgRadial') ? 'btn btn-active': 'btn btn-normal' }
               onClick={(e) => this.onButtonClick(e)}
-              name="BarChart">Avg Weekdays</button>
+              name="WeekAvgRadial">Avg Weekdays</button>
           </div>
         }
 
@@ -235,16 +222,8 @@ class Menu extends Component {
       <br /><br />
       {
         this.props.chartType === 'Calendar' &&
-        // <div class="checkbox">
-          // <label className="checkbox-label">
-          // <input type="checkbox" value='allDataAvg' onChange={(e) => this.checkAvgAllData(e)} />
-          // <span className="checkbox-custom"></span>
-          // Show heatmap
-          // </label>
-        // </div>
-
         <label className="checkbox-label">
-        <Checkbox onChange={(e) => this.checkAvgAllData(e)}/>
+        <Checkbox onChange={(e) => this.checkAvgAllData(e)} checked={this.props.heatmapChecked} onChange={(e) => this.checkHeatmap(e)}/>
           &nbsp;  Show heatmap
         </label>
 

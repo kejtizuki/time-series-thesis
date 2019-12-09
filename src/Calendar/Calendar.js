@@ -45,7 +45,13 @@ class Calendar extends Component {
   }
 
   backgroundColor(item) {
-    return myColor(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))
+    if (this.props.heatmapChecked === true) {
+      return myColor(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))
+    }
+    else {
+      return "white"
+    }
+
   }
 
 

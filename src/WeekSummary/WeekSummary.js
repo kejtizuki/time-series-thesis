@@ -77,6 +77,7 @@ class WeekSummary extends React.Component {
           lineType={this.props.lineType}
           clockConfig={this.props.clockConfig}
           setDay={currentDay => this.props.setDay(currentDay)}
+          heatmapChecked={this.props.heatmapChecked}
         />
 
         {/* <Boxplot

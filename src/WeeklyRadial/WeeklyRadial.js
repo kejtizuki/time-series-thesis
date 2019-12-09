@@ -117,7 +117,7 @@ class WeeklyRadial extends React.Component {
   var avgMonday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgMonday)
     .attr("fill", "none")
-    .attr("stroke", "#f9ae93")
+    .attr("stroke", "#1FB387")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -125,7 +125,7 @@ class WeeklyRadial extends React.Component {
   var avgTuesday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgTuesday)
     .attr("fill", "none")
-    .attr("stroke", "#f9ae93")
+    .attr("stroke", "#1FB387")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -133,7 +133,7 @@ class WeeklyRadial extends React.Component {
   var avgWednesday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgWednesday)
     .attr("fill", "none")
-    .attr("stroke", "#f9ae93")
+    .attr("stroke", "#1FB387")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -141,7 +141,7 @@ class WeeklyRadial extends React.Component {
   var avgThursday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgThursday)
     .attr("fill", "none")
-    .attr("stroke", "#f9ae93")
+    .attr("stroke", "#1FB387")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -149,7 +149,7 @@ class WeeklyRadial extends React.Component {
   var avgFriday = d3.selectAll('.radial').append("path")
     .datum(this.props.avgFriday)
     .attr("fill", "none")
-    .attr("stroke", "#f9ae93")
+    .attr("stroke", "#1FB387")
     .attr("stroke-width", 1)
     .attr('opacity', 0.5)
     .attr("d", line);
@@ -158,7 +158,7 @@ class WeeklyRadial extends React.Component {
     .datum(this.props.avgSaturday)
     .attr("fill", "none")
     .attr("stroke", "#2A41E5")
-    .attr("stroke-width", 1)
+    .attr("stroke-width", 2)
     .attr('opacity', 0.5)
     .attr("d", line);
 
@@ -166,7 +166,7 @@ class WeeklyRadial extends React.Component {
     .datum(this.props.avgSunday)
     .attr("fill", "none")
     .attr("stroke", "#2A41E5")
-    .attr("stroke-width", 1)
+    .attr("stroke-width", 2)
     .attr('opacity', 0.5)
     .attr("d", line);
 
