@@ -172,6 +172,21 @@ class Menu extends Component {
               name="BarChart">Bar chart</button>
           </div>
         }
+
+        {
+          (this.props.chartType === 'Weekly' || this.props.chartType === 'WeekSummary') &&
+          <div className="btnsHolder">
+            Graph type
+            <br /><br />
+            <button className={ (this.props.chartType === 'WeekSummary') ? 'btn btn-active': 'btn-normal btn' }
+              onClick={(e) => this.onButtonClick(e)}
+              name="Radial">Summary</button>
+            <button className={ (this.props.chartType === 'Weekly') ? 'btn btn-active': 'btn btn-normal' }
+              onClick={(e) => this.onButtonClick(e)}
+              name="BarChart">Avg Weekdays</button>
+          </div>
+        }
+
         {
           (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart' && this.props.timePeriod === 'Daily') &&
           <div>

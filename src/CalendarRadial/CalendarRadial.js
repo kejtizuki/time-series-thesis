@@ -90,7 +90,7 @@ class CalendarRadial extends React.Component {
     // y.domain(d3.extent(minMaxScale, function(d) { return d; }));
     // }
     // if (this.props.avgMonthDataChecked) {
-      y.domain(d3.extent(this.props.scaleDataMonth, function(d) { return d; }));
+      y.domain(d3.extent(this.props.scaleData, function(d) { return d; }));
     // }
     // if (this.props.avgMonthDataChecked === false && this.props.avgAllDataChecked === false) {
     //   y.domain(d3.extent(data, function(d) { return d.value; }));

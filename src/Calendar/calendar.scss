@@ -38,6 +38,7 @@
   margin-bottom: 20px;
   color: #2E3835;
   align-items: flex-start;
+  grid-gap: 1px;
   grid-template-columns: repeat(7, 1fr);
   .day {
     box-sizing: border-box;
@@ -48,8 +49,13 @@
 
 .day-wrapper {
   border: 1px solid #edf1f4;
+  border: 1px solid black;
+  grid-gap: 1px;
+  background-color: black;
+
   &:hover {
     cursor: pointer;
+    border: 1px solid #565656;
   }
 }
 

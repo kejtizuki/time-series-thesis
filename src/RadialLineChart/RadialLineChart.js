@@ -270,21 +270,21 @@ class RadialLineChart extends React.Component {
         }
       });
 
-    svg.selectAll("point")
-    .data(data)
-    .enter()
-    .append("circle")
-    .attr("class", "point")
-    .attr("transform", function(d) {
-      console.log(d)
-      // use the line function and parse out the coordinates
-      let coorsY = x(d.value);
-      let coorsX = y(d.key);
-
-      console.log(coorsX, coorsY)
-      return "translate(" + coorsX + ',' + coorsY + ")"
-    })
-    .attr("r", 2);
+    // svg.selectAll("point")
+    // .data(data)
+    // .enter()
+    // .append("circle")
+    // .attr("class", "point")
+    // .attr("transform", function(d) {
+    //   console.log(d)
+    //   // use the line function and parse out the coordinates
+    //   let coorsY = x(d.value);
+    //   let coorsX = y(d.key);
+    //
+    //   console.log(coorsX, coorsY)
+    //   return "translate(" + coorsX + ',' + coorsY + ")"
+    // })
+    // .attr("r", 2);
 
     // svg.selectAll(".point")
     // .data(data)

@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import toObject from 'dayjs/plugin/toObject'
 import weekday from 'dayjs/plugin/weekday'
 import * as d3 from "d3";
+import weekOfYear from 'dayjs/plugin/weekOfYear'
 
 export const extractDate = timeStamp => moment(`${timeStamp.split('T')[0]}`, 'YYYYMMDDxxx').format('YYYY-MM-DD').split('T')[0];
 
@@ -256,6 +257,50 @@ export const getMonths = (obj) => {
   monthsArray = [...new Set(monthsArray)]
   return monthsArray
 }
+
+export const getWeekInsights = (currentDay, allDays, dayInsights) => {
+  dayjs.extend(weekOfYear)
+  let week = moment(currentDay).isoWeekday(1).format('w')
+
+  let filteredByWeek = Object.keys(dayInsights)
+  .filter(key => moment(key).isoWeekday(1).format('w') === week)
+  .reduce((obj, key) => {
+      obj[key] = dayInsights[key];
+      return obj;
+    }, {});
+
+  return filteredByWeek
+
+
+  // const allDaysOfWeek = Object.keys(allDays)
+  //   .filter(key => moment(key).isoWeek() === week)
+  //   .reduce((obj, key) => {
+  //     obj[key] = allDays[key];
+  //     return obj;
+  //   }, {});
+  //
+  // const mergedData = Object.keys(weekInsights).reduce((acc, key) => {
+  //  acc.push(weekInsights[key]);
+  //  return acc;
+  //  }, []);
+  //
+  // const mergedDays = Object.values(allDaysOfWeek).reduce((acc, val) => {
+  //   Object.keys(val).map(key => {
+  //     if (acc.hasOwnProperty(key)) {
+  //       acc[key] += val[key];
+  //     } else {
+  //       acc[key] = val[key];
+  //     }
+  //     return null;
+  //   });
+  //   return acc;
+  // }, {});
+  // return {
+  //   selectedWeek: week,
+  //   daysOfWeek: mergedDays,
+  //   weekInsights: mergedData.flat()
+  // };
+};
 
 export const getWeekdayNr = (currentDay) => {
   dayjs.extend(toObject)

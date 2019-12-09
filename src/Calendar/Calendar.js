@@ -51,22 +51,27 @@ class Calendar extends Component {
 
   render() {
 
-    let scaleDataMonth = [];
+    let scaleData = [];
     Object.keys(this.props.monthData).map(item => {
       for (let i=0; i < Object.keys(item).length; i++) {
-        scaleDataMonth.push(dataParser.groupByHoursArr(this.props.monthData[item])[i].value)
+        scaleData.push(dataParser.groupByHoursArr(this.props.monthData[item])[i].value)
       }
     })
 
-    const firstWeekday = dataParser.getWeekday(Object.keys(this.props.monthData)[0])
+    let firstWeekday;
+    if (this.props.monthData && !this.props.weekData) {
+      firstWeekday = dataParser.getWeekday(Object.keys(this.props.monthData)[0])
+    }
+    if (this.props.weekData) {
+      firstWeekday = dataParser.getWeekday(Object.keys(this.props.weekData)[0])
+    }
+    console.log('firstWeekday ', firstWeekday)
 
     let monthOccurences = []
 
     Object.keys(this.props.monthData).map(item => {
-      console.log(myColor(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item))))
       monthOccurences.push(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))
     })
-    console.log('monthOccurences', monthOccurences)
 
 
 
@@ -96,11 +101,12 @@ class Calendar extends Component {
 
       <div className="date-grid" id="random">
         {
+          this.props.monthData && !this.props.weekData &&
           Object.keys(this.props.monthData).map(item =>
           <div className={'day-wrapper' + ' ' + firstDayClass}
             onClick={(e) => this.chooseDay(e, item)}
             data-tip={
-              item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + 'Occurences: ' +
+              item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + '<br /> Occurences: ' +
               dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item))
             }
             style={{backgroundColor: this.backgroundColor(item, monthOccurences) }}
@@ -113,13 +119,37 @@ class Calendar extends Component {
             dayInsights={this.props.monthData}
             lineType={this.props.lineType}
             clockConfig={this.props.clockConfig}
-            scaleDataMonth={scaleDataMonth}
+            scaleData={scaleData}
+            />
+          </div>
+        )}
+
+        {
+          this.props.weekData &&
+          Object.keys(this.props.weekData).map(item =>
+          <div className={'day-wrapper' + ' ' + firstDayClass}
+            onClick={(e) => this.chooseDay(e, item)}
+            data-tip={
+              item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + '<br /> Occurences: ' +
+              dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.weekData, item))
+            }
+            style={{backgroundColor: this.backgroundColor(item, monthOccurences) }}
+            // style={{backgroundColor: 'rgb(74, 125, 113)'}}
+            >
+
+            <p className="day-nr">{item.split("-")[2]}</p>
+            <CalendarRadial currentDay={item}
+            dataDayHours={dataParser.getDayHoursArr(this.props.weekData, item)}
+            dayInsights={this.props.monthData}
+            lineType={this.props.lineType}
+            clockConfig={this.props.clockConfig}
+            scaleData={scaleData}
             />
           </div>
         )}
 
       </div>
-      <ReactTooltip />
+      <ReactTooltip multiline={true} />
     </div>
     )
   }

@@ -4,6 +4,7 @@ import Scatter from './Scatter/Scatter'
 import ScatterMY from './ScatterMY/ScatterMY'
 import RadialLineChart from './RadialLineChart/RadialLineChart'
 import WeeklyRadial from './WeeklyRadial/WeeklyRadial'
+import WeekSummary from './WeekSummary/WeekSummary'
 // import RadialLineChartLib from './RadialLineChart/RadialLineChartLib'
 import BarChart from './BarChart/BarChart'
 import Menu from './Menu/Menu'
@@ -65,17 +66,25 @@ class App extends React.Component {
     }
 
     d3.csv(data).then(data => {
+
       const dayInsights = dataParser.getDayInsights(data)
+
+
+
       const firstDay = Object.keys(dayInsights)[0]
       const currentDay = firstDay;
-      const weekdayNr = dataParser.getWeekday(currentDay)
+
       const currentMonth = dataParser.getMonth(currentDay)
+      const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+
+
+      const weekdayNr = dataParser.getWeekday(currentDay)
+
       const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), currentDay);
       const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
 
       const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
 
-      const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
 
       const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1))
       const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2))
@@ -182,14 +191,12 @@ class App extends React.Component {
   }
 
   setMonth(month, chosenMonth) {
-    console.log('month', month)
     const dayInsights = dataParser.getDayInsights(this.state.data)
+
     const currentMonth = month
     const currentYear = Object.keys(dayInsights)[0].split('-')[0]
     const currentDay = currentYear + '-' + currentMonth + '-01'
     const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
-
-    console.log('monthData', monthData)
 
     this.setState(prevState => ({
       chosenMonth,
@@ -268,14 +275,10 @@ class App extends React.Component {
     dataDayHours.map(item => minMaxAllData.push(item.value))
     avgWeekdayInAMonth.map(item => minMaxAllData.push(item.value))
 
-    console.log('minMaxAllData', minMaxAllData)
-
     //avgMonthDataChecked
     let minMaxWeekdayData = []
     avgWeekday.map(item => minMaxWeekdayData.push(item.value))
     dataDayHours.map(item => minMaxWeekdayData.push(item.value))
-
-    console.log('minMaxWeekdayData', minMaxWeekdayData)
 
     this.setState(prevState => ({
       ...prevState.lineType,
@@ -326,6 +329,8 @@ class App extends React.Component {
       const dayInsights = dataParser.getDayInsights(data)
       const firstDay = Object.keys(dayInsights)[0]
       const currentDay = firstDay;
+
+
 
       const currentMonth = dataParser.getMonth(currentDay)
       const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), currentDay);
@@ -492,8 +497,17 @@ class App extends React.Component {
   }
 
   setWeek(currentDay) {
+
+    const dayInsights = dataParser.getDayInsights(this.state.data)
+    const currentMonth = dataParser.getMonth(currentDay)
+    const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+
+    const weekData = dataParser.getWeekInsights(currentDay, monthData, dayInsights)
+
     this.setState({
-      chartType: 'Week',
+      monthData,
+      weekData,
+      chartType: 'WeekSummary',
       timePeriod: 'Weekly'
     })
   }
@@ -545,26 +559,56 @@ class App extends React.Component {
        />
      </div>
        }
-       { this.state.dataDayHours && this.state.timePeriod === 'Weekly' && this.state.chartType === 'Week' &&
-       <div className="chartContainer">
-       <WeeklyRadial currentDay={this.state.currentDay}
-         dataDayHours={this.state.dataDayHours}
-         dayInsights={this.state.dayInsights}
-         lineType={this.state.lineType}
-         clockConfig={this.state.clockConfig}
-         avgWeekday={this.state.avgWeekday}
-         avgMonday={this.state.avgMonday}
-         avgTuesday={this.state.avgTuesday}
-         avgWednesday={this.state.avgWednesday}
-         avgThursday={this.state.avgThursday}
-         avgFriday={this.state.avgFriday}
-         avgSaturday={this.state.avgSaturday}
-         avgSunday={this.state.avgSunday}
-         allAvgValues={this.state.allAvgValues}
-         // mean={this.state.mean}
-       />
-     </div>
+       {
+         this.state.dataDayHours && this.state.timePeriod === 'Weekly' && this.state.chartType === 'Week' &&
+         <div className="chartContainer">
+         <WeeklyRadial currentDay={this.state.currentDay}
+           dataDayHours={this.state.dataDayHours}
+           dayInsights={this.state.dayInsights}
+           lineType={this.state.lineType}
+           clockConfig={this.state.clockConfig}
+           avgWeekday={this.state.avgWeekday}
+           avgMonday={this.state.avgMonday}
+           avgTuesday={this.state.avgTuesday}
+           avgWednesday={this.state.avgWednesday}
+           avgThursday={this.state.avgThursday}
+           avgFriday={this.state.avgFriday}
+           avgSaturday={this.state.avgSaturday}
+           avgSunday={this.state.avgSunday}
+           allAvgValues={this.state.allAvgValues}
+           // mean={this.state.mean}
+         />
+         </div>
        }
+
+       {
+         this.state.dataDayHours && this.state.timePeriod === 'Weekly' && this.state.chartType === 'WeekSummary' &&
+         <div className="chartContainer">
+         <WeekSummary
+           monthData={this.state.monthData}
+           weekData={this.state.weekData}
+           lineType={this.state.lineType}
+           clockConfig={this.state.clockConfig}
+           setDay={currentDay => this.setDay(currentDay)}
+           // currentDay={this.state.currentDay}
+           // dataDayHours={this.state.dataDayHours}
+           // dayInsights={this.state.dayInsights}
+           // lineType={this.state.lineType}
+           // clockConfig={this.state.clockConfig}
+           // avgWeekday={this.state.avgWeekday}
+           // avgMonday={this.state.avgMonday}
+           // avgTuesday={this.state.avgTuesday}
+           // avgWednesday={this.state.avgWednesday}
+           // avgThursday={this.state.avgThursday}
+           // avgFriday={this.state.avgFriday}
+           // avgSaturday={this.state.avgSaturday}
+           // avgSunday={this.state.avgSunday}
+           // allAvgValues={this.state.allAvgValues}
+           // mean={this.state.mean}
+         />
+         </div>
+       }
+
        {
          this.state.dataDayHours && this.state.chartType === 'BarChart' && this.state.timePeriod === 'Daily' &&
          <div className="chartContainer">
@@ -587,7 +631,8 @@ class App extends React.Component {
          {
           this.state.monthData && this.state.currentDay && this.state.chartType === 'Calendar' &&
           <div className="calendarContainer">
-          <Calendar monthData={this.state.monthData}
+          <Calendar
+            monthData={this.state.monthData}
             lineType={this.state.lineType}
             clockConfig={this.state.clockConfig}
             setDay={currentDay => this.setDay(currentDay)}
