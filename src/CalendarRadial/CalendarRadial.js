@@ -38,11 +38,11 @@ class CalendarRadial extends React.Component {
 
  componentDidUpdate(prevProps) {
  //   console.log('prevProps:', prevProps)
- //   if (prevProps !== this.props) {
- //     console.log('clear:::');
- //     d3.select("svg").selectAll("*").remove();
- //     this.renderRadial();
- //   }
+   if (prevProps !== this.props) {
+     console.log('clear:::');
+     d3.select(this.refs[this.props.currentDay]).selectAll("*").remove();
+     this.renderRadial();
+   }
  }
 
  componentDidMount() {
@@ -61,7 +61,6 @@ class CalendarRadial extends React.Component {
 
 
   renderRadial = () => {
-
     const x = scaleLinear()
 
     if (this.props.clockConfig === 'Midnight Up') {
