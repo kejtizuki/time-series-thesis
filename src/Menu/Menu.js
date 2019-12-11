@@ -109,28 +109,6 @@ class Menu extends Component {
   }
 
   render() {
-
-    // var legend = svg.selectAll(".legend")
-    //           .data([0].concat(colorScale.quantiles()), function(d) { return d; });
-    //
-    //       legend.enter().append("g")
-    //           .attr("class", "legend");
-    //
-    //       legend.append("rect")
-    //         .attr("x", function(d, i) { return legendElementWidth * i; })
-    //         .attr("y", height)
-    //         .attr("width", legendElementWidth)
-    //         .attr("height", gridSize / 2)
-    //         .style("fill", function(d, i) { return colors[i]; });
-    //
-    //       legend.append("text")
-    //         .attr("class", "mono")
-    //         .text(function(d) { return "≥ " + Math.round(d); })
-    //         .attr("x", function(d, i) { return legendElementWidth * i; })
-    //         .attr("y", height + gridSize);
-    //
-    //       legend.exit().remove();
-
     const defaultOption = Object.keys(this.props.dayInsights)[0];
     const lines = ['Cardinal', 'Linear', 'Basis', 'Bundle', 'Catmull', 'Natural'];
     const clockConfig = ['Midnight Up', 'Midnight Down']
@@ -221,15 +199,16 @@ class Menu extends Component {
       )}
       <br /><br />
       {
-        this.props.chartType === 'Calendar' &&
+        (this.props.chartType === 'Calendar' || this.props.timePeriod === 'Weekly' )&&
         <label className="checkbox-label">
         <Checkbox onChange={(e) => this.checkAvgAllData(e)} checked={this.props.heatmapChecked} onChange={(e) => this.checkHeatmap(e)}/>
           &nbsp;  Show heatmap
         </label>
 
       }
-
-
+      {
+        (this.props.heatmapChecked && this.props.timePeriod === 'Month') && <div className="legend" />
+      }
       {
         this.props.chartType === 'Calendar' &&
         <div className="instructionsContainer">

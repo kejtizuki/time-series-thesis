@@ -64,6 +64,8 @@ class Calendar extends Component {
       }
     })
 
+    console.log('scaleData', scaleData)
+
     let firstWeekday;
     if (this.props.monthData && !this.props.weekData) {
       firstWeekday = dataParser.getWeekday(Object.keys(this.props.monthData)[0])

@@ -271,35 +271,6 @@ export const getWeekInsights = (currentDay, allDays, dayInsights) => {
 
   return filteredByWeek
 
-
-  // const allDaysOfWeek = Object.keys(allDays)
-  //   .filter(key => moment(key).isoWeek() === week)
-  //   .reduce((obj, key) => {
-  //     obj[key] = allDays[key];
-  //     return obj;
-  //   }, {});
-  //
-  // const mergedData = Object.keys(weekInsights).reduce((acc, key) => {
-  //  acc.push(weekInsights[key]);
-  //  return acc;
-  //  }, []);
-  //
-  // const mergedDays = Object.values(allDaysOfWeek).reduce((acc, val) => {
-  //   Object.keys(val).map(key => {
-  //     if (acc.hasOwnProperty(key)) {
-  //       acc[key] += val[key];
-  //     } else {
-  //       acc[key] = val[key];
-  //     }
-  //     return null;
-  //   });
-  //   return acc;
-  // }, {});
-  // return {
-  //   selectedWeek: week,
-  //   daysOfWeek: mergedDays,
-  //   weekInsights: mergedData.flat()
-  // };
 };
 
 export const getWeekdayNr = (currentDay) => {
