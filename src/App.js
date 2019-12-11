@@ -138,10 +138,12 @@ class App extends React.Component {
       avgSunday.map(item => allAvgValues.push(item.value))
 
       let allDatasetData = []
-      Object.keys(dayInsights).map(key => {
-        Object.values(dataParser.getDayHoursArr(dayInsights, key)).map(val => {
-          allDatasetData.push(val)
-        })
+      Object.keys(dayInsights).map(item => {
+        for (let i=0; i < Object.keys(item).length; i++) {
+          if (allDatasetData.indexOf(item) === -1) {
+            allDatasetData.push(dataParser.groupByHoursArr(dayInsights[item])[i].value)
+          }
+        }
       })
 
       console.log(allDatasetData)
@@ -175,7 +177,7 @@ class App extends React.Component {
       // const dayInsights = dataParser.getDayInsights(data);
 
       this.setState({
-        // currentDay,
+        currentDay,
         firstDay,
         data,
         dataDayHours,
@@ -216,11 +218,15 @@ class App extends React.Component {
 
     Object.keys(dayInsights).map(item => {
       for (let i=0; i < Object.keys(item).length; i++) {
-        allDatasetData.push(dataParser.groupByHoursArr(dayInsights[item])[i].value)
+        if (allDatasetData.indexOf(item) === -1) {
+          allDatasetData.push(dataParser.groupByHoursArr(dayInsights[item])[i].value)
+        }
       }
     })
 
-    console.log('allDatasetData', allDatasetData)
+    //log
+    let allDatasetDataLog = []
+    allDatasetData.map(i => allDatasetDataLog.push(Math.log(i)))
 
     this.setState(prevState => ({
       chosenMonth,

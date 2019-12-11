@@ -215,10 +215,36 @@ export const getMonthInsights = (dayInsights, month) => {
         return obj;
       }, {});
 
+      if (dayjs(Object.keys(filteredByMonth)[0]).toObject().months === 1) {
+       let firstDate = '2017-02-01'
+       let lastDate = Object.keys(filteredByMonth)[0]
+
+       console.log(lastDate)
+
+       const dates = [ ...Array(
+              Date.parse(lastDate)/86400000 - Date.parse(firstDate)/86400000 + 1).keys()
+          ].map(k => new Date(
+                  86400000*k+Date.parse(firstDate)
+              ).toISOString().slice(0, 10).replace(/-0(\d)$/, '-$1'));
+
+        console.log(dates)
+
+        let addedDates = {}
+
+        for (let i = 0; i < dates.length; i++) {
+          addedDates[dates[i]] = []
+        }
+        var filteredAndFilled = Object.assign({}, addedDates, filteredByMonth);
+        return filteredAndFilled
+      }
+      else {
+        return filteredByMonth
+      }
+
     // let merged = Object.keys(filteredByMonth).reduce(function(res, v) {
     //   return res.concat(filteredByMonth[v]);
     // }, []);
-    return filteredByMonth
+    // return filteredByMonth
 }
 
 //Returns which month is a date

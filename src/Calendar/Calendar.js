@@ -14,7 +14,7 @@ var classNames = require('classnames');
 
 const myColor = scaleLinear()
 .range(["white" , "#46a7c4"])
-.domain([0,150])
+.domain([0,138])
 
 class Calendar extends Component {
 
@@ -130,6 +130,7 @@ class Calendar extends Component {
             lineType={this.props.lineType}
             clockConfig={this.props.clockConfig}
             scaleData={this.props.allDatasetData}
+            // scaleData={scaleData}
             />
           </div>
         )}
