@@ -57,6 +57,8 @@ class Calendar extends Component {
 
   render() {
 
+    console.log('MYYYYYYYY', this.props.allDatasetData)
+
     let scaleData = [];
     Object.keys(this.props.monthData).map(item => {
       for (let i=0; i < Object.keys(item).length; i++) {
@@ -127,7 +129,7 @@ class Calendar extends Component {
             dayInsights={this.props.monthData}
             lineType={this.props.lineType}
             clockConfig={this.props.clockConfig}
-            scaleData={scaleData}
+            scaleData={this.props.allDatasetData}
             />
           </div>
         )}

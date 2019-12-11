@@ -69,8 +69,6 @@ class App extends React.Component {
 
       const dayInsights = dataParser.getDayInsights(data)
 
-
-
       const firstDay = Object.keys(dayInsights)[0]
       const currentDay = firstDay;
 
@@ -80,7 +78,7 @@ class App extends React.Component {
 
       const weekdayNr = dataParser.getWeekday(currentDay)
 
-      const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), currentDay);
+      const dataDayHours = dataParser.getDayHoursArr(dayInsights, currentDay);
       const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
 
       const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
@@ -139,6 +137,14 @@ class App extends React.Component {
       avgSaturday.map(item => allAvgValues.push(item.value))
       avgSunday.map(item => allAvgValues.push(item.value))
 
+      let allDatasetData = []
+      Object.keys(dayInsights).map(key => {
+        Object.values(dataParser.getDayHoursArr(dayInsights, key)).map(val => {
+          allDatasetData.push(val)
+        })
+      })
+
+      console.log(allDatasetData)
 
       let minMaxAllData = []
       avgWeekday.map(item => minMaxAllData.push(item.value))
@@ -186,7 +192,8 @@ class App extends React.Component {
         avgWeekdayInAMonth,
         minMaxAllData,
         minMaxWeekdayData,
-        monthData
+        monthData,
+        allDatasetData
         // mean
       });
    });
@@ -200,12 +207,26 @@ class App extends React.Component {
     const currentDay = currentYear + '-' + currentMonth + '-01'
     const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
 
-    console.log('monthData', monthData)
+    let allDatasetData = []
+    // Object.keys(dayInsights).map(key => {
+    //   Object.values(dataParser.getDayHoursArr(dayInsights, key)).map(val => {
+    //     allDatasetData.push(val)
+    //   })
+    // })
+
+    Object.keys(dayInsights).map(item => {
+      for (let i=0; i < Object.keys(item).length; i++) {
+        allDatasetData.push(dataParser.groupByHoursArr(dayInsights[item])[i].value)
+      }
+    })
+
+    console.log('allDatasetData', allDatasetData)
 
     this.setState(prevState => ({
       chosenMonth,
       currentDay,
-      monthData
+      monthData,
+      allDatasetData
     }))
   }
 
@@ -336,8 +357,6 @@ class App extends React.Component {
       const dayInsights = dataParser.getDayInsights(data)
       const firstDay = Object.keys(dayInsights)[0]
       const currentDay = firstDay;
-
-
 
       const currentMonth = dataParser.getMonth(currentDay)
       const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), currentDay);
@@ -653,7 +672,8 @@ class App extends React.Component {
             clockConfig={this.state.clockConfig}
             setDay={currentDay => this.setDay(currentDay)}
             setWeek={currentDay => this.setWeek(currentDay)}
-            heatmapChecked={this.state.heatmapChecked}/>
+            heatmapChecked={this.state.heatmapChecked}
+            allDatasetData={this.state.allDatasetData}/>
           </div>
         }
 

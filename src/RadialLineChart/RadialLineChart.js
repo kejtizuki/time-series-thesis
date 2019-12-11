@@ -159,9 +159,11 @@ class RadialLineChart extends React.Component {
       .attr("r", function(d) {return y(d)});
 
 
-    var numColors = 10;
+    var numColors = 9;
     var colorScale = d3.scaleLinear()
       .domain([0,(numColors-1)/2,numColors-1])
+      // .range(["#ffffd9", '#41B6C4',"#081d58"])
+      // .range(["#ffffd9","#c7e9b4",'#41B6C4', "#41b6c4","#225ea8","#081d58"])
       .range(["#F5D801", "#74D877", "#2A4858"])
       .interpolate(d3.interpolateHcl);
 

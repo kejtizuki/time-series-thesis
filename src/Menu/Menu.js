@@ -229,9 +229,17 @@ class Menu extends Component {
         </div>
       }
 
+      {
+        (this.props.chartType === 'Radial') &&
+        // <img src={(require('../assets/legend.png'))} className="legendImg"/>
+        <div className="gradientLegend"></div>
+      }
+
       <div id="theBar"></div>
 
       </div>
+
+
     )
   }
 }
