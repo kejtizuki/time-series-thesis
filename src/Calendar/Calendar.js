@@ -12,9 +12,6 @@ import {scaleLinear, scaleOrdinal} from 'd3-scale';
 import './calendar.scss'
 var classNames = require('classnames');
 
-const myColor = scaleLinear()
-.range(["white" , "#46a7c4"])
-.domain([0,150])
 
 class Calendar extends Component {
 
@@ -36,7 +33,6 @@ class Calendar extends Component {
   chooseDay(e, day) {
     if (e.shiftKey) {
       this.props.setWeek(day);
-      console.log('SHIFT')
     }
     else {
       this.props.setDay(day);
@@ -45,6 +41,16 @@ class Calendar extends Component {
   }
 
   backgroundColor(item) {
+
+    // let occurences = []
+    // occurences.push(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))
+
+    // console.log('maxValue', maxValue)
+
+    const myColor = scaleLinear()
+    .range(["white" , "#46a7c4"])
+    .domain([0,138])
+
     if (this.props.heatmapChecked === true) {
       return myColor(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))
     }
@@ -56,17 +62,12 @@ class Calendar extends Component {
 
 
   render() {
-
-    console.log('MYYYYYYYY', this.props.allDatasetData)
-
     let scaleData = [];
     Object.keys(this.props.monthData).map(item => {
       for (let i=0; i < Object.keys(item).length; i++) {
         scaleData.push(dataParser.groupByHoursArr(this.props.monthData[item])[i].value)
       }
     })
-
-    console.log('scaleData', scaleData)
 
     let firstWeekday;
     if (this.props.monthData && !this.props.weekData) {
@@ -75,7 +76,6 @@ class Calendar extends Component {
     if (this.props.weekData) {
       firstWeekday = dataParser.getWeekday(Object.keys(this.props.weekData)[0])
     }
-    console.log('firstWeekday ', firstWeekday)
 
     let monthOccurences = []
 

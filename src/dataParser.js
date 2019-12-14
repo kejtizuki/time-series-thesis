@@ -215,25 +215,42 @@ export const getMonthInsights = (dayInsights, month) => {
         return obj;
       }, {});
 
-      if (dayjs(Object.keys(filteredByMonth)[0]).toObject().months === 1) {
-       let firstDate = '2017-02-01'
-       let lastDate = Object.keys(filteredByMonth)[0]
+      let monthStr = (month + 1).toString();
+      if (month < 10) {
+        monthStr = "0" + monthStr
+      }
 
-       console.log(lastDate)
+      // console.log('monthStr', monthStr)
+
+      if (dayjs(Object.keys(filteredByMonth)[0]).toObject().months === 1) {
+      // if (dayjs(Object.keys(filteredByMonth)[0]).toObject().months === month) {
+       // let firstDate = `2016-${monthStr}-01`
+       // let lastDate = `2016-${monthStr}-31`
+
+       let firstDate = `2016-02-01`
+       let lastDate = `2016-02-28`
 
        const dates = [ ...Array(
               Date.parse(lastDate)/86400000 - Date.parse(firstDate)/86400000 + 1).keys()
           ].map(k => new Date(
                   86400000*k+Date.parse(firstDate)
-              ).toISOString().slice(0, 10).replace(/-0(\d)$/, '-$1'));
-
-        console.log(dates)
+              ).toISOString().slice(0, 10).replace(/-(\d)$/, '-$01'));
 
         let addedDates = {}
 
         for (let i = 0; i < dates.length; i++) {
-          addedDates[dates[i]] = []
+          if (Object.keys(filteredByMonth).filter(key => key === dates[i]).length === 0) {
+            addedDates[dates[i]] = [];
+          }
         }
+
+        //
+        // if date expists in filteredByMonth
+        // don't put it in addedDates
+        // connect together
+        // sort by dfate
+        //
+
         var filteredAndFilled = Object.assign({}, addedDates, filteredByMonth);
         return filteredAndFilled
       }
@@ -321,7 +338,7 @@ export const filteredByMonth = (allDaysArr, month) => {
   let filtered = allDaysArr
   .filter(key => dayjs(key).toObject().months === month)
 
-  console.log('filtered ', filtered)
+  // console.log('filtered ', filtered)
   return filtered
 }
 

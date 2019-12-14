@@ -163,6 +163,15 @@ class Menu extends Component {
           <Dropdown options={Object.keys(this.props.dayInsights)} onChange={(e) => this.onDropdownChange(e)} value={firstValue} placeholder="Select an option" />
           </div>
         }
+
+        {/* {
+          (this.props.chartType === 'Calendar') &&
+          <div>
+          <p>Dataset</p>
+          <Dropdown options={datasets} onChange={(e) => this.onDatasetChange(e)} value={datasetValue} placeholder="Select an option" />
+          </div>
+        } */}
+
         {
           (this.props.chartType === 'Calendar') &&
           <div>
