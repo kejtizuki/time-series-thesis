@@ -299,6 +299,10 @@ export const getWeekInsights = (currentDay, allDays, dayInsights) => {
 
 };
 
+export const getWeeklyViolinData = (weekData) => {
+
+}
+
 export const getWeekdayNr = (currentDay) => {
   dayjs.extend(toObject)
   return dayjs(currentDay).toObject()

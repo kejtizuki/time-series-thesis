@@ -236,6 +236,8 @@ class App extends React.Component {
     }))
   }
 
+  // console.log('log', allDatasetDataLog)
+
   setDate(date) {
     const currentDay = date;
     const currentMonth = dataParser.getMonth(currentDay)
@@ -631,6 +633,7 @@ class App extends React.Component {
            clockConfig={this.state.clockConfig}
            setDay={currentDay => this.setDay(currentDay)}
            heatmapChecked={this.state.heatmapChecked}
+           allDatasetData={this.state.allDatasetData}
            // currentDay={this.state.currentDay}
            // dataDayHours={this.state.dataDayHours}
            // dayInsights={this.state.dayInsights}
