@@ -68,7 +68,7 @@ class WeekSummary extends React.Component {
     .range([ 0, width ])
     // .domain(["A", "B", "C", "D", "E", "F", "G"])
     .domain(Object.keys(weekData))
-    .padding(0.7)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+    .padding(0.6)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x))
@@ -76,7 +76,7 @@ class WeekSummary extends React.Component {
   // Features of the histogram
   var histogram = d3.histogram()
       .domain(y.domain())
-      .thresholds(y.ticks(20))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
+      .thresholds(y.ticks(24))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
       .value(d => d)
 
   // Compute the binning for each group of the dataset
