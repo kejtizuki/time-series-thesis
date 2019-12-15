@@ -42,14 +42,12 @@ class Calendar extends Component {
 
   backgroundColor(item) {
 
-    // let occurences = []
-    // occurences.push(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))
-
-    // console.log('maxValue', maxValue)
+    let occurences = []
+    Object.values(this.props.dayInsights).forEach(val => occurences.push(val.length))
 
     const myColor = scaleLinear()
     .range(["white" , "#46a7c4"])
-    .domain([0,138])
+    .domain([0,d3.max(occurences)])
 
     if (this.props.heatmapChecked === true) {
       return myColor(dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)))

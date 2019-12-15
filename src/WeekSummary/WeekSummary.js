@@ -140,7 +140,9 @@ class WeekSummary extends React.Component {
     return(
       <div className="summaryContainer center">
 
-        <Calendar monthData={this.props.monthData}
+        <Calendar
+          dayInsights={this.props.dayInsights}
+          monthData={this.props.monthData}
           weekData={this.props.weekData}
           lineType={this.props.lineType}
           clockConfig={this.props.clockConfig}
