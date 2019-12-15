@@ -228,7 +228,7 @@ export const getMonthInsights = (dayInsights, month) => {
        // let lastDate = `2016-${monthStr}-31`
 
        let firstDate = `2016-02-01`
-       let lastDate = `2016-02-28`
+       let lastDate = `2016-02-24`
 
        const dates = [ ...Array(
               Date.parse(lastDate)/86400000 - Date.parse(firstDate)/86400000 + 1).keys()

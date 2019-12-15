@@ -16,21 +16,13 @@ import './weekSummary.scss'
 class WeekSummary extends React.Component {
 
  componentDidUpdate(prevProps) {
-   // if (prevProps !== this.props) {
-   //   d3.select("svg").selectAll("*").remove();
-   //   this.renderBarChart();
-   //   // this.renderBarChartBasic();
-   // }
+
  }
 
  componentDidMount() {
 
-   console.log('XXDDD', this.props.weekData)
-
    let dataArr = [];
    Object.keys(this.props.weekData).map(i => {
-     // console.log('i', i)
-     // console.log('this.props ', this.props.weekData[i])
      const dailyHours = dataParser.getDayHoursArr(this.props.weekData, i);
      for (let j = 0; j < dailyHours.length; j++) {
        let k = dailyHours[j].value;
@@ -42,7 +34,6 @@ class WeekSummary extends React.Component {
          k--;
        }
      }
-     console.log(dataArr);
    })
 
    this.renderWeek(dataArr, this.props.weekData);
@@ -53,9 +44,9 @@ class WeekSummary extends React.Component {
   const data = dataArr;
 
 
-  var margin = {top: 10, right: 30, bottom: 30, left: 40},
+  var margin = {top: 10, right: 30, bottom: 30, left: 20},
   width = 960 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+  height = 360 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select("#my_dataviz")
@@ -124,7 +115,7 @@ class WeekSummary extends React.Component {
     .append("path")
         .datum(function(d){ return(d.value)})     // So now we are working bin per bin
         .style("stroke", "none")
-        .style("fill","#1bb593")
+        .style("fill","#17c19a")
         .attr("d", d3.area()
             .x0(function(d){ return(xNum(-d.length)) } )
             .x1(function(d){ return(xNum(d.length)) } )
@@ -152,26 +143,6 @@ class WeekSummary extends React.Component {
         />
 
         <div id="my_dataviz"></div>
-
-        {/* <svg ref="boxSvg" width={910} height={400}></svg> */}
-
-        {/* <Boxplot
-          width={400}
-          height={20}
-          orientation="horizontal"
-          min={14}
-          max={29}
-          stats={computeBoxplotStats(values)}
-        />
-
-        <Boxplot
-          width={400}
-          height={20}
-          orientation="horizontal"
-          min={0}
-          max={50}
-          stats={computeBoxplotStats(values)}
-        /> */}
 
       </div>
     )

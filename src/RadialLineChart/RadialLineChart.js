@@ -217,12 +217,6 @@ class RadialLineChart extends React.Component {
       .attr("opacity", 1)
       .attr("r", function() { return y(y.domain()[0])});
 
-    // yAxis.append("circle")
-    //   .attr("fill", "none")
-    //   .attr("stroke", "#2A41E5")
-    //   .attr("stroke-width", 3)
-    //   .attr("r", function() { return y(this.props.avgWeekday) });
-
       var xAxis = svg.selectAll('.radial').append("g");
 
       var xTick = xAxis
@@ -272,31 +266,6 @@ class RadialLineChart extends React.Component {
         }
       });
 
-    // svg.selectAll("point")
-    // .data(data)
-    // .enter()
-    // .append("circle")
-    // .attr("class", "point")
-    // .attr("transform", function(d) {
-    //   console.log(d)
-    //   // use the line function and parse out the coordinates
-    //   let coorsY = x(d.value);
-    //   let coorsX = y(d.key);
-    //
-    //   console.log(coorsX, coorsY)
-    //   return "translate(" + coorsX + ',' + coorsY + ")"
-    // })
-    // .attr("r", 2);
-
-    // svg.selectAll(".point")
-    // .data(data)
-    // .enter().append("circle")
-    // .attr("class", "point")
-    // .attr("r", 2)
-    // .attr("cx", function(d,i){ return x(d.key) })
-    // .attr("cy", function(d,i){ return y(d.value) })
-    // .style("fill-opacity", 0.8);
-
     //for from to pie chart
     const radius = 70;
     const fromClock = 15/2;
@@ -306,23 +275,33 @@ class RadialLineChart extends React.Component {
     pi = Math.PI;
 
     clockGroup = yAxisWhite.append("g")
-      .attr("transform", "translate(" + offSetX + "," + offSetY + ")");
+      // .attr("rotate", 90)
+      // .attr("transform", "translate(90)");
 
     var arc = d3.arc()
       .innerRadius(0)
       .outerRadius(radius)
-      .startAngle(this.clockToRad(sunset, -1))
+
+    if (this.props.clockConfig === 'Midnight Up') {
+      arc.startAngle(this.clockToRad(sunset, -1))
       .endAngle(this.clockToRad(sunrise, 1));
+    }
+    else {
+      arc.startAngle(this.clockToRad(sunset, -1) + Math.PI)
+      .endAngle(this.clockToRad(sunrise, 1) + Math.PI);
+    }
 
     //DAY
     clockGroup.append("circle")
       .attr("r", radius)
+      // .style('fill', '#1A1571')
       .attr("fill", "#D0D6F9")
       .attr("class", "clock outercircle")
 
     //NIGHT
     clockGroup.append('path')
       .attr('d', arc)
+      // .attr("fill", "#D0D6F9")
       .style('fill', '#1A1571');
 
   }

@@ -122,14 +122,17 @@ class Calendar extends Component {
             >
 
             <p className="day-nr">{item.split("-")[2]}</p>
-            <CalendarRadial currentDay={item}
-            dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
-            dayInsights={this.props.monthData}
-            lineType={this.props.lineType}
-            clockConfig={this.props.clockConfig}
-            scaleData={this.props.allDatasetData}
-            // scaleData={scaleData}
-            />
+            {
+              (dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)) !== 0) && 
+              <CalendarRadial currentDay={item}
+              dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
+              dayInsights={this.props.monthData}
+              lineType={this.props.lineType}
+              clockConfig={this.props.clockConfig}
+              scaleData={this.props.allDatasetData}
+              // scaleData={scaleData}
+              />
+            }
           </div>
         )}
 
