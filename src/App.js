@@ -74,7 +74,9 @@ class App extends React.Component {
       const currentDay = firstDay;
 
       const currentMonth = dataParser.getMonth(currentDay)
-      const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+      const currentYear = Object.keys(dayInsights)[0].split('-')[0]
+
+      const monthData = dataParser.getMonthInsights(dayInsights, currentMonth, currentYear)
 
 
       const weekdayNr = dataParser.getWeekday(currentDay)
@@ -169,11 +171,12 @@ class App extends React.Component {
     console.log('set month function', month, chosenMonth)
 
     const dayInsights = dataParser.getDayInsights(this.state.data)
-
+    
     const currentMonth = month
     const currentYear = Object.keys(dayInsights)[0].split('-')[0]
     const currentDay = currentYear + '-' + currentMonth + '-01'
-    const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+
+    const monthData = dataParser.getMonthInsights(dayInsights, currentMonth, currentYear)
 
     let allDatasetData = []
     // Object.keys(dayInsights).map(key => {
@@ -208,12 +211,14 @@ class App extends React.Component {
     const currentDay = date;
     const currentMonth = dataParser.getMonth(currentDay)
     const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(this.state.data), date);
+    const currentYear = Object.keys(dayInsights)[0].split('-')[0]
 
     const dayInsights = dataParser.getDayInsights(this.state.data)
     const weekdayNr = dataParser.getWeekday(date)
     const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
     const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
-    const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+
+    const monthData = dataParser.getMonthInsights(dayInsights, currentMonth, currentYear)
 
     const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1))
     const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2))
@@ -310,6 +315,7 @@ class App extends React.Component {
       const dayInsights = dataParser.getDayInsights(data)
       const firstDay = Object.keys(dayInsights)[0]
       const currentDay = firstDay;
+      const currentYear = Object.keys(dayInsights)[0].split('-')[0]
 
       const currentMonth = dataParser.getMonth(currentDay)
       const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(data), currentDay);
@@ -317,7 +323,7 @@ class App extends React.Component {
       const weekdayNr = dataParser.getWeekday(currentDay)
       const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
       const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
-      const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+      const monthData = dataParser.getMonthInsights(dayInsights, currentMonth, currentYear)
 
       const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1))
       const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2))
@@ -508,7 +514,8 @@ class App extends React.Component {
 
     const dayInsights = dataParser.getDayInsights(this.state.data)
     const currentMonth = dataParser.getMonth(currentDay)
-    const monthData = dataParser.getMonthInsights(dayInsights, currentMonth)
+    const currentYear = Object.keys(dayInsights)[0].split('-')[0]
+    const monthData = dataParser.getMonthInsights(dayInsights, currentMonth, currentYear)
 
     const weekData = dataParser.getWeekInsights(currentDay, monthData, dayInsights)
 

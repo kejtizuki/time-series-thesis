@@ -18,7 +18,7 @@ export const howManyInMonth = arr => arr.reduce(function(obj, item) {
 }, {});
 
 export const getDayOfWeek = date => {
-  var dayOfWeek = new Date(date).getDay();
+  const dayOfWeek = new Date(date).getDay();
   return isNaN(dayOfWeek) ? null : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayOfWeek];
 }
 
@@ -201,12 +201,24 @@ export const getWeekdayInsightsFilteredByMonth = (dayInsights, weekday, month) =
   return mergedWeekdaysData
 }
 
-//returns object where key is a day and value is an array of timestamps
-export const getMonthInsights = (dayInsights, month) => {
+const getDates = (startDate, endDate) => {
+  let dates = [],
+      currentDate = startDate,
+      addDays = function(days) {
+        const date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+      };
+  while (currentDate <= endDate) {
+    dates.push(currentDate.toISOString().split('T')[0]);
+    currentDate = addDays.call(currentDate, 1);
+  }
+  return dates;
+};
 
-    dayjs.extend(toObject)
-    //dayjs('2019-12-09').toObject() months are returned from 0 to 11
-    // console.log('Oobject', dayjs(Object.keys(dayInsights)[0]).toObject())
+//returns object where key is a day and value is an array of timestamps
+export const getMonthInsights = (dayInsights, month, year) => {
+    dayjs.extend(toObject);
 
     let filteredByMonth = Object.keys(dayInsights)
     .filter(key => dayjs(key).toObject().months === month)
@@ -215,53 +227,38 @@ export const getMonthInsights = (dayInsights, month) => {
         return obj;
       }, {});
 
-      let monthStr = (month + 1).toString();
+      let monthStr = month.toString();
       if (month < 10) {
-        monthStr = "0" + monthStr
+        monthStr = "0" + monthStr;
       }
 
-      // console.log('monthStr', monthStr)
+      const date = new Date(`${year}-${month + 1}`);
+      const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
+      const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
-      if (dayjs(Object.keys(filteredByMonth)[0]).toObject().months === 1) {
-      // if (dayjs(Object.keys(filteredByMonth)[0]).toObject().months === month) {
-       // let firstDate = `2016-${monthStr}-01`
-       // let lastDate = `2016-${monthStr}-31`
+      if (dayjs(Object.keys(filteredByMonth)[0]).toObject().months === month) {
+       let firstDate = `${year}-${monthStr}-${firstDay}`;
+       let lastDate = `${year}-${monthStr}-${lastDay}`;
 
-       let firstDate = `2016-02-01`
-       let lastDate = `2016-02-24`
+        let dates = getDates(
+          new Date(firstDate.split('-')[0], firstDate.split('-')[1], firstDate.split('-')[2]),
+          new Date(lastDate.split('-')[0], lastDate.split('-')[1], lastDate.split('-')[2])
+          );
 
-       const dates = [ ...Array(
-              Date.parse(lastDate)/86400000 - Date.parse(firstDate)/86400000 + 1).keys()
-          ].map(k => new Date(
-                  86400000*k+Date.parse(firstDate)
-              ).toISOString().slice(0, 10).replace(/-(\d)$/, '-$01'));
+        dates = dates.slice(1);
 
-        let addedDates = {}
+        let addedDates = {};
 
         for (let i = 0; i < dates.length; i++) {
-          if (Object.keys(filteredByMonth).filter(key => key === dates[i]).length === 0) {
-            addedDates[dates[i]] = [];
-          }
+            addedDates[dates[i]] = filteredByMonth[dates[i]] || [];
         }
 
-        //
-        // if date expists in filteredByMonth
-        // don't put it in addedDates
-        // connect together
-        // sort by dfate
-        //
+        console.log({...addedDates, ...filteredByMonth}, filteredByMonth)
 
-        var filteredAndFilled = Object.assign({}, addedDates, filteredByMonth);
-        return filteredAndFilled
-      }
-      else {
-        return filteredByMonth
+        return {...addedDates, ...filteredByMonth};
       }
 
-    // let merged = Object.keys(filteredByMonth).reduce(function(res, v) {
-    //   return res.concat(filteredByMonth[v]);
-    // }, []);
-    // return filteredByMonth
+      return filteredByMonth;
 }
 
 //Returns which month is a date
