@@ -1,5 +1,6 @@
 $bg-color: #34343e;
 $active-color: #595869;
+$highlight-color: #F5D800;
 
 .menu {
   width: 25%;
@@ -8,6 +9,40 @@ $active-color: #595869;
   margin: 0;
   padding: 20px;
   color: white;
+
+  .longText {
+    color: #edefef;
+  }
+
+  .checkboxContainer {
+    margin-top: 40px;
+  }
+
+  .dot {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    margin-left: 5px;
+  }
+
+  .allMonthsDot {
+    background-color: #2A41E5;
+  }
+
+  .thisMonthDot {
+    background-color: #9f59ea;
+  }
+
+  .weekdaysDot {
+    background-color: #1FB387;
+  }
+
+  .weekendDot {
+    background-color: #2A41E5;
+  }
 
   .iconsRow {
     display: flex;
@@ -129,12 +164,20 @@ $active-color: #595869;
   margin: 20px 0px 3px 0px ;
 }
 
-.dayHeader {
-  margin-bottom: 30px;
+.highlighted {
+  font-weight: bold;
+  color: $highlight-color;
 }
 
 .header {
-  display: inline-block;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  .dayHeader {
+    padding-bottom: 30px;
+  }
+  h1, h4 {
+    display: inline;
+  }
 }
 
 .legendTxt {

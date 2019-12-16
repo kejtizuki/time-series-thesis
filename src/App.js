@@ -36,7 +36,7 @@ class App extends React.Component {
       allAvgValues: null,
       avgMonthDataChecked: true,
       avgAllDataChecked: true,
-      heatmapChecked: true,
+      heatmapChecked: false,
       dataset: 'itching'
       // monthData: null
     };
@@ -296,6 +296,13 @@ class App extends React.Component {
       lineTypeStr
     }));
   }
+
+  // setCalendarView() {
+  //   this.setState({
+  //     chartType: 'Calendar',
+  //     timePeriod: 'Month'
+  //   })
+  // }
 
   setDataset(dataset) {
 
@@ -562,6 +569,8 @@ class App extends React.Component {
             chosenMonth={this.state.chosenMonth}
             occurences={this.state.occurences}
             currentWeekNr={this.state.currentWeekNr}
+            monthData={this.state.monthData}
+            weekData={this.state.weekData}
           />
       }
 

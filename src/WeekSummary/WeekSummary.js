@@ -60,7 +60,7 @@ class WeekSummary extends React.Component {
 
   var margin = {top: 10, right: 30, bottom: 30, left: 20},
   width = 980 - margin.left - margin.right,
-  height = 360 - margin.top - margin.bottom;
+  height = 450 - margin.top - margin.bottom;
 
 
 

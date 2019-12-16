@@ -114,7 +114,7 @@ class Calendar extends Component {
           <div className={'day-wrapper' + ' ' + firstDayClass}
             onClick={(e) => this.chooseDay(e, item)}
             data-tip={
-              item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + '<br /> Occurences: ' +
+              item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + '<br /> Occurrences: ' +
               dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item))
             }
             style={{backgroundColor: this.backgroundColor(item, monthOccurences) }}
@@ -148,7 +148,7 @@ class Calendar extends Component {
           <div className={'day-wrapper' + ' ' + firstDayClass}
             onClick={(e) => this.chooseDay(e, item)}
             data-tip={
-              item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + '<br /> Occurences: ' +
+              item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + '<br /> Occurrences: ' +
               dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.weekData, item))
             }
             style={{backgroundColor: this.backgroundColor(item, monthOccurences) }}
