@@ -123,7 +123,7 @@ class Calendar extends Component {
 
             <p className="day-nr">{item.split("-")[2]}</p>
             {
-              (dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)) !== 0) && 
+              (dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)) !== 0) &&
               <CalendarRadial currentDay={item}
               dataDayHours={dataParser.getDayHoursArr(this.props.monthData, item)}
               dayInsights={this.props.monthData}
@@ -132,6 +132,12 @@ class Calendar extends Component {
               scaleData={this.props.allDatasetData}
               // scaleData={scaleData}
               />
+            }
+            {
+              (dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)) === 0) &&
+              <div className="center">
+                <img src={require('../assets/empty-light.png')} className="iconCalendar" />
+              </div>
             }
           </div>
         )}
@@ -150,13 +156,20 @@ class Calendar extends Component {
             >
 
             <p className="day-nr">{item.split("-")[2]}</p>
-            <CalendarRadial currentDay={item}
-            dataDayHours={dataParser.getDayHoursArr(this.props.weekData, item)}
-            dayInsights={this.props.monthData}
-            lineType={this.props.lineType}
-            clockConfig={this.props.clockConfig}
-            scaleData={this.props.allDatasetData}
-            />
+            {
+              (dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)) !== 0) &&
+              <CalendarRadial currentDay={item}
+              dataDayHours={dataParser.getDayHoursArr(this.props.weekData, item)}
+              dayInsights={this.props.monthData}
+              lineType={this.props.lineType}
+              clockConfig={this.props.clockConfig}
+              scaleData={this.props.allDatasetData}
+              />
+            }
+            {
+              (dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)) === 0) &&
+              <img src={require('../assets/empty-light.png')} className="iconCalendar" />
+            }
           </div>
         )}
 

@@ -79,7 +79,7 @@ return groupedByObj;
 export const groupByHoursArr = arr => {
   let groupedByObj = {}
   let arrayOfHours = []
-  for (let i=0; i< 24; i++) {
+  for (let i=1; i< 25; i++) {
     arrayOfHours.push({key: i, value: 0});
   }
   arr.filter(a => {
@@ -87,7 +87,12 @@ export const groupByHoursArr = arr => {
     if (arrayOfHours.some(e => e.key === hour)) {
       arrayOfHours[hour].value++
     }
+    if (arrayOfHours.some(e => e.key === 0)) {
+      arrayOfHours[24].value++
+    }
 });
+
+// console.log('arrayOfHours', arrayOfHours)
 return arrayOfHours;
 }
 
@@ -253,7 +258,7 @@ export const getMonthInsights = (dayInsights, month, year) => {
             addedDates[dates[i]] = filteredByMonth[dates[i]] || [];
         }
 
-        console.log({...addedDates, ...filteredByMonth}, filteredByMonth)
+        // console.log({...addedDates, ...filteredByMonth}, filteredByMonth)
 
         return {...addedDates, ...filteredByMonth};
       }
@@ -285,6 +290,13 @@ export const getMonthNrFromName = (month) => {
   return months.indexOf(month)
 }
 
+export const getWeekdayName = (timeStamp) => {
+  dayjs.extend(weekday)
+  let weekdaysArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  let dayNr = dayjs(timeStamp).weekday()
+  return weekdaysArr[dayNr]
+}
+
 export const getMonths = (obj) => {
   let monthsArray = [];
   dayjs.extend(toObject)
@@ -298,20 +310,25 @@ export const getMonths = (obj) => {
   return monthsArray
 }
 
-export const getWeekInsights = (currentDay, allDays, dayInsights) => {
+export const getWeekInsights = (currentDay, monthInsights) => {
   dayjs.extend(weekOfYear)
   let week = moment(currentDay).isoWeekday(1).format('w')
 
-  let filteredByWeek = Object.keys(dayInsights)
+  let filteredByWeek = Object.keys(monthInsights)
   .filter(key => moment(key).isoWeekday(1).format('w') === week)
   .reduce((obj, key) => {
-      obj[key] = dayInsights[key];
+      obj[key] = monthInsights[key];
       return obj;
     }, {});
 
   return filteredByWeek
 
 };
+
+export const getWeekNr = (timeStamp) => {
+  dayjs.extend(weekOfYear)
+  return dayjs(timeStamp).week()
+}
 
 export const getWeeklyViolinData = (weekData) => {
 

@@ -127,9 +127,21 @@ class Menu extends Component {
 
     return (
       <div className="menu">
-        <h1>{this.props.timePeriod} insights</h1>
+        {/* <h1>{this.props.timePeriod} insights</h1> */}
+        {
+          this.props.chartType === 'Calendar' &&
+          <h1>{dataParser.getMonthName(this.props.firstValue)} insights</h1>
+        }
+        {
+          this.props.timePeriod === 'Weekly' &&
+          <h1>Week {this.props.currentWeekNr}</h1>
+        }
         {
           (this.props.chartType === 'Radial' || this.props.chartType === 'BarChart') &&
+          <div>
+          <div className="header"><h1 className="dayHeader">{dataParser.getWeekdayName(this.props.firstValue)}</h1>
+          <h4>{this.props.firstValue.split("-")[2] + ' of ' + dataParser.getMonthName(this.props.firstValue)}</h4>
+          </div>
           <div className="btnsHolder">
             Graph type
             <br /><br />
@@ -140,6 +152,7 @@ class Menu extends Component {
               onClick={(e) => this.onButtonClick(e)}
               name="BarChart">Bar chart</button>
           </div>
+        </div>
         }
 
         {
@@ -208,15 +221,23 @@ class Menu extends Component {
       )}
       <br /><br />
       {
-        (this.props.chartType === 'Calendar' || this.props.timePeriod === 'Weekly' )&&
+        (this.props.chartType === 'Calendar' || this.props.chartType === 'WeekSummary' )&&
         <label className="checkbox-label">
         <Checkbox onChange={(e) => this.checkAvgAllData(e)} checked={this.props.heatmapChecked} onChange={(e) => this.checkHeatmap(e)}/>
           &nbsp;  Show heatmap
         </label>
-
       }
+
       {
-        (this.props.heatmapChecked && this.props.timePeriod === 'Month') && <div className="legend" />
+        ((this.props.chartType === 'Calendar' || this.props.chartType === 'WeekSummary' ) && this.props.heatmapChecked === true)&&
+        <div>
+        <div className="legend"></div>
+        <div className="legendTxt">
+          <span className='alignleft'>0</span>
+          <span className='alignright'>{d3.max(this.props.occurences) }</span>
+        </div>
+        <div style={{clear: 'both'}}></div>
+      </div>
       }
       {
         this.props.chartType === 'Calendar' &&

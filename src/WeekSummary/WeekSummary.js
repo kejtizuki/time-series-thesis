@@ -21,6 +21,8 @@ class WeekSummary extends React.Component {
 
  componentDidMount() {
 
+   console.log('week data', this.props.weekData)
+
    let dataArr = [];
    Object.keys(this.props.weekData).map(i => {
      const dailyHours = dataParser.getDayHoursArr(this.props.weekData, i);
@@ -39,17 +41,31 @@ class WeekSummary extends React.Component {
    this.renderWeek(dataArr, this.props.weekData);
  }
 
+ make_x_gridlines(x) {
+     return d3.axisBottom(x)
+         .ticks(7)
+ }
+
+ // gridlines in y axis function
+ make_y_gridlines(y) {
+     return d3.axisLeft(y)
+         .ticks(12)
+ }
+
+
  renderWeek(dataArr, weekData) {
 
   const data = dataArr;
 
 
   var margin = {top: 10, right: 30, bottom: 30, left: 20},
-  width = 960 - margin.left - margin.right,
+  width = 980 - margin.left - margin.right,
   height = 360 - margin.top - margin.bottom;
 
+
+
   // append the svg object to the body of the page
-  var svg = d3.select("#my_dataviz")
+  var svg = d3.select("#violinPlot")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -59,19 +75,35 @@ class WeekSummary extends React.Component {
 
   // Build and Show the Y scale
   var y = d3.scaleLinear()
-    .domain([ 0, 25 ])          // Note that here the Y scale is set manually
+    .domain([ 0, 26 ])          // Note that here the Y scale is set manually
     .range([height, 0])
-  svg.append("g").call( d3.axisLeft(y) )
+  svg.append("g").call( d3.axisLeft(y).tickValues([2,4,6,8,10,12,14,16,18,20,22,24]) )
 
   // Build and Show the X scale. It is a band scale like for a boxplot: each group has an dedicated RANGE on the axis. This range has a length of x.bandwidth
   var x = d3.scaleBand()
     .range([ 0, width ])
-    // .domain(["A", "B", "C", "D", "E", "F", "G"])
     .domain(Object.keys(weekData))
-    .padding(0.6)     // This is important: it is the space between 2 groups. 0 means no padding. 1 is the maximum.
+    .padding(0.6)
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x))
+
+    // add the X gridlines
+   svg.append("g")
+       .attr("class", "grid")
+       .attr("transform", "translate(0," + height + ")")
+       .call(this.make_x_gridlines(x)
+           .tickSize(-height)
+           .tickFormat("")
+       )
+
+   // add the Y gridlines
+   svg.append("g")
+       .attr("class", "grid")
+       .call(this.make_y_gridlines(y)
+           .tickSize(-width)
+           .tickFormat("")
+       )
 
   // Features of the histogram
   var histogram = d3.histogram()
@@ -88,8 +120,6 @@ class WeekSummary extends React.Component {
       return(bins)
     })
     .entries(data)
-
-    console.log(sumstat);
 
   // What is the biggest number of value in a bin? We need it cause this value will have a width of 100% of the bandwidth.
   var maxNum = 0
@@ -142,7 +172,7 @@ class WeekSummary extends React.Component {
           allDatasetData={this.props.allDatasetData}
         />
 
-        <div id="my_dataviz"></div>
+        <div id="violinPlot"></div>
 
       </div>
     )

@@ -89,6 +89,9 @@ class App extends React.Component {
       console.log('dataDayHours', dataDayHours)
       console.log('monthData', monthData)
 
+      let occurences = []
+      Object.values(dayInsights).forEach(val => occurences.push(val.length))
+
       const allExistingMondays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 1))
       const allExistingTuesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 2))
       const allExistingWednesdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 3))
@@ -159,7 +162,8 @@ class App extends React.Component {
         minMaxAllData,
         minMaxWeekdayData,
         monthData,
-        allDatasetData
+        allDatasetData,
+        occurences
         // mean
       });
    });
@@ -171,7 +175,7 @@ class App extends React.Component {
     console.log('set month function', month, chosenMonth)
 
     const dayInsights = dataParser.getDayInsights(this.state.data)
-    
+
     const currentMonth = month
     const currentYear = Object.keys(dayInsights)[0].split('-')[0]
     const currentDay = currentYear + '-' + currentMonth + '-01'
@@ -211,9 +215,10 @@ class App extends React.Component {
     const currentDay = date;
     const currentMonth = dataParser.getMonth(currentDay)
     const dataDayHours = dataParser.getDayHoursArr(dataParser.getDayInsights(this.state.data), date);
+    const dayInsights = dataParser.getDayInsights(this.state.data)
     const currentYear = Object.keys(dayInsights)[0].split('-')[0]
 
-    const dayInsights = dataParser.getDayInsights(this.state.data)
+
     const weekdayNr = dataParser.getWeekday(date)
     const allExistingWeekdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, weekdayNr)).length
     const avgWeekday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, weekdayNr)), allExistingWeekdays)
@@ -227,9 +232,6 @@ class App extends React.Component {
     const allExistingFridays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 5))
     const allExistingSaturdays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 6))
     const allExistingSundays = Object.keys(dataParser.getFilteredbyWeekday(dayInsights, 0))
-
-    console.log('dataDayHours', dataDayHours)
-    console.log('monthData', monthData)
 
     const avgMonday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 1)), allExistingMondays.length)
     const avgTuesday = dataParser.avgWeekdayHours(dataParser.groupByHoursArr(dataParser.getWeekdayInsights(dayInsights, 2)), allExistingTuesdays.length)
@@ -396,8 +398,6 @@ class App extends React.Component {
         }
       })
 
-      console.log(':>', allDatasetData)
-
       this.setState(prevState => ({
         ...prevState.lineType,
         ...prevState.lineTypeStr,
@@ -425,7 +425,6 @@ class App extends React.Component {
       }))
 
       // console.log('currentMonth', dataParser.getMonthName(currentMonth));
-      console.log('setdataset ', currentMonth, dataParser.getMonthNameFromMonthNr(currentMonth));
 
       const monthStr = currentMonth < 10 ? `0${currentMonth + 1}` : currentMonth;
 
@@ -517,13 +516,20 @@ class App extends React.Component {
     const currentYear = Object.keys(dayInsights)[0].split('-')[0]
     const monthData = dataParser.getMonthInsights(dayInsights, currentMonth, currentYear)
 
-    const weekData = dataParser.getWeekInsights(currentDay, monthData, dayInsights)
+    console.log('monthData', monthData)
+
+    const currentWeekNr = dataParser.getWeekNr(currentDay)
+
+    const weekData = dataParser.getWeekInsights(currentDay, monthData)
+
+    console.log('weekData', weekData)
 
     this.setState({
       monthData,
       weekData,
       chartType: 'WeekSummary',
-      timePeriod: 'Weekly'
+      timePeriod: 'Weekly',
+      currentWeekNr
     })
   }
 
@@ -554,6 +560,8 @@ class App extends React.Component {
             setMonthDataChecked={avgMonthDataChecked => this.setMonthDataChecked(avgMonthDataChecked)}
             setMonth={(month, chosenMonth) => {this.setMonth(month, chosenMonth)}}
             chosenMonth={this.state.chosenMonth}
+            occurences={this.state.occurences}
+            currentWeekNr={this.state.currentWeekNr}
           />
       }
 

@@ -126,7 +126,25 @@ $active-color: #595869;
   height: 25px;
   border-radius: 4px;
   background-image: linear-gradient(to right, #fff , #46a7c4);
-  margin: 20px 0;
+  margin: 20px 0px 3px 0px ;
+}
+
+.dayHeader {
+  margin-bottom: 30px;
+}
+
+.header {
+  display: inline-block;
+}
+
+.legendTxt {
+  margin-bottom: 40px;
+  .alignleft {
+    float: left;
+  }
+  .alignright {
+    float: right;
+  }
 }
 
 .gradientLegend {
