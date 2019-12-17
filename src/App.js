@@ -37,7 +37,7 @@ class App extends React.Component {
       avgMonthDataChecked: true,
       avgAllDataChecked: true,
       heatmapChecked: false,
-      dataset: 'sugar craving'
+      dataset: 'itching'
       // monthData: null
     };
   }

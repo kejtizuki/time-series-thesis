@@ -272,6 +272,11 @@ export const getMonth = (currentDay) => {
   return dayjs(currentDay).toObject().months
 }
 
+export const getMonthPlusOne = (currentDay) => {
+  dayjs.extend(toObject)
+  return dayjs(currentDay).toObject().months + 1
+}
+
 export const getMonthName = (currentDay) => {
   dayjs.extend(toObject)
   let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
