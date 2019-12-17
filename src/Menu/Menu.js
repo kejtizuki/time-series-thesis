@@ -37,8 +37,6 @@ class Menu extends Component {
   }
 
   onMonthChange(e) {
-    console.log(e.value)
-    console.log(dataParser.getMonthNrFromName(e.value))
     this.props.setMonth(dataParser.getMonthNrFromName(e.value), e.value)
   }
 
@@ -170,7 +168,7 @@ class Menu extends Component {
         {/* <h1>{this.props.timePeriod} insights</h1> */}
         {
           this.props.chartType === 'Calendar' &&
-          <h1>{dataParser.getMonthNameFromMonthNr(dataParser.getMonthPlusOne(this.props.firstValue))} insights</h1>
+          <h1>{this.props.chosenMonth ? dataParser.getMonthNameFromMonthNr(dataParser.getMonthPlusOne(this.props.firstValue)) : months[0]} insights</h1>
 
         }
         {
@@ -179,7 +177,7 @@ class Menu extends Component {
         }
         {
           this.props.chartType === 'Calendar' &&
-          <div className="longText">In {dataParser.getMonthNameFromMonthNr(dataParser.getMonthPlusOne(this.props.firstValue))} you had <span className="highlighted">{totalInMonth}</span> symptoms.
+          <div className="longText">In {this.props.chosenMonth ? dataParser.getMonthNameFromMonthNr(dataParser.getMonthPlusOne(this.props.firstValue)) : months[0]} you had <span className="highlighted">{totalInMonth}</span> symptoms.
           This means that approximately <span className="highlighted">{Math.round((totalInMonth/totalInYear)*100).toFixed(0)}% </span>of your yearly symptoms appeared in this period of time.
           </div>
         }

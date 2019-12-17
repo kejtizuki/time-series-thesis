@@ -298,7 +298,7 @@ export const getMonthNameFromMonthNr = (month) => {
 export const getMonthNrFromName = (month) => {
   // dayjs.extend(toObject)
   let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  return months.indexOf(month)
+  return months.indexOf(month);
 }
 
 export const getWeekdayName = (timeStamp) => {
