@@ -61,6 +61,14 @@
   }
 }
 
+div[disabled]
+{
+  pointer-events: none;
+  &:hover {
+    cursor: disabled;
+  }
+}
+
 .monday {
   border: 1px solid #edf1f4;
   &:first-child {

@@ -113,6 +113,7 @@ class Calendar extends Component {
           Object.keys(this.props.monthData).map(item =>
           <div className={'day-wrapper' + ' ' + firstDayClass}
             onClick={(e) => this.chooseDay(e, item)}
+            disabled={dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)) === 0}
             data-tip={
               item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + '<br /> Occurrences: ' +
               dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item))
@@ -151,6 +152,7 @@ class Calendar extends Component {
               item.split("-")[2] + ' of ' + dataParser.getMonthName(item) + '<br /> Occurrences: ' +
               dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.weekData, item))
             }
+            disabled={dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, item)) === 0}
             style={{backgroundColor: this.backgroundColor(item, monthOccurences) }}
             // style={{backgroundColor: 'rgb(74, 125, 113)'}}
             >
