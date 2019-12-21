@@ -172,9 +172,14 @@ class Menu extends Component {
 
         }
         {
-          this.props.timePeriod === 'Weekly' &&
+          (this.props.timePeriod === 'Weekly') &&
           <h1>Week {this.props.currentWeekNr}, {dataParser.getMonthNameForWeek(this.props.firstValue)}</h1>
         }
+        {
+          (this.props.chartType === 'WeekAvgRadial') &&
+          <h1>Avarage weekdays in all dataset</h1>
+        }
+
         {
           this.props.chartType === 'Calendar' &&
           <div className="longText">In {this.props.chosenMonth ? dataParser.getMonthNameFromMonthNr(dataParser.getMonthPlusOne(this.props.firstValue)) : months[0]} you had <span className="highlighted">{totalInMonth}</span> symptoms.
@@ -183,12 +188,12 @@ class Menu extends Component {
         }
 
         {
-          (this.props.chartType === 'WeekAvgRadial' || this.props.chartType === 'WeekSummary') &&
+          (this.props.chartType === 'Calendar' || this.props.chartType === 'WeekAvgRadial') &&
           <div className="btnsHolder">
             <p>Graph type</p>
-            <button className={ (this.props.chartType === 'WeekSummary') ? 'btn btn-active': 'btn-normal btn' }
+            <button className={ (this.props.chartType === 'Calendar') ? 'btn btn-active': 'btn-normal btn' }
               onClick={(e) => this.onButtonClick(e)}
-              name="WeekSummary">Summary</button>
+              name="Calendar">Calendar</button>
             <button className={ (this.props.chartType === 'WeekAvgRadial') ? 'btn btn-active': 'btn btn-normal' }
               onClick={(e) => this.onButtonClick(e)}
               name="WeekAvgRadial">Avg Weekdays</button>
@@ -309,7 +314,7 @@ class Menu extends Component {
         </div>
       }
       {
-        (this.props.timePeriod === 'Weekly' && this.props.chartType === 'WeekAvgRadial') &&
+        (this.props.chartType === 'WeekAvgRadial') &&
         <div>
         <span className="dot weekdaysDot"></span> Weekdays
         <br /><br />

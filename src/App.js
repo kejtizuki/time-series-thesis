@@ -37,7 +37,7 @@ class App extends React.Component {
       avgMonthDataChecked: true,
       avgAllDataChecked: true,
       heatmapChecked: false,
-      dataset: 'itching'
+      dataset: 'sugar craving'
       // monthData: null
     };
   }
@@ -594,7 +594,7 @@ class App extends React.Component {
      </div>
        }
        {
-         this.state.dataDayHours && this.state.timePeriod === 'Weekly' && this.state.chartType === 'WeekAvgRadial' &&
+         this.state.dataDayHours && this.state.chartType === 'WeekAvgRadial' &&
          <div className="chartContainer">
          <WeeklyRadial currentDay={this.state.currentDay}
            dataDayHours={this.state.dataDayHours}
