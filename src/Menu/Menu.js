@@ -309,7 +309,7 @@ class Menu extends Component {
               <div className="iconBetween">+</div>
               <img src={require("./../assets/shift.png")} alt="shift" className="iconHeight" />
             </div>
-            <div className="instructionsText">Click + shift key to display weekly overview</div>
+            <div className="instructionsText">Press shift key and click to display weekly overview</div>
           </div>
         </div>
       }
