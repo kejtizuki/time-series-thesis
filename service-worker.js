@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/time-series-thesis/precache-manifest.1703f15c8a85a5bbbf6a810e7685113c.js"
+  "/time-series-thesis/precache-manifest.d5e67439d7053489eb1224ad8f9b39b0.js"
 );
 
 self.addEventListener('message', (event) => {
