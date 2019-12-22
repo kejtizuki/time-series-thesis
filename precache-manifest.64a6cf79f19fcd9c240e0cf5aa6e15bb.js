@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ef4808fdd3710b9ef94cfc0dbb8015db",
+    "revision": "99d0e9fac5cff3b45a99e8fb33477177",
     "url": "/time-series-thesis/index.html"
   },
   {
-    "revision": "1ffe15472fc42cb4444f",
+    "revision": "2dd544a34a817dcbf6f0",
     "url": "/time-series-thesis/static/css/2.e49251bd.chunk.css"
   },
   {
-    "revision": "0641bfd3be50aa5754c3",
-    "url": "/time-series-thesis/static/css/main.19b3a583.chunk.css"
+    "revision": "f80d81254011a2117cc7",
+    "url": "/time-series-thesis/static/css/main.0f4a8681.chunk.css"
   },
   {
-    "revision": "1ffe15472fc42cb4444f",
-    "url": "/time-series-thesis/static/js/2.6a0532f8.chunk.js"
+    "revision": "2dd544a34a817dcbf6f0",
+    "url": "/time-series-thesis/static/js/2.4da434ff.chunk.js"
   },
   {
-    "revision": "0641bfd3be50aa5754c3",
-    "url": "/time-series-thesis/static/js/main.7db45cbe.chunk.js"
+    "revision": "f80d81254011a2117cc7",
+    "url": "/time-series-thesis/static/js/main.67491023.chunk.js"
   },
   {
     "revision": "3e3c8e465905d958ac8a",
@@ -38,6 +38,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "ad9f77ba8d226d79e56612aab2193fa5",
     "url": "/time-series-thesis/static/media/itching.ad9f77ba.csv"
+  },
+  {
+    "revision": "10a916e7542a19c2b8b1fb29b02c98b2",
+    "url": "/time-series-thesis/static/media/legendClock2.10a916e7.png"
   },
   {
     "revision": "035a1ea2332768f92a749cc347d38015",

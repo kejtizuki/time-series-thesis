@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/time-series-thesis/static/css/main.19b3a583.chunk.css",
-    "main.js": "/time-series-thesis/static/js/main.7db45cbe.chunk.js",
-    "main.js.map": "/time-series-thesis/static/js/main.7db45cbe.chunk.js.map",
+    "main.css": "/time-series-thesis/static/css/main.0f4a8681.chunk.css",
+    "main.js": "/time-series-thesis/static/js/main.67491023.chunk.js",
+    "main.js.map": "/time-series-thesis/static/js/main.67491023.chunk.js.map",
     "runtime~main.js": "/time-series-thesis/static/js/runtime~main.c35ab4ce.js",
     "runtime~main.js.map": "/time-series-thesis/static/js/runtime~main.c35ab4ce.js.map",
     "static/css/2.e49251bd.chunk.css": "/time-series-thesis/static/css/2.e49251bd.chunk.css",
-    "static/js/2.6a0532f8.chunk.js": "/time-series-thesis/static/js/2.6a0532f8.chunk.js",
-    "static/js/2.6a0532f8.chunk.js.map": "/time-series-thesis/static/js/2.6a0532f8.chunk.js.map",
+    "static/js/2.4da434ff.chunk.js": "/time-series-thesis/static/js/2.4da434ff.chunk.js",
+    "static/js/2.4da434ff.chunk.js.map": "/time-series-thesis/static/js/2.4da434ff.chunk.js.map",
     "index.html": "/time-series-thesis/index.html",
-    "precache-manifest.89beb784ac15a96883390d173e4a86fd.js": "/time-series-thesis/precache-manifest.89beb784ac15a96883390d173e4a86fd.js",
+    "precache-manifest.64a6cf79f19fcd9c240e0cf5aa6e15bb.js": "/time-series-thesis/precache-manifest.64a6cf79f19fcd9c240e0cf5aa6e15bb.js",
     "service-worker.js": "/time-series-thesis/service-worker.js",
     "static/css/2.e49251bd.chunk.css.map": "/time-series-thesis/static/css/2.e49251bd.chunk.css.map",
-    "static/css/main.19b3a583.chunk.css.map": "/time-series-thesis/static/css/main.19b3a583.chunk.css.map",
+    "static/css/main.0f4a8681.chunk.css.map": "/time-series-thesis/static/css/main.0f4a8681.chunk.css.map",
     "static/media/data-sugar_craving.csv": "/time-series-thesis/static/media/data-sugar_craving.16655edb.csv",
     "static/media/data-tinnitus.csv": "/time-series-thesis/static/media/data-tinnitus.55042134.csv",
     "static/media/empty-light.png": "/time-series-thesis/static/media/empty-light.692dad41.png",
     "static/media/itching.csv": "/time-series-thesis/static/media/itching.ad9f77ba.csv",
+    "static/media/legendClock2.png": "/time-series-thesis/static/media/legendClock2.10a916e7.png",
     "static/media/symptoms.csv": "/time-series-thesis/static/media/symptoms.035a1ea2.csv"
   }
 }
