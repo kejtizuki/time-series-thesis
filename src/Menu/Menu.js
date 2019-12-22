@@ -295,7 +295,14 @@ class Menu extends Component {
       </div>
       }
       {
-        this.props.chartType === 'Calendar' &&
+        (this.props.chartType === 'Calendar' || this.props.chartType === 'Radial' || this.props.chartType === 'WeekSummary')  &&
+        <div className="">
+          <p>How to read?</p>
+          <img src={(require('../assets/legendClock2.png'))} className="legendClock"/>
+        </div>
+      }
+      {
+        (this.props.chartType === 'Calendar')  &&
         <div className="instructionsContainer">
           <div className="instructions">
             <div className="iconsRow">
@@ -322,11 +329,18 @@ class Menu extends Component {
         </div>
       }
 
-      {
+      {/* {
         (this.props.chartType === 'Radial') &&
-        // <img src={(require('../assets/legend.png'))} className="legendImg"/>
+        <div>
         <div className="gradientLegend"></div>
-      }
+        <div className="legendTxt">
+          <span className='alignleft'>0</span>
+          // <span className='alignright'>{dataParser.getTotalInDay(dataParser.getDayHoursArr(this.props.monthData, this.props.firstValue)) }</span>
+        </div>
+        </div>
+      }*/}
+
+
 
       {/* {
         this.props.timePeriod === 'Weekly' &&

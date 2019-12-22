@@ -15,7 +15,11 @@ $highlight-color: #F5D800;
   }
 
   .checkboxContainer {
-    margin-top: 40px;
+    margin-top: 30px;
+  }
+
+  .legendClock {
+    width: 300px;
   }
 
   .dot {
@@ -53,7 +57,7 @@ $highlight-color: #F5D800;
   }
 
   .instructionsContainer {
-    margin-top: 100px;
+    margin-top: 20px;
   }
 
   .instructionsText {
@@ -158,10 +162,10 @@ $highlight-color: #F5D800;
 
 .legend {
   width: 100%;
-  height: 25px;
+  height: 20px;
   border-radius: 4px;
   background-image: linear-gradient(to right, #fff , #46a7c4);
-  margin: 20px 0px 3px 0px ;
+  margin: 10px 0px 3px 0px ;
 }
 
 .highlighted {
@@ -181,7 +185,7 @@ $highlight-color: #F5D800;
 }
 
 .legendTxt {
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   .alignleft {
     float: left;
   }

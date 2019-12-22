@@ -208,7 +208,7 @@ class WeeklyRadial extends React.Component {
       .enter().append("g")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
-      return "rotate(" + ((x(d)) * 180 / Math.PI - 90) + ")translate(" + innerRadius + ",0)";
+      return "rotate(" + ((x(d)) * 180 / Math.PI - 76) + ")translate(" + innerRadius + ",0)";
       });
 
     xTick.append("line")
