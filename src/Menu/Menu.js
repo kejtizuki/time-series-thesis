@@ -251,8 +251,6 @@ class Menu extends Component {
         {
           (this.props.chartType === 'Radial') &&
           <div>
-          <p>Line type</p>
-          <Dropdown options={lines} onChange={(e) => this.onLineChange(e)} value={secondValue} placeholder="Select an option" />
           <p>Clock configuration</p>
           <Dropdown options={clockConfig} onChange={(e) => this.onClockConfigChange(e)} value={configValue} placeholder="Select an option" />
           </div>

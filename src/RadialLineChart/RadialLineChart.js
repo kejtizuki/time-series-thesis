@@ -191,7 +191,7 @@ class RadialLineChart extends React.Component {
       avgWeekday = d3.selectAll('.radial').append("path")
         .datum(this.props.avgWeekday)
         .attr("fill", "none")
-        .attr("stroke", "#2A41E5")
+        .attr("stroke", "#9071f7")
         .attr("stroke-width", 2)
         .attr("d", line);
     }
@@ -201,7 +201,7 @@ class RadialLineChart extends React.Component {
       avgWeekdayInAMonth = d3.selectAll('.radial').append("path")
         .datum(this.props.avgWeekdayInAMonth)
         .attr("fill", "none")
-        .attr("stroke", "#9f59ea")
+        .attr("stroke", "#fc7358")
         .attr("stroke-width", 2)
         // .attr("stroke-width", function(d) { console.log(d.value );return y(d.value); })
         .attr("d", line);
