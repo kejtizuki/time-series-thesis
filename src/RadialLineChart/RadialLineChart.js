@@ -15,10 +15,10 @@ import './radialLineChart.scss'
 
 const margin = {top: 20, right: 10, bottom: 20, left: 10};
 
-const width = 650 - margin.left - margin.right,
-  height = 650 - margin.top - margin.bottom;
+const width = 700 - margin.left - margin.right,
+  height = 700 - margin.top - margin.bottom;
 
-const innerRadius = 100,
+const innerRadius = 120,
     outerRadius = Math.min(width, height) / 2 - 6;
 
 const formatHour = d3.timeFormat("%I %p")
@@ -162,7 +162,7 @@ class RadialLineChart extends React.Component {
     var numColors = 9;
     var colorScale = d3.scaleLinear()
       .domain([0,(numColors-1)/2,numColors-1])
-      // .range(["#ffffd9", '#41B6C4',"#081d58"])
+      // .range(["#dfedbb", '#EFCD22',"#f26063"])
       // .range(["#ffffd9","#c7e9b4",'#41B6C4', "#41b6c4","#225ea8","#081d58"])
       .range(["#F5D801", "#74D877", "#2A4858"])
       .interpolate(d3.interpolateHcl);
@@ -192,6 +192,7 @@ class RadialLineChart extends React.Component {
         .datum(this.props.avgWeekday)
         .attr("fill", "none")
         .attr("stroke", "#9071f7")
+        // .attr("stroke", "#9071f7")
         .attr("stroke-width", 2)
         .attr("d", line);
     }
@@ -202,6 +203,7 @@ class RadialLineChart extends React.Component {
         .datum(this.props.avgWeekdayInAMonth)
         .attr("fill", "none")
         .attr("stroke", "#fc7358")
+        // .attr('stroke', '#0ca9b3')
         .attr("stroke-width", 2)
         // .attr("stroke-width", function(d) { console.log(d.value );return y(d.value); })
         .attr("d", line);
@@ -267,7 +269,7 @@ class RadialLineChart extends React.Component {
       });
 
     //for from to pie chart
-    const radius = 70;
+    const radius = 90;
     const fromClock = 15/2;
     const toClock = 9/2;
 
@@ -310,7 +312,7 @@ class RadialLineChart extends React.Component {
     return(
       <div className="radialContainer center">
 
-        <svg width={650} height={650}
+        <svg width={700} height={700}
             ref="svgElem" className="radialSvg">
         </svg>
 

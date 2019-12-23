@@ -116,6 +116,7 @@ class CalendarRadial extends React.Component {
     var colorScale = d3.scaleLinear()
       .domain([0,(numColors-1)/2,numColors-1])
       .range(["#F5D801", "#74D877", "#2A4858"])
+      // .range(["#dfedbb", '#EFCD22',"#f26063"])
       .interpolate(d3.interpolateHcl);
 
     var gradient = g.append("defs").append("radialGradient")
@@ -127,7 +128,8 @@ class CalendarRadial extends React.Component {
       .selectAll("stop")
       .data(d3.range(numColors))
       .enter().append("stop")
-      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 45) + "%"; })
+      // .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 45) + "%"; })
+      .attr("offset", function(d,i) { return (i/(numColors-1)*50 + 35) + "%"; })
       .attr("stop-color", function(d) { return colorScale(d); });
 
     var linePlot = g.append("path")

@@ -38,6 +38,8 @@ $highlight-color: #F5D800;
 
   .thisMonthDot {
     background-color: #fc7358;
+    // background-color: #0ca9b3;
+
   }
 
   .weekdaysDot {
@@ -165,6 +167,7 @@ $highlight-color: #F5D800;
   height: 20px;
   border-radius: 4px;
   background-image: linear-gradient(to right, #fff , #46a7c4);
+  // background-image: linear-gradient(to right, #fff , #9486d6);
   margin: 10px 0px 3px 0px ;
 }
 

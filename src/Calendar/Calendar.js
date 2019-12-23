@@ -47,6 +47,7 @@ class Calendar extends Component {
 
     const myColor = scaleLinear()
     .range(["white" , "#46a7c4"])
+    // .range(['white', '#9486d6'])
     .domain([0,d3.max(occurences)])
 
     if (this.props.heatmapChecked === true) {
